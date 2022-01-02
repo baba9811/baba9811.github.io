@@ -1,5 +1,6 @@
 # The Site Configuration
 
+remote_theme : cotes2020/jekyll-theme-chirpy
 # Import the theme
 theme: jekyll-theme-chirpy
 
@@ -174,4 +175,3 @@ jekyll-archives:
     tag: /tags/:name/
     category: /categories/:name/
     
-remote_theme : cotes2020/jekyll-theme-chirpy
