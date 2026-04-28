@@ -400,9 +400,9 @@ Critical detail: **keep the `Page N:` prefix at evaluation time too**. Drop it a
 
 ## Further Reading
 
-- **LongPO** (Chen et al., 2025) — origin of the short-to-long preference objective. This paper's LongPO experiments are its first application to a visual long-context setting at scale.
-- **ProLong** (Gao et al., 2025b) — the standard long-context CPT recipe; this paper borrows their text data and exposes the limitation that their "long" distribution is in fact short-skewed.
-- **MMLongBenchDoc** (Ma et al., 2024b) — the de facto long-document VQA benchmark; this paper releases a corrected version, MMLBD-C.
-- **Qwen3-VL Technical Report** (Bai et al., 2025a) — the SOTA model used as comparator and teacher; recipe details are largely unspecified.
-- **GLM 4.5V / 4.1V Thinking** (Z.ai, 2026) — strong open-weight VLMs that the 24B Mistral checkpoint surpasses in size class.
-- **Long context transfer from language to vision** (Zhang et al., 2024a) — the original text-to-vision transfer paper that this work reverses.
+- **[LongPO](https://arxiv.org/abs/2502.13922)** (Chen et al., 2025) — origin of the short-to-long preference objective. This paper's LongPO experiments are its first application to a visual long-context setting at scale.
+- **[ProLong](https://arxiv.org/abs/2410.02660)** (Gao et al., 2025b) — the standard long-context CPT recipe; this paper borrows their text data and exposes the limitation that their "long" distribution is in fact short-skewed.
+- **[MMLongBenchDoc](https://arxiv.org/abs/2407.01523)** (Ma et al., 2024b) — the de facto long-document VQA benchmark; this paper releases a corrected version, MMLBD-C.
+- **[Qwen3-VL Technical Report](https://arxiv.org/abs/2511.21631)** (Bai et al., 2025a) — the SOTA model used as comparator and teacher; recipe details are largely unspecified.
+- **[GLM 4.5V / 4.1V Thinking](https://arxiv.org/abs/2507.01006)** (Z.ai, 2026) — strong open-weight VLMs that the 24B Mistral checkpoint surpasses in size class.
+- **[Long context transfer from language to vision](https://arxiv.org/abs/2406.16852)** (Zhang et al., 2024a) — the original text-to-vision transfer paper that this work reverses.

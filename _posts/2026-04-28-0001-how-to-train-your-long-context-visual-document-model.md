@@ -401,9 +401,9 @@ print(processor.decode(out[0], skip_special_tokens=True))
 
 ## 더 읽어보기
 
-- **LongPO** (Chen et al., 2025) — short-to-long preference optimization 의 원전. 본 논문의 LongPO 실험은 이 알고리즘을 시각 LC 에 처음 적용한 사례.
-- **ProLong** (Gao et al., 2025b) — long-context CPT 데이터 레시피의 표준. 본 논문이 LC 텍스트 데이터를 빌려쓰면서 그 한계 ("긴 데이터의 분포가 사실 짧다") 를 드러냄.
-- **MMLongBenchDoc** (Ma et al., 2024b) — long-document VQA 의 사실상 표준 벤치마크. 본 논문이 정정 버전 MMLBD-C 를 공개.
-- **Qwen3-VL Technical Report** (Bai et al., 2025a) — 본 논문이 비교 대상으로 쓴 SOTA 모델의 공식 테크리포트. 학습 레시피는 underspecified.
-- **GLM 4.5V / 4.1V Thinking** (Z.ai, 2026) — 본 논문이 24B 클래스 비교에서 능가한 또 다른 강한 오픈 VLM.
-- **Long context transfer from language to vision** (Zhang et al., 2024a) — 본 논문이 역방향을 보인 transfer 연구의 원본.
+- **[LongPO](https://arxiv.org/abs/2502.13922)** (Chen et al., 2025) — short-to-long preference optimization 의 원전. 본 논문의 LongPO 실험은 이 알고리즘을 시각 LC 에 처음 적용한 사례.
+- **[ProLong](https://arxiv.org/abs/2410.02660)** (Gao et al., 2025b) — long-context CPT 데이터 레시피의 표준. 본 논문이 LC 텍스트 데이터를 빌려쓰면서 그 한계 ("긴 데이터의 분포가 사실 짧다") 를 드러냄.
+- **[MMLongBenchDoc](https://arxiv.org/abs/2407.01523)** (Ma et al., 2024b) — long-document VQA 의 사실상 표준 벤치마크. 본 논문이 정정 버전 MMLBD-C 를 공개.
+- **[Qwen3-VL Technical Report](https://arxiv.org/abs/2511.21631)** (Bai et al., 2025a) — 본 논문이 비교 대상으로 쓴 SOTA 모델의 공식 테크리포트. 학습 레시피는 underspecified.
+- **[GLM 4.5V / 4.1V Thinking](https://arxiv.org/abs/2507.01006)** (Z.ai, 2026) — 본 논문이 24B 클래스 비교에서 능가한 또 다른 강한 오픈 VLM.
+- **[Long context transfer from language to vision](https://arxiv.org/abs/2406.16852)** (Zhang et al., 2024a) — 본 논문이 역방향을 보인 transfer 연구의 원본.
