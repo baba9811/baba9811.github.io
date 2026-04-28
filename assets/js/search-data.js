@@ -27,6 +27,17 @@ ninja.data = [{
             window.location.href = "/en/papers/0001-how-to-train-your-long-context-visual-document-model/";
           
         },
+      },{id: "post-논문-리뷰-tradingagents-multi-agents-llm-financial-trading-framework",
+        
+          title: "[논문 리뷰] TradingAgents: Multi-Agents LLM Financial Trading Framework",
+        
+        description: "트레이딩 펌의 조직 구조를 그대로 옮긴 멀티 에이전트 LLM 트레이딩 프레임워크 — 분석가, 강세/약세 리서처, 트레이더, 리스크 관리, 펀드 매니저까지 일곱 역할이 구조화 보고서와 자연어 토론으로 협업한다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/";
+          
+        },
       },{id: "post-논문-리뷰-how-to-train-your-long-context-visual-document-model",
         
           title: "[논문 리뷰] How to Train Your Long-Context Visual Document Model",
