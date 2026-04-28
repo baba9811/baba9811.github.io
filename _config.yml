@@ -259,8 +259,9 @@ jekyll-archives:
   books:
     enabled: [year, tags, categories] # enables year, tag and category archives (remove if you need to disable one of them).
 
-display_tags: ["long-context", "vlm", "document-understanding", "sft", "cpt", "preference-optimization", "multimodal"] # tags surfaced in the blog header
-display_categories: ["paper-review"] # categories surfaced in the blog header
+# Tags and categories shown in the blog header are now auto-collected
+# from every post (see site/_pages/blog.md). No need to maintain a
+# manual allow-list here.
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
