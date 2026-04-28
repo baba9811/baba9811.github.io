@@ -2,7 +2,7 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: Kyubum Hwang # the website title (if blank, full name will be used instead)
+title: Research Notes # the website title (if blank, full name will be used instead)
 first_name: Kyubum
 middle_name:
 last_name: Hwang
@@ -90,7 +90,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: Kyubum Hwang's blog # blog_name will be displayed in your blog page
+blog_name: Research Note by Kyubum Hwang # blog_name will be displayed in your blog page
 blog_description: Paper reviews and research notes
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
