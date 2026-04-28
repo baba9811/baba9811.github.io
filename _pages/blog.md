@@ -40,8 +40,8 @@ pagination:
   filter so we count by inner loop and zero-pad the count to make
   string sort = numeric sort.
 {%- endcomment -%}
-{%- assign TAG_LIMIT = 12 -%}
-{%- assign CAT_LIMIT = 6 -%}
+{%- assign TAG_LIMIT = 6 -%}
+{%- assign CAT_LIMIT = 3 -%}
 
 {%- assign tag_pool = site.posts | map: "tags" | join: "," | split: "," -%}
 {%- assign unique_tags = tag_pool | uniq -%}
