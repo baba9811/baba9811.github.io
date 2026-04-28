@@ -5,8 +5,8 @@ date: 2026-04-28
 description: "How to train a 344K-context visual document VLM — the first large-scale, open recipe spanning CPT, SFT, LongPO and self-improvement."
 tags: [long-context, vlm, document-understanding, sft, cpt, preference-optimization, multimodal]
 categories: paper-review
-giscus_comments: true
-related_posts: true
+giscus_comments: false
+related_posts: false
 thumbnail: assets/img/papers/0001-how-to-train-your-long-context-visual-document-model/fig1-checkpoints-overview.png
 bibliography: papers.bib
 toc:
