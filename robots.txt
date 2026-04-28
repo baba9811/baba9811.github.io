@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://baba9811.github.io/sitemap.xml
