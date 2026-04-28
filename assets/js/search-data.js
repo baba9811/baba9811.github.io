@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-how-to-train-your-long-context-visual-document-model",
+        },{id: "post-paper-review-tradingagents-multi-agents-llm-financial-trading-framework",
+        
+          title: "[Paper Review] TradingAgents: Multi-Agents LLM Financial Trading Framework",
+        
+        description: "An LLM trading framework that mirrors a real trading firm&#39;s org chart — analysts, bullish/bearish researchers, a trader, a risk team, and a fund manager — coordinated through structured reports for cross-team handoff and natural-language debate inside teams.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/";
+          
+        },
+      },{id: "post-paper-review-how-to-train-your-long-context-visual-document-model",
         
           title: "[Paper Review] How to Train Your Long-Context Visual Document Model",
         
