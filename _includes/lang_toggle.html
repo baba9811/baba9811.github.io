@@ -1,0 +1,19 @@
+{%- comment -%}
+Language toggle — shown at the top of bilingual posts.
+Expects page.lang ("ko" or "en"), page.en_url, page.ko_url to be set in front-matter.
+{%- endcomment -%}
+
+{%- assign other_url = nil -%}
+{%- if page.lang == "ko" and page.en_url -%}
+  {%- assign other_url = page.en_url -%}
+  {%- assign other_label = "🇺🇸 Read in English" -%}
+{%- elsif page.lang == "en" and page.ko_url -%}
+  {%- assign other_url = page.ko_url -%}
+  {%- assign other_label = "🇰🇷 한국어로 읽기" -%}
+{%- endif -%}
+
+{%- if other_url -%}
+<div class="lang-toggle" style="margin-bottom: 1.5rem;">
+  <a href="{{ other_url | relative_url }}" class="btn btn-sm btn-outline-secondary">{{ other_label }}</a>
+</div>
+{%- endif -%}
