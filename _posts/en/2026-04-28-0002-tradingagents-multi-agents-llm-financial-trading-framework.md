@@ -297,8 +297,8 @@ You'll need an OpenAI API key plus credentials for the data providers (Finnhub, 
 
 ## Further Reading
 
-- [**FinMem**](https://arxiv.org/abs/2311.13743) (Yu et al., 2023) — single-LLM trader with layered memory and character design. The most direct comparable, though absent from this paper's quantitative table.
-- [**FinAgent**](https://arxiv.org/abs/2402.18485) (Zhang et al., 2024b) — multimodal trading agent emphasizing tool use, diversity, and generalization. A strong single-node analyst baseline.
-- [**TradingGPT**](https://arxiv.org/abs/2309.03736) (Li et al., 2023b) — multi-agent + layered memory. A clear example of where pure natural-language message pools start to break down.
-- [**MetaGPT**](https://arxiv.org/abs/2308.00352) (Hong et al., 2024) — software-engineering domain, but the original "structured SOP + free-form collaboration" pattern that TradingAgents' communication protocol descends from.
-- [**ReAct**](https://arxiv.org/abs/2210.03629) (Yao et al., 2023) — the reasoning-plus-acting prompting pattern every agent in TradingAgents follows under the hood.
+- **[FinMem](https://arxiv.org/abs/2311.13743)** (Yu et al., 2023) — single-LLM trader with layered memory and character design. The most direct comparable, though absent from this paper's quantitative table.
+- **[FinAgent](https://arxiv.org/abs/2402.18485)** (Zhang et al., 2024b) — multimodal trading agent emphasizing tool use, diversity, and generalization. A strong single-node analyst baseline.
+- **[TradingGPT](https://arxiv.org/abs/2309.03736)** (Li et al., 2023b) — multi-agent + layered memory. A clear example of where pure natural-language message pools start to break down.
+- **[MetaGPT](https://arxiv.org/abs/2308.00352)** (Hong et al., 2024) — software-engineering domain, but the original "structured SOP + free-form collaboration" pattern that TradingAgents' communication protocol descends from.
+- **[ReAct](https://arxiv.org/abs/2210.03629)** (Yao et al., 2023) — the reasoning-plus-acting prompting pattern every agent in TradingAgents follows under the hood.
