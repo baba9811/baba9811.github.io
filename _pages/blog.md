@@ -30,18 +30,55 @@ pagination:
   {% endif %}
 
 {%- comment -%}
-  Auto-collect every tag and category that appears in any post, so the
-  header keeps up as new paper reviews are added without touching
-  _config.yml. Sorted alphabetically.
-{%- endcomment -%}
-{% assign all_tags = site.posts | map: "tags" | join: "," | split: "," | uniq | sort %}
-{% assign all_categories = site.posts | map: "categories" | join: "," | split: "," | uniq | sort %}
+  Auto-collect tags and categories from every post and rank them by
+  frequency, then cap so the header stays one line as the archive
+  grows. Tags and categories outside the cap are still reachable via
+  the per-post links rendered below and the /blog/tag/<slug> and
+  /blog/category/<slug> URLs.
 
-{% if all_tags.size > 0 or all_categories.size > 0 %}
+  TAG_LIMIT / CAT_LIMIT below control the cap. Liquid has no count
+  filter so we count by inner loop and zero-pad the count to make
+  string sort = numeric sort.
+{%- endcomment -%}
+{%- assign TAG_LIMIT = 12 -%}
+{%- assign CAT_LIMIT = 6 -%}
+
+{%- assign tag_pool = site.posts | map: "tags" | join: "," | split: "," -%}
+{%- assign unique_tags = tag_pool | uniq -%}
+{%- assign weighted_tags = "" -%}
+{%- for tag in unique_tags -%}
+  {%- if tag == "" -%}{%- continue -%}{%- endif -%}
+  {%- assign cnt = 0 -%}
+  {%- for t in tag_pool -%}
+    {%- if t == tag -%}{%- assign cnt = cnt | plus: 1 -%}{%- endif -%}
+  {%- endfor -%}
+  {%- capture padded -%}00000{{ cnt }}{%- endcapture -%}
+  {%- assign padded = padded | slice: -5, 5 -%}
+  {%- assign weighted_tags = weighted_tags | append: padded | append: "|" | append: tag | append: "," -%}
+{%- endfor -%}
+{%- assign sorted_tags = weighted_tags | split: "," | sort | reverse -%}
+
+{%- assign cat_pool = site.posts | map: "categories" | join: "," | split: "," -%}
+{%- assign unique_cats = cat_pool | uniq -%}
+{%- assign weighted_cats = "" -%}
+{%- for cat in unique_cats -%}
+  {%- if cat == "" -%}{%- continue -%}{%- endif -%}
+  {%- assign cnt = 0 -%}
+  {%- for c in cat_pool -%}
+    {%- if c == cat -%}{%- assign cnt = cnt | plus: 1 -%}{%- endif -%}
+  {%- endfor -%}
+  {%- capture padded -%}00000{{ cnt }}{%- endcapture -%}
+  {%- assign padded = padded | slice: -5, 5 -%}
+  {%- assign weighted_cats = weighted_cats | append: padded | append: "|" | append: cat | append: "," -%}
+{%- endfor -%}
+{%- assign sorted_cats = weighted_cats | split: "," | sort | reverse -%}
+
+{% if sorted_tags.size > 0 or sorted_cats.size > 0 %}
 
   <div class="tag-category-list">
     <ul class="p-0 m-0">
-      {% for tag in all_tags %}
+      {% for entry in sorted_tags limit: TAG_LIMIT %}
+        {% assign tag = entry | split: "|" | last %}
         {% if tag == "" %}{% continue %}{% endif %}
         <li>
           <i class="fa-solid fa-hashtag fa-sm"></i> <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
@@ -50,10 +87,11 @@ pagination:
           <p>&bull;</p>
         {% endunless %}
       {% endfor %}
-      {% if all_categories.size > 0 and all_tags.size > 0 %}
+      {% if sorted_cats.size > 0 and sorted_tags.size > 0 %}
         <p>&bull;</p>
       {% endif %}
-      {% for category in all_categories %}
+      {% for entry in sorted_cats limit: CAT_LIMIT %}
+        {% assign category = entry | split: "|" | last %}
         {% if category == "" %}{% continue %}{% endif %}
         <li>
           <i class="fa-solid fa-tag fa-sm"></i> <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
