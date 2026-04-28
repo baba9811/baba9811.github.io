@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{
+        },{id: "post-paper-review-how-to-train-your-long-context-visual-document-model",
+        
+          title: "[Paper Review] How to Train Your Long-Context Visual Document Model",
+        
+        description: "How to train a 344K-context visual document VLM — the first large-scale, open recipe spanning CPT, SFT, LongPO and self-improvement.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0001-how-to-train-your-long-context-visual-document-model/";
+          
+        },
+      },{id: "post-논문-리뷰-how-to-train-your-long-context-visual-document-model",
+        
+          title: "[논문 리뷰] How to Train Your Long-Context Visual Document Model",
+        
+        description: "344K 컨텍스트의 시각 문서 VLM 을 어떻게 훈련하는가 — CPT/SFT/LongPO 와 self-improvement 까지의 첫 대규모 공개 레시피.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0001-how-to-train-your-long-context-visual-document-model/";
+          
+        },
+      },{
         id: 'social-cv',
         title: 'CV',
         section: 'Socials',
