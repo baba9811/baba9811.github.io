@@ -408,12 +408,12 @@ edit_out = model.edit_image(
 
 ## 더 읽어보기
 
-- **[Large Language Diffusion Models (LLaDA)](https://arxiv.org/abs/2502.09992)** — Nie 등 (2025). 본 논문의 디퓨전 LLM 노선의 시작점. 8B dLLM 이 LLaMA3-8B 와 견줄 만하다는 것을 처음으로 보여준 논문이고, in-context learning 과 instruction following 이 dLLM 에서도 충분히 가능함을 입증.
-- **[LLaDA-V](https://arxiv.org/abs/2505.16933)** — You 등 (2025). LLaDA 에 visual instruction tuning 을 더한 multimodal 확장 — 본 논문과 같은 그룹의 직계 선행 연구.
-- **[MMaDA](https://arxiv.org/abs/2505.15809)** — Yang 등 (2025). Modality-agnostic dLLM unified architecture + mixed-CoT + UniGRPO RL. LLaDA2.0-Uni 가 베이스라인으로 정조준한 직접 경쟁작.
-- **[Lumina-DiMOO](https://arxiv.org/abs/2510.06308)** — Xin 등 (2025). 또 다른 omni dLLM. 본 논문에서 OCR/Chart 영역의 약점이 가장 두드러진 비교 대상이라, "왜 SigLIP-VQ 가 중요한가" 를 검증할 때 늘 함께 보면 좋다.
-- **[BAGEL: Emerging Properties in Unified Multimodal Pretraining](https://arxiv.org/abs/2505.14683)** — Deng 등 (2025). AR + 디퓨전 하이브리드의 대표작. 7B active / 14B total MoE. Interleaved 학습을 scale up 했을 때 emerging capability 가 나타난다는 가설을 처음 정량화.
-- **[Block Diffusion](https://arxiv.org/abs/2503.09573)** — Arriola 등 (ICLR 2025). LLaDA2.0-Uni 의 BDLM loss 와 block-wise attention 의 출처. AR ↔ 디퓨전 사이를 연속적으로 보간하는 형식적 프레임워크.
-- **[X-Omni](https://arxiv.org/abs/2507.22058)** — Geng 등 (2025). SigLIP-VQ 토크나이저 디자인의 직접 출처. discrete AR 에 RL 을 더해 화질 격차를 메운 사례 — 토크나이저 설계 면에서 LLaDA2.0-Uni 의 사실상 부모.
-- **[SigLIP 2](https://arxiv.org/abs/2502.14786)** — Tschannen 등 (2025). LLaDA2.0-Uni 의 vision encoder 가 SigLIP2-g ViT. multilingual + dense feature 강화로 의미 정렬 VQ 의 backbone 으로 잘 어울림.
-- **[Z-Image](https://arxiv.org/abs/2511.22699)** — Cai 등 (2025). 본 논문의 Diffusion Decoder 가 Z-Image-Base 6B 를 starting point 로 사용. Single-stream DiT + 6B 라는 효율적 architecture.
+- **[Large Language Diffusion Models (LLaDA)](https://arxiv.org/abs/2502.09992)** (Nie et al., 2025) — 본 논문의 디퓨전 LLM 노선의 시작점. 8B dLLM 이 LLaMA3-8B 와 견줄 만하다는 것을 처음으로 보여준 논문이고, in-context learning 과 instruction following 이 dLLM 에서도 충분히 가능함을 입증.
+- **[LLaDA-V](https://arxiv.org/abs/2505.16933)** (You et al., 2025) — LLaDA 에 visual instruction tuning 을 더한 multimodal 확장. 본 논문과 같은 그룹의 직계 선행 연구.
+- **[MMaDA](https://arxiv.org/abs/2505.15809)** (Yang et al., 2025) — modality-agnostic dLLM unified architecture + mixed-CoT + UniGRPO RL. LLaDA2.0-Uni 가 베이스라인으로 정조준한 직접 경쟁작.
+- **[Lumina-DiMOO](https://arxiv.org/abs/2510.06308)** (Xin et al., 2025) — 또 다른 omni dLLM. 본 논문에서 OCR/Chart 영역의 약점이 가장 두드러진 비교 대상이라, "왜 SigLIP-VQ 가 중요한가" 를 검증할 때 늘 함께 보면 좋다.
+- **[BAGEL: Emerging Properties in Unified Multimodal Pretraining](https://arxiv.org/abs/2505.14683)** (Deng et al., 2025) — AR + 디퓨전 하이브리드의 대표작. 7B active / 14B total MoE. Interleaved 학습을 scale up 했을 때 emerging capability 가 나타난다는 가설을 처음 정량화.
+- **[Block Diffusion](https://arxiv.org/abs/2503.09573)** (Arriola et al., ICLR 2025) — LLaDA2.0-Uni 의 BDLM loss 와 block-wise attention 의 출처. AR ↔ 디퓨전 사이를 연속적으로 보간하는 형식적 프레임워크.
+- **[X-Omni](https://arxiv.org/abs/2507.22058)** (Geng et al., 2025) — SigLIP-VQ 토크나이저 디자인의 직접 출처. Discrete AR 에 RL 을 더해 화질 격차를 메운 사례로, 토크나이저 설계 면에서 LLaDA2.0-Uni 의 사실상 부모.
+- **[SigLIP 2](https://arxiv.org/abs/2502.14786)** (Tschannen et al., 2025) — LLaDA2.0-Uni 의 vision encoder 가 SigLIP2-g ViT. Multilingual + dense feature 강화로 의미 정렬 VQ 의 backbone 으로 잘 어울림.
+- **[Z-Image](https://arxiv.org/abs/2511.22699)** (Cai et al., 2025) — 본 논문의 Diffusion Decoder 가 Z-Image-Base 6B 를 starting point 로 사용. Single-stream DiT + 6B 라는 효율적 architecture.
