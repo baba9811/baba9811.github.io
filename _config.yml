@@ -93,6 +93,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 blog_name: Research Note by Kyubum Hwang # blog_name will be displayed in your blog page
 blog_description: Paper reviews and research notes
 permalink: /blog/:year/:title/
+future: true # include posts whose date is later than the build's UTC clock (avoids timezone-induced exclusion)
 lsi: false # produce an index for related posts
 
 # Pagination
