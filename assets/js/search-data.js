@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-llada2-0-uni-unifying-multimodal-understanding-and-generation-with-diffusion-large-language-model",
+        },{id: "post-paper-review-turboquant-online-vector-quantization-with-near-optimal-distortion-rate",
+        
+          title: "[Paper Review] TurboQuant: Online Vector Quantization with Near-optimal Distortion Rate",
+        
+        description: "A training-free vector quantizer that gets within ~2.7× of the information-theoretic distortion-rate bound — using just one random rotation.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0004-turboquant-online-vector-quantization-with-near-optimal-dist/";
+          
+        },
+      },{id: "post-논문-리뷰-turboquant-online-vector-quantization-with-near-optimal-distortion-rate",
+        
+          title: "[논문 리뷰] TurboQuant: Online Vector Quantization with Near-optimal Distortion Rate",
+        
+        description: "랜덤 회전 한 번으로 데이터 의존 학습 없이 정보이론 하한과 약 2.7배 이내까지 도달하는 온라인 벡터 양자화",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0004-turboquant-online-vector-quantization-with-near-optimal-dist/";
+          
+        },
+      },{id: "post-paper-review-llada2-0-uni-unifying-multimodal-understanding-and-generation-with-diffusion-large-language-model",
         
           title: "[Paper Review] LLaDA2.0-Uni: Unifying Multimodal Understanding and Generation with Diffusion Large Language Model...",
         
