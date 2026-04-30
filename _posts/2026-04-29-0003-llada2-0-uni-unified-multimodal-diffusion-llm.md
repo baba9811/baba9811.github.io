@@ -22,7 +22,7 @@ en_url: /en/papers/0003-llada2-0-uni-unified-multimodal-diffusion-llm/
 
 | 항목 | 내용 |
 |------|------|
-| 저자 | Tiwei Bie, Haoxing Chen, Tieyuan Chen, Zhenglin Cheng, Long Cui, Kai Gan, Zhicheng Huang, Zhenzhong Lan (tech-lead), Haoquan Li, Jianguo Li (tech-lead), Tao Lin, Qi Qin, Hongjun Wang, Xiaomei Wang, Haoyuan Wu, Yi Xin, Junbo Zhao (Inclusion AI · Ant Group) |
+| 저자 | Tiwei Bie, Haoxing Chen, Tieyuan Chen, Zhenglin Cheng, Long Cui, Kai Gan, Zhicheng Huang, Zhenzhong Lan (tech-lead), Haoquan Li, Jianguo Li (tech-lead), Tao Lin (tech-lead), Qi Qin, Hongjun Wang, Xiaomei Wang, Haoyuan Wu, Yi Xin, Junbo Zhao (AGI Research Center, Inclusion AI) |
 | 학회 | arXiv preprint · 2026 |
 | arXiv | [2604.20796](https://arxiv.org/abs/2604.20796) |
 | Code | [inclusionAI/LLaDA2.0-Uni](https://github.com/inclusionAI/LLaDA2.0-Uni) |
