@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-turboquant-online-vector-quantization-with-near-optimal-distortion-rate",
+        },{id: "post-paper-review-artificial-intelligence-in-customer-relationship-management-a-systematic-framework-for-a-successful-integration",
+        
+          title: "[Paper Review] Artificial intelligence in customer relationship management: A systematic framework for a...",
+        
+        description: "An interview-based 4-macro-phase, 13-step framework for integrating AI into CRM — with ethics by design and customer data centralization wired in from day one.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0005-artificial-intelligence-in-customer-relationship-management/";
+          
+        },
+      },{id: "post-논문-리뷰-artificial-intelligence-in-customer-relationship-management-a-systematic-framework-for-a-successful-integration",
+        
+          title: "[논문 리뷰] Artificial intelligence in customer relationship management: A systematic framework for a...",
+        
+        description: "25명을 인터뷰해 도출한 AI-CRM 통합 4 macro-phase·13 step 프레임워크 — ethics by design과 customer data centralization을 처음부터 박아 넣어야 한다는 정성적 연구.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0005-artificial-intelligence-in-customer-relationship-management/";
+          
+        },
+      },{id: "post-paper-review-turboquant-online-vector-quantization-with-near-optimal-distortion-rate",
         
           title: "[Paper Review] TurboQuant: Online Vector Quantization with Near-optimal Distortion Rate",
         
