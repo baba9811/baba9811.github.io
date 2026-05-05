@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-artificial-intelligence-in-customer-relationship-management-a-systematic-framework-for-a-successful-integration",
+        },{id: "post-paper-review-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
+        
+          title: "[Paper Review] The relevance of lead prioritization: a B2B lead scoring model based...",
+        
+        description: "A B2B software SME&#39;s four-year CRM dataset benchmarked across 15 classifiers via PyCaret — Gradient Boosting wins (98.39% accuracy, AUC 0.9891). Lead Source / Reason for State / Lead Classification dominate feature importance.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0006-b2b-lead-scoring-with-machine-learning/";
+          
+        },
+      },{id: "post-논문-리뷰-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
+        
+          title: "[논문 리뷰] The relevance of lead prioritization: a B2B lead scoring model based...",
+        
+        description: "B2B 소프트웨어 SME의 4년치 CRM 데이터로 15개 분류기를 PyCaret으로 비교 — Gradient Boosting Classifier가 정확도 98.39%, AUC 0.9891로 1위. Lead Source / Reason for State / Lead Classification이 상위 변수.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0006-b2b-lead-scoring-with-machine-learning/";
+          
+        },
+      },{id: "post-paper-review-artificial-intelligence-in-customer-relationship-management-a-systematic-framework-for-a-successful-integration",
         
           title: "[Paper Review] Artificial intelligence in customer relationship management: A systematic framework for a...",
         
