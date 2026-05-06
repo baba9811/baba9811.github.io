@@ -252,7 +252,7 @@ with $A_i = (r_i - \text{mean}(\mathbf{r})) / \text{std}(\mathbf{r})$ as the gro
 
 ### Main benchmarks
 
-The eight benchmarks split into General & Comprehensive (MMMU$_{\text{dev}}$, MMBench-CN$_{\text{lite}}$, MMBench-EN$_{\text{lite}}$, MMStar, MMT$_{\text{emo}}$) and Math & Science (MathVerse$_{\text{V}}$, MathVision$_{\text{mini}}$, AI2D$_{\text{lite}}$). All numbers are 4-run averages at temperature 0.7, evaluated with lmms-eval.
+The eight benchmarks split into General & Comprehensive (MMMU-dev, MMBench-CN-lite, MMBench-EN-lite, MMStar, MMT-emo) and Math & Science (MathVerse-V, MathVision-mini, AI2D-lite). All numbers are 4-run averages at temperature 0.7, evaluated with lmms-eval.
 
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/tab1-main-results.png"
@@ -270,7 +270,7 @@ PVM also clears the visual-injection baselines reimplemented on the same Qwen3-V
 
 ### Robustness to extended generation
 
-This is the cleanest direct test of Theorem 3.1. The authors stratify MathVerse$_{\text{V}}$ samples into four equal-sized groups by output token length and compare PVM-8B (SFT+GRPO) against the Qwen3-VL-8B-Instruct baseline.
+This is the cleanest direct test of Theorem 3.1. The authors stratify MathVerse-V samples into four equal-sized groups by output token length and compare PVM-8B (SFT+GRPO) against the Qwen3-VL-8B-Instruct baseline.
 
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/fig5-6-token-length-and-kl.png"
@@ -372,7 +372,7 @@ A few additional concerns from the reviewer's side:
 - **Hyperparameter robustness.** The strided $\{8, 16, 24\}$ choice clearly fits the 36-layer Qwen3-VL-8B. Whether the same stride pattern translates to deeper or shallower backbones is not tested — the per-layer visual-attention distribution likely shifts with backbone choice, and the strategy may need recalibration.
 - **Vision encoder frozen throughout.** Both stages keep the vision encoder frozen, which is reasonable since PVM retrieves from raw visual embeddings. But in domains where the encoder itself is weak (medical imaging, satellite imagery), unfreezing the encoder might offer larger gains than PVM alone.
 - **GRPO cost.** Stage II generates 8 rollouts per query at max completion length 16384 across 3.6k queries — that is 28.8k long generations, and GRPO's wall-clock dwarfs SFT. The marginal +0.9 average from GRPO on top of SFT (70.6 → 71.5) is real but modest; whether the cost is worth it depends on deployment economics.
-- **Length robustness checked on one benchmark.** Figure 5 is striking, but only MathVerse$_{\text{V}}$ is stratified by length. Long-form summarization, multi-image dialogue, or video QA would each test a different aspect of dilution.
+- **Length robustness checked on one benchmark.** Figure 5 is striking, but only MathVerse-V is stratified by length. Long-form summarization, multi-image dialogue, or video QA would each test a different aspect of dilution.
 
 ## Takeaways
 

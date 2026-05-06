@@ -251,7 +251,7 @@ $$
 
 ### 메인 벤치마크
 
-평가는 8개 멀티모달 벤치마크 — General & Comprehensive 그룹 (MMMU$_{\text{dev}}$, MMBench-CN$_{\text{lite}}$, MMBench-EN$_{\text{lite}}$, MMStar, MMT$_{\text{emo}}$) 과 Math & Science 그룹 (MathVerse$_{\text{V}}$, MathVision$_{\text{mini}}$, AI2D$_{\text{lite}}$). 4-run 평균, inference temperature 0.7, lmms-eval 프레임워크.
+평가는 8개 멀티모달 벤치마크 — General & Comprehensive 그룹 (MMMU-dev, MMBench-CN-lite, MMBench-EN-lite, MMStar, MMT-emo) 과 Math & Science 그룹 (MathVerse-V, MathVision-mini, AI2D-lite). 4-run 평균, inference temperature 0.7, lmms-eval 프레임워크.
 
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/tab1-main-results.png"
@@ -269,7 +269,7 @@ Visual Injection 베이스라인 (MemVR 66.5, ICoT 68.3, CoMemo 68.4) 대비도 
 
 ### 길이 강건성: Robustness to Extended Generation
 
-Theorem 3.1의 직접적 검증이다. MathVerse$_{\text{V}}$ 샘플을 출력 길이 (Very Short / Short / Medium / Long) 4개 그룹으로 나눠 PVM-8B (SFT+GRPO)와 베이스라인을 비교.
+Theorem 3.1의 직접적 검증이다. MathVerse-V 샘플을 출력 길이 (Very Short / Short / Medium / Long) 4개 그룹으로 나눠 PVM-8B (SFT+GRPO)와 베이스라인을 비교.
 
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/fig5-6-token-length-and-kl.png"
@@ -373,7 +373,7 @@ H200 1장, bfloat16, FlashAttention-2 환경. TPOT 증가 1.18 ms는 미미해 r
 - **하이퍼파라미터 robustness.** Strided $\{8, 16, 24\}$ 전략이 *Qwen3-VL 8B의 36-layer 구조에 fitting된 결정*인 게 분명하다. 더 깊거나 얕은 backbone에서 동일한 stride가 작동하는지 검증이 부족하다 — Layer-wise visual attention distribution이 backbone마다 다르면 strategy도 재조정해야 할 가능성이 있다.
 - **Vision encoder freeze의 영향.** 두 stage 모두 vision encoder는 frozen이다. PVM이 visual embedding을 *raw* 하게 retrieve 하는 게 핵심 design이라 합리적이지만, 시각 표현 자체가 약한 도메인 (의료 영상, 위성 사진 등) 에서는 encoder unfreeze가 더 큰 이득을 줄 수 있다.
 - **GRPO group size = 8의 비용.** Stage II는 query당 8개 rollout을 만들고 가장 강한 학습 신호만 retain한다. 3.6k query × 8 rollout = 28.8k generation이 필요한데, max completion length 16384임을 감안하면 GRPO 단계의 compute가 SFT보다 훨씬 비싸다. 이 비용 대비 GRPO의 marginal gain (8B에서 70.6 → 71.5, +0.9점) 이 정당화되는지는 deployment context에 달려 있다.
-- **Long-output 강건성의 메커니즘.** Figure 5의 단조 증가는 인상적이지만, MathVerse$_{\text{V}}$ 한 벤치마크에서만 검증됐다. 다른 long-form 시나리오 (긴 문서 요약, multi-image dialogue, video QA) 로 generalize하는지는 추가 실험이 필요.
+- **Long-output 강건성의 메커니즘.** Figure 5의 단조 증가는 인상적이지만, MathVerse-V 한 벤치마크에서만 검증됐다. 다른 long-form 시나리오 (긴 문서 요약, multi-image dialogue, video QA) 로 generalize하는지는 추가 실험이 필요.
 
 ## 시사점 / Takeaways
 
