@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-unlocking-the-power-of-ai-in-crm-a-comprehensive-multidimensional-exploration",
+        },{id: "post-논문-리뷰-persistent-visual-memory-sustaining-perception-for-deep-generation-in-lvlms",
+        
+          title: "[논문 리뷰] Persistent Visual Memory: Sustaining Perception for Deep Generation in LVLMs",
+        
+        description: "긴 응답을 생성할수록 LVLM의 시각 attention이 O(t⁻¹)로 붕괴한다는 사실을 이론·경험적으로 보이고, FFN과 평행한 retrieval 분기를 추가해 시각 신호를 복구하는 PVM 모듈",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0008-persistent-visual-memory/";
+          
+        },
+      },{id: "post-paper-review-unlocking-the-power-of-ai-in-crm-a-comprehensive-multidimensional-exploration",
         
           title: "[Paper Review] Unlocking the power of AI in CRM: A comprehensive multidimensional exploration...",
         
@@ -25,17 +36,6 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/en/papers/0007-unlocking-power-of-ai-in-crm/";
-          
-        },
-      },{id: "post-paper-review-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
-        
-          title: "[Paper Review] The relevance of lead prioritization: a B2B lead scoring model based...",
-        
-        description: "A B2B software SME&#39;s four-year CRM dataset benchmarked across 15 classifiers via PyCaret — Gradient Boosting wins (98.39% accuracy, AUC 0.9891). Lead Source / Reason for State / Lead Classification dominate feature importance.",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/en/papers/0006-b2b-lead-scoring-with-machine-learning/";
           
         },
       },{id: "post-논문-리뷰-unlocking-the-power-of-ai-in-crm-a-comprehensive-multidimensional-exploration",
@@ -49,6 +49,17 @@ ninja.data = [{
             window.location.href = "/papers/0007-unlocking-power-of-ai-in-crm/";
           
         },
+      },{id: "post-paper-review-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
+        
+          title: "[Paper Review] The relevance of lead prioritization: a B2B lead scoring model based...",
+        
+        description: "A B2B software SME&#39;s four-year CRM dataset benchmarked across 15 classifiers via PyCaret — Gradient Boosting wins (98.39% accuracy, AUC 0.9891). Lead Source / Reason for State / Lead Classification dominate feature importance.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0006-b2b-lead-scoring-with-machine-learning/";
+          
+        },
       },{id: "post-논문-리뷰-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
         
           title: "[논문 리뷰] The relevance of lead prioritization: a B2B lead scoring model based...",
@@ -58,6 +69,17 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/papers/0006-b2b-lead-scoring-with-machine-learning/";
+          
+        },
+      },{id: "post-paper-review-persistent-visual-memory-sustaining-perception-for-deep-generation-in-lvlms",
+        
+          title: "[Paper Review] Persistent Visual Memory: Sustaining Perception for Deep Generation in LVLMs",
+        
+        description: "An autoregressive LVLM&#39;s visual attention collapses as O(t⁻¹) under growing textual history. PVM adds a parallel retrieval branch alongside each FFN to restore visual perception during deep generation.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0008-persistent-visual-memory/";
           
         },
       },{id: "post-paper-review-artificial-intelligence-in-customer-relationship-management-a-systematic-framework-for-a-successful-integration",
@@ -137,17 +159,6 @@ ninja.data = [{
             window.location.href = "/en/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/";
           
         },
-      },{id: "post-paper-review-how-to-train-your-long-context-visual-document-model",
-        
-          title: "[Paper Review] How to Train Your Long-Context Visual Document Model",
-        
-        description: "How to train a 344K-context visual document VLM — the first large-scale, open recipe spanning CPT, SFT, LongPO and self-improvement.",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/en/papers/0001-how-to-train-your-long-context-visual-document-model/";
-          
-        },
       },{id: "post-논문-리뷰-tradingagents-multi-agents-llm-financial-trading-framework",
         
           title: "[논문 리뷰] TradingAgents: Multi-Agents LLM Financial Trading Framework",
@@ -157,6 +168,17 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/";
+          
+        },
+      },{id: "post-paper-review-how-to-train-your-long-context-visual-document-model",
+        
+          title: "[Paper Review] How to Train Your Long-Context Visual Document Model",
+        
+        description: "How to train a 344K-context visual document VLM — the first large-scale, open recipe spanning CPT, SFT, LongPO and self-improvement.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0001-how-to-train-your-long-context-visual-document-model/";
           
         },
       },{id: "post-논문-리뷰-how-to-train-your-long-context-visual-document-model",
