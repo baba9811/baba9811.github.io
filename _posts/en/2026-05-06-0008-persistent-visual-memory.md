@@ -22,11 +22,11 @@ ko_url: /papers/0008-persistent-visual-memory/
 
 | Field | Value |
 |-------|-------|
-| Authors | Siyuan Huang¹², Xiaoye Qu¹†, Yafu Li³, Tong Zhu¹, Zefeng He⁴, Muxin Fu⁵, Daizong Liu⁶, Wei-Long Zheng², Yu Cheng³† (¹Shanghai AI Lab, ²Shanghai Jiao Tong University, ³CUHK, ⁴Nanjing University, ⁵Tongji University, ⁶Wuhan University) |
+| Authors | Siyuan Huang, Xiaoye Qu†, Yafu Li, Tong Zhu, Zefeng He, Muxin Fu, Daizong Liu, Wei-Long Zheng, Yu Cheng† (Shanghai AI Lab · SJTU · CUHK et al.) |
 | Venue | arXiv preprint · 2026-05-01 |
 | arXiv | [2605.00814](https://arxiv.org/abs/2605.00814) |
 | Code | [huaixuheqing/PVM](https://github.com/huaixuheqing/PVM) |
-| Review&nbsp;date | 2026-05-06 |
+| <span style="white-space: nowrap">Review date</span> | 2026-05-06 |
 
 ## TL;DR
 

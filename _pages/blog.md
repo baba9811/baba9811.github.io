@@ -31,8 +31,18 @@ pagination:
   </div>
   {% endif %}
 
+{%- comment -%}
+  Toggle button. Note: jekyll-paginate-v2 reuses this body for /en/blog/ as
+  well (it picks one paginating index as the master template), so we branch
+  on `page.lang` — which IS injected from each paginating page's own
+  front-matter — to render the correct toggle on each URL.
+{%- endcomment -%}
 <p style="text-align: right; margin-bottom: 1rem;">
-  <a href="{{ '/en/blog/' | relative_url }}" class="btn btn-sm btn-outline-secondary">🇺🇸 English</a>
+  {% if page.lang == "en" %}
+    <a href="{{ '/blog/' | relative_url }}" class="btn btn-sm btn-outline-secondary">🇰🇷 한국어</a>
+  {% else %}
+    <a href="{{ '/en/blog/' | relative_url }}" class="btn btn-sm btn-outline-secondary">🇺🇸 English</a>
+  {% endif %}
 </p>
 
 {%- comment -%}
@@ -49,7 +59,15 @@ pagination:
 {%- assign TAG_LIMIT = 6 -%}
 {%- assign CAT_LIMIT = 3 -%}
 
-{%- assign lang_posts = site.posts | where: "lang", "ko" -%}
+{%- comment -%}
+  Filter to the language of the *current* paginating index (page.lang),
+  so the same body renders correctly under both /blog/ and /en/blog/.
+{%- endcomment -%}
+{%- if page.lang == "en" -%}
+  {%- assign lang_posts = site.posts | where: "lang", "en" -%}
+{%- else -%}
+  {%- assign lang_posts = site.posts | where: "lang", "ko" -%}
+{%- endif -%}
 {%- assign tag_pool = lang_posts | map: "tags" | join: "," | split: "," -%}
 {%- assign unique_tags = tag_pool | uniq -%}
 {%- assign weighted_tags = "" -%}
