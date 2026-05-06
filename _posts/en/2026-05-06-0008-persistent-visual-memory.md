@@ -26,7 +26,7 @@ ko_url: /papers/0008-persistent-visual-memory/
 | Venue | arXiv preprint · 2026-05-01 |
 | arXiv | [2605.00814](https://arxiv.org/abs/2605.00814) |
 | Code | [huaixuheqing/PVM](https://github.com/huaixuheqing/PVM) |
-| Review date | 2026-05-06 |
+| Review&nbsp;date | 2026-05-06 |
 
 ## TL;DR
 

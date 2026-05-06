@@ -25,7 +25,7 @@ en_url: /en/papers/0008-persistent-visual-memory/
 | 학회 | arXiv preprint · 2026-05-01 |
 | arXiv | [2605.00814](https://arxiv.org/abs/2605.00814) |
 | Code | [huaixuheqing/PVM](https://github.com/huaixuheqing/PVM) |
-| 리뷰 일자 | 2026-05-06 |
+| 리뷰&nbsp;일자 | 2026-05-06 |
 
 ## TL;DR
 
