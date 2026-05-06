@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
+        },{id: "post-paper-review-unlocking-the-power-of-ai-in-crm-a-comprehensive-multidimensional-exploration",
+        
+          title: "[Paper Review] Unlocking the power of AI in CRM: A comprehensive multidimensional exploration...",
+        
+        description: "A qualitative study that distills 1,055 papers down to 64, plus 24 in-depth interviews with CRM practitioners, to organize AI-powered CRM capabilities into three dimensions and eight sub-dimensions through a microfoundations-of-dynamic-capabilities lens.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0007-unlocking-power-of-ai-in-crm/";
+          
+        },
+      },{id: "post-paper-review-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
         
           title: "[Paper Review] The relevance of lead prioritization: a B2B lead scoring model based...",
         
@@ -25,6 +36,17 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/en/papers/0006-b2b-lead-scoring-with-machine-learning/";
+          
+        },
+      },{id: "post-논문-리뷰-unlocking-the-power-of-ai-in-crm-a-comprehensive-multidimensional-exploration",
+        
+          title: "[논문 리뷰] Unlocking the power of AI in CRM: A comprehensive multidimensional exploration...",
+        
+        description: "1,055건의 논문에서 64건을 추리고 24명의 CRM 실무자를 인터뷰해, AI 기반 CRM 역량을 3개 차원·8개 하위차원으로 정리한 정성 연구. Dynamic Capabilities 의 microfoundations 관점으로 봤다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0007-unlocking-power-of-ai-in-crm/";
           
         },
       },{id: "post-논문-리뷰-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
