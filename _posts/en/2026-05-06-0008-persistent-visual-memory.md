@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Paper Review] Persistent Visual Memory: Sustaining Perception for Deep Generation in LVLMs"
-date: 2026-05-06
+date: 2026-05-06 12:00:00 +0900
 description: "An autoregressive LVLM's visual attention collapses as O(t⁻¹) under growing textual history. PVM adds a parallel retrieval branch alongside each FFN to restore visual perception during deep generation."
 tags: [lvlm, vision-language, attention, hallucination, multimodal-reasoning, qwen3-vl]
 categories: paper-review
