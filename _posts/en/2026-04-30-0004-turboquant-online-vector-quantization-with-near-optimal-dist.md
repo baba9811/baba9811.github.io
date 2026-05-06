@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[Paper Review] TurboQuant: Online Vector Quantization with Near-optimal Distortion Rate"
-date: 2026-04-30
+date: 2026-04-30 10:00:00 +0900
 description: "A training-free vector quantizer that gets within ~2.7× of the information-theoretic distortion-rate bound — using just one random rotation."
 tags: [vector-quantization, kv-cache, nearest-neighbor, rabitq, llm-inference, compression]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0004-turboquant-online-vector-quantization-with-near-optimal-dist/fig3-bounds.png
 bibliography: papers.bib
 toc:

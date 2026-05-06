@@ -1,5 +1,15 @@
 {% assign have_related_posts = false %}
-{% for post in site.related_posts | limit: site.related_blog_posts.max_related %}
+{%- comment -%}
+  Filter related posts to the same language as the current post so a Korean
+  review never recommends an English review and vice versa. Falls back to
+  unfiltered list when page.lang is unset (non-post pages).
+{%- endcomment -%}
+{% if page.lang %}
+  {% assign related_candidates = site.related_posts | where: "lang", page.lang %}
+{% else %}
+  {% assign related_candidates = site.related_posts %}
+{% endif %}
+{% for post in related_candidates | limit: site.related_blog_posts.max_related %}
   {% unless have_related_posts %}
     {% assign have_related_posts = true %}
     {% if page.layout == 'post' %}

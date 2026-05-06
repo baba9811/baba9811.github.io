@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[논문 리뷰] LLaDA2.0-Uni: Unifying Multimodal Understanding and Generation with Diffusion Large Language Model"
-date: 2026-04-29
+date: 2026-04-29 10:00:00 +0900
 description: "디퓨전 LLM 한 모델로 이미지 이해, 생성, 편집, 인터리브드 추론을 모두 처리한다. SigLIP-VQ 의미 토크나이저, 16B MoE 백본, distillation 으로 8 step 까지 줄인 디퓨전 디코더의 조합."
 tags: [diffusion-llm, multimodal, unified-model, image-generation, image-editing, moe, vlm]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0003-llada2-0-uni-unified-multimodal-diffusion-llm/fig4-architecture.png
 bibliography: papers.bib
 toc:

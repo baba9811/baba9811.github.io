@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[논문 리뷰] Unlocking the power of AI in CRM: A comprehensive multidimensional exploration"
-date: 2026-05-06
+date: 2026-05-06 11:00:00 +0900
 description: "1,055건의 논문에서 64건을 추리고 24명의 CRM 실무자를 인터뷰해, AI 기반 CRM 역량을 3개 차원·8개 하위차원으로 정리한 정성 연구. Dynamic Capabilities 의 microfoundations 관점으로 봤다."
 tags: [ai-crm, dynamic-capabilities, scoping-review, qualitative-research, customer-relationship-management]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0007-unlocking-power-of-ai-in-crm/fig2-framework.png
 bibliography: papers.bib
 toc:

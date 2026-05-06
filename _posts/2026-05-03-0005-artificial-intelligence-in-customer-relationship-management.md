@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[논문 리뷰] Artificial intelligence in customer relationship management: A systematic framework for a successful integration"
-date: 2026-05-03
+date: 2026-05-03 10:00:00 +0900
 description: "25명을 인터뷰해 도출한 AI-CRM 통합 4 macro-phase·13 step 프레임워크 — ethics by design과 customer data centralization을 처음부터 박아 넣어야 한다는 정성적 연구."
 tags: [ai, crm, qualitative-research, ethics-by-design, framework]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0005-artificial-intelligence-in-customer-relationship-management/fig1-framework.png
 bibliography: papers.bib
 toc:

@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[Paper Review] The relevance of lead prioritization: a B2B lead scoring model based on machine learning"
-date: 2026-05-06
+date: 2026-05-06 10:00:00 +0900
 description: "A B2B software SME's four-year CRM dataset benchmarked across 15 classifiers via PyCaret — Gradient Boosting wins (98.39% accuracy, AUC 0.9891). Lead Source / Reason for State / Lead Classification dominate feature importance."
 tags: [b2b, lead-scoring, marketing, gradient-boosting, machine-learning, crm]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0006-b2b-lead-scoring-with-machine-learning/fig3-pipeline.png
 bibliography: papers.bib
 toc:

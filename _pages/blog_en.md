@@ -1,21 +1,20 @@
 ---
 layout: default
-permalink: /blog/
-title: blog
-nav: true
-nav_order: 1
-lang: ko
+permalink: /en/blog/
+title: blog (en)
+nav: false
+lang: en
 pagination:
   enabled: true
   collection: posts
-  permalink: /page/:num/
+  permalink: /en/page/:num/
   per_page: 5
   sort_field: date
   sort_reverse: true
-  locale: ko
+  locale: en
   trail:
-    before: 1 # The number of links before the current page
-    after: 3 # The number of links after the current page
+    before: 1
+    after: 3
 ---
 
 <div class="post">
@@ -32,24 +31,13 @@ pagination:
   {% endif %}
 
 <p style="text-align: right; margin-bottom: 1rem;">
-  <a href="{{ '/en/blog/' | relative_url }}" class="btn btn-sm btn-outline-secondary">🇺🇸 English</a>
+  <a href="{{ '/blog/' | relative_url }}" class="btn btn-sm btn-outline-secondary">🇰🇷 한국어</a>
 </p>
 
-{%- comment -%}
-  Auto-collect tags and categories from every post and rank them by
-  frequency, then cap so the header stays one line as the archive
-  grows. Tags and categories outside the cap are still reachable via
-  the per-post links rendered below and the /blog/tag/<slug> and
-  /blog/category/<slug> URLs.
-
-  TAG_LIMIT / CAT_LIMIT below control the cap. Liquid has no count
-  filter so we count by inner loop and zero-pad the count to make
-  string sort = numeric sort.
-{%- endcomment -%}
 {%- assign TAG_LIMIT = 6 -%}
 {%- assign CAT_LIMIT = 3 -%}
 
-{%- assign lang_posts = site.posts | where: "lang", "ko" -%}
+{%- assign lang_posts = site.posts | where: "lang", "en" -%}
 {%- assign tag_pool = lang_posts | map: "tags" | join: "," | split: "," -%}
 {%- assign unique_tags = tag_pool | uniq -%}
 {%- assign weighted_tags = "" -%}

@@ -226,6 +226,19 @@ defaults:
       path: "assets"
     values:
       sitemap: false
+  # Per-path locale defaults so jekyll-paginate-v2's `locale` filter
+  # can split the blog list by language without touching every post's
+  # front-matter. The order matters: more specific paths first.
+  - scope:
+      path: "_posts/en"
+      type: posts
+    values:
+      locale: en
+  - scope:
+      path: ""
+      type: posts
+    values:
+      locale: ko
 
 sass:
   style: compressed

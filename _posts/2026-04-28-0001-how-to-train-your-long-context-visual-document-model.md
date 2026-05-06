@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[논문 리뷰] How to Train Your Long-Context Visual Document Model"
-date: 2026-04-28
+date: 2026-04-28 10:00:00 +0900
 description: "344K 컨텍스트의 시각 문서 VLM 을 어떻게 훈련하는가 — CPT/SFT/LongPO 와 self-improvement 까지의 첫 대규모 공개 레시피."
 tags: [long-context, vlm, document-understanding, sft, cpt, preference-optimization, multimodal]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0001-how-to-train-your-long-context-visual-document-model/fig1-checkpoints-overview.png
 bibliography: papers.bib
 toc:
