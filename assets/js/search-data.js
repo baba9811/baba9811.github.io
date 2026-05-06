@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-논문-리뷰-persistent-visual-memory-sustaining-perception-for-deep-generation-in-lvlms",
+        },{id: "post-paper-review-persistent-visual-memory-sustaining-perception-for-deep-generation-in-lvlms",
+        
+          title: "[Paper Review] Persistent Visual Memory: Sustaining Perception for Deep Generation in LVLMs",
+        
+        description: "An autoregressive LVLM&#39;s visual attention collapses as O(t⁻¹) under growing textual history. PVM adds a parallel retrieval branch alongside each FFN to restore visual perception during deep generation.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0008-persistent-visual-memory/";
+          
+        },
+      },{id: "post-논문-리뷰-persistent-visual-memory-sustaining-perception-for-deep-generation-in-lvlms",
         
           title: "[논문 리뷰] Persistent Visual Memory: Sustaining Perception for Deep Generation in LVLMs",
         
@@ -69,17 +80,6 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/papers/0006-b2b-lead-scoring-with-machine-learning/";
-          
-        },
-      },{id: "post-paper-review-persistent-visual-memory-sustaining-perception-for-deep-generation-in-lvlms",
-        
-          title: "[Paper Review] Persistent Visual Memory: Sustaining Perception for Deep Generation in LVLMs",
-        
-        description: "An autoregressive LVLM&#39;s visual attention collapses as O(t⁻¹) under growing textual history. PVM adds a parallel retrieval branch alongside each FFN to restore visual perception during deep generation.",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/en/papers/0008-persistent-visual-memory/";
           
         },
       },{id: "post-paper-review-artificial-intelligence-in-customer-relationship-management-a-systematic-framework-for-a-successful-integration",
