@@ -25,7 +25,7 @@ en_url: /en/papers/0004-turboquant-online-vector-quantization-with-near-optimal-
 | 학회 | arXiv preprint · 2025-04-28 |
 | arXiv | [2504.19874](https://arxiv.org/abs/2504.19874) |
 | Code | 공개 코드 별도 미공개 |
-| 리뷰 일자 | 2026-04-30 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-04-30 |
 
 ## TL;DR
 

@@ -25,7 +25,7 @@ ko_url: /papers/0001-how-to-train-your-long-context-visual-document-model/
 | Venue | arXiv preprint · 2026 |
 | arXiv | [2602.15257](https://arxiv.org/abs/2602.15257) |
 | Code & models | [lightonai/distilabel · lc_sft_pipelines](https://github.com/lightonai/distilabel/tree/lc_sft_pipelines), [HF collection: lightonai/orion](https://huggingface.co/collections/lightonai/orion) |
-| Review date | 2026-04-28 |
+| <span style="white-space: nowrap">Review date</span> | 2026-04-28 |
 
 ## TL;DR
 

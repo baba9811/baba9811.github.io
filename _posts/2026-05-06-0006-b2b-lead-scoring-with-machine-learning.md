@@ -25,7 +25,7 @@ en_url: /en/papers/0006-b2b-lead-scoring-with-machine-learning/
 | 학회 | *Frontiers in Artificial Intelligence* 8, Article 1554325 · 2025 (open access, CC BY) |
 | DOI | [10.3389/frai.2025.1554325](https://doi.org/10.3389/frai.2025.1554325) |
 | 데이터 | Microsoft Dynamics CRM, 2020.01–2024.04, 23,154 records × 67 fields → 16,600 × 22 |
-| 리뷰 일자 | 2026-05-06 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-05-06 |
 
 ## TL;DR
 

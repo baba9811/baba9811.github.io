@@ -25,7 +25,7 @@ en_url: /en/papers/0002-tradingagents-multi-agents-llm-financial-trading-framewo
 | 학회 | arXiv preprint · 2025 (v7, 2025-06-03) |
 | arXiv | [2412.20138](https://arxiv.org/abs/2412.20138) |
 | Code | [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) |
-| 리뷰 일자 | 2026-04-28 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-04-28 |
 
 ## TL;DR
 

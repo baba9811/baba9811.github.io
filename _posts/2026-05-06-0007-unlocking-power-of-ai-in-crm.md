@@ -25,7 +25,7 @@ en_url: /en/papers/0007-unlocking-power-of-ai-in-crm/
 | 학회 | *Journal of Innovation & Knowledge* 10, Article 100731 · 2025 (open access, CC BY) |
 | DOI | [10.1016/j.jik.2025.100731](https://doi.org/10.1016/j.jik.2025.100731) |
 | 데이터 | 64개 학술 논문 (2002–2023, 36개 저널) + 24명의 산업 전문가 in-depth 인터뷰 |
-| 리뷰 일자 | 2026-05-06 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-05-06 |
 
 ## TL;DR
 

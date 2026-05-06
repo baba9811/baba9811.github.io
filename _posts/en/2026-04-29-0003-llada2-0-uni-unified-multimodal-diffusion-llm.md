@@ -26,7 +26,7 @@ ko_url: /papers/0003-llada2-0-uni-unified-multimodal-diffusion-llm/
 | arXiv | [2604.20796](https://arxiv.org/abs/2604.20796) |
 | Code | [inclusionAI/LLaDA2.0-Uni](https://github.com/inclusionAI/LLaDA2.0-Uni) |
 | Model | [HuggingFace](https://huggingface.co/inclusionAI/LLaDA2.0-Uni) |
-| Review date | 2026-04-29 |
+| <span style="white-space: nowrap">Review date</span> | 2026-04-29 |
 
 ## TL;DR
 

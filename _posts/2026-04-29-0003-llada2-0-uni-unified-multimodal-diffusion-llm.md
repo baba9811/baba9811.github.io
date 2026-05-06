@@ -26,7 +26,7 @@ en_url: /en/papers/0003-llada2-0-uni-unified-multimodal-diffusion-llm/
 | arXiv | [2604.20796](https://arxiv.org/abs/2604.20796) |
 | Code | [inclusionAI/LLaDA2.0-Uni](https://github.com/inclusionAI/LLaDA2.0-Uni) |
 | 모델 | [HuggingFace](https://huggingface.co/inclusionAI/LLaDA2.0-Uni) |
-| 리뷰 일자 | 2026-04-29 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-04-29 |
 
 ## TL;DR
 

@@ -25,7 +25,7 @@ en_url: /en/papers/0005-artificial-intelligence-in-customer-relationship-managem
 | 학회 | *Journal of Business Research* 199, Article 115531 · 2025 (open access, CC BY) |
 | DOI | [10.1016/j.jbusres.2025.115531](https://doi.org/10.1016/j.jbusres.2025.115531) |
 | 데이터 | 25개 semi-structured interview, 4 라운드, 2021.06–2022.05 |
-| 리뷰 일자 | 2026-05-03 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-05-03 |
 
 ## TL;DR
 
