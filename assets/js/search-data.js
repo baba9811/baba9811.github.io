@@ -16,26 +16,26 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-persistent-visual-memory-sustaining-perception-for-deep-generation-in-lvlms",
+        },{id: "post-paper-review-personalized-marketing-leveraging-ai-for-culturally-aware-segmentation-and-targeting",
         
-          title: "[Paper Review] Persistent Visual Memory: Sustaining Perception for Deep Generation in LVLMs",
+          title: "[Paper Review] Personalized marketing: Leveraging AI for culturally aware segmentation and targeting",
         
-        description: "An autoregressive LVLM&#39;s visual attention collapses as O(t⁻¹) under growing textual history. PVM adds a parallel retrieval branch alongside each FFN to restore visual perception during deep generation.",
+        description: "A short application paper that bolts LIME onto K-means over Kaggle&#39;s 200-row Mall Customer dataset. The biggest discussion point is the gap between the &#39;culturally aware&#39; framing in the title and what the experiment actually does.",
         section: "Posts",
         handler: () => {
           
-            window.location.href = "/en/papers/0008-persistent-visual-memory/";
+            window.location.href = "/en/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/";
           
         },
-      },{id: "post-논문-리뷰-persistent-visual-memory-sustaining-perception-for-deep-generation-in-lvlms",
+      },{id: "post-논문-리뷰-personalized-marketing-leveraging-ai-for-culturally-aware-segmentation-and-targeting",
         
-          title: "[논문 리뷰] Persistent Visual Memory: Sustaining Perception for Deep Generation in LVLMs",
+          title: "[논문 리뷰] Personalized marketing: Leveraging AI for culturally aware segmentation and targeting",
         
-        description: "긴 응답을 생성할수록 LVLM의 시각 attention이 O(t⁻¹)로 붕괴한다는 사실을 이론·경험적으로 보이고, FFN과 평행한 retrieval 분기를 추가해 시각 신호를 복구하는 PVM 모듈",
+        description: "Mall Customer 데이터셋 200명에 K-means clustering + LIME 을 결합해 4개 세그먼트를 만든 뒤 LIME 으로 각 클러스터의 결정 요인을 해석하는 짧은 응용 논문. &#39;문화적으로 인지한다 (culturally aware)&#39; 라는 제목과 실제 실험의 간극이 가장 큰 논점이다.",
         section: "Posts",
         handler: () => {
           
-            window.location.href = "/papers/0008-persistent-visual-memory/";
+            window.location.href = "/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/";
           
         },
       },{id: "post-paper-review-unlocking-the-power-of-ai-in-crm-a-comprehensive-multidimensional-exploration",
@@ -49,17 +49,6 @@ ninja.data = [{
             window.location.href = "/en/papers/0007-unlocking-power-of-ai-in-crm/";
           
         },
-      },{id: "post-논문-리뷰-unlocking-the-power-of-ai-in-crm-a-comprehensive-multidimensional-exploration",
-        
-          title: "[논문 리뷰] Unlocking the power of AI in CRM: A comprehensive multidimensional exploration...",
-        
-        description: "1,055건의 논문에서 64건을 추리고 24명의 CRM 실무자를 인터뷰해, AI 기반 CRM 역량을 3개 차원·8개 하위차원으로 정리한 정성 연구. Dynamic Capabilities 의 microfoundations 관점으로 봤다.",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/papers/0007-unlocking-power-of-ai-in-crm/";
-          
-        },
       },{id: "post-paper-review-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
         
           title: "[Paper Review] The relevance of lead prioritization: a B2B lead scoring model based...",
@@ -69,6 +58,17 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/en/papers/0006-b2b-lead-scoring-with-machine-learning/";
+          
+        },
+      },{id: "post-논문-리뷰-unlocking-the-power-of-ai-in-crm-a-comprehensive-multidimensional-exploration",
+        
+          title: "[논문 리뷰] Unlocking the power of AI in CRM: A comprehensive multidimensional exploration...",
+        
+        description: "1,055건의 논문에서 64건을 추리고 24명의 CRM 실무자를 인터뷰해, AI 기반 CRM 역량을 3개 차원·8개 하위차원으로 정리한 정성 연구. Dynamic Capabilities 의 microfoundations 관점으로 봤다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0007-unlocking-power-of-ai-in-crm/";
           
         },
       },{id: "post-논문-리뷰-the-relevance-of-lead-prioritization-a-b2b-lead-scoring-model-based-on-machine-learning",
@@ -159,17 +159,6 @@ ninja.data = [{
             window.location.href = "/en/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/";
           
         },
-      },{id: "post-논문-리뷰-tradingagents-multi-agents-llm-financial-trading-framework",
-        
-          title: "[논문 리뷰] TradingAgents: Multi-Agents LLM Financial Trading Framework",
-        
-        description: "트레이딩 펌의 조직 구조를 그대로 옮긴 멀티 에이전트 LLM 트레이딩 프레임워크 — 분석가, 강세/약세 리서처, 트레이더, 리스크 관리, 펀드 매니저까지 일곱 역할이 구조화 보고서와 자연어 토론으로 협업한다.",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/";
-          
-        },
       },{id: "post-paper-review-how-to-train-your-long-context-visual-document-model",
         
           title: "[Paper Review] How to Train Your Long-Context Visual Document Model",
@@ -179,6 +168,17 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/en/papers/0001-how-to-train-your-long-context-visual-document-model/";
+          
+        },
+      },{id: "post-논문-리뷰-tradingagents-multi-agents-llm-financial-trading-framework",
+        
+          title: "[논문 리뷰] TradingAgents: Multi-Agents LLM Financial Trading Framework",
+        
+        description: "트레이딩 펌의 조직 구조를 그대로 옮긴 멀티 에이전트 LLM 트레이딩 프레임워크 — 분석가, 강세/약세 리서처, 트레이더, 리스크 관리, 펀드 매니저까지 일곱 역할이 구조화 보고서와 자연어 토론으로 협업한다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/";
           
         },
       },{id: "post-논문-리뷰-how-to-train-your-long-context-visual-document-model",
