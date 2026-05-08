@@ -21,14 +21,12 @@ ko_url: /papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-s
 ## Metadata
 
 | Field | Value |
-|------|------|
-| Authors | Franciskus Antonius Alijoyo, Taheseen Shaikh Abdul Aziz, Nadir Omer, Nadia Yusuf, M. Dhiliphan Kumar, Anjhyam Venkata Naga Ramesh, Zoirov Ulmas, Yousef A. Baker El-Ebiary (8 co-authors across Indonesia, Saudi Arabia, India, Uzbekistan, and Malaysia) |
+|-------|-------|
+| Authors | Franciskus Antonius Alijoyo et al. (8 co-authors across Indonesia, Saudi Arabia, India, Uzbekistan, Malaysia) |
 | Venue | *Alexandria Engineering Journal* 119 (2025) 8-21 · Elsevier (open access, CC BY-NC-ND 4.0) |
 | DOI | [10.1016/j.aej.2025.01.074](https://doi.org/10.1016/j.aej.2025.01.074) |
-| Submitted / Accepted | Received 2024-11-26 / Accepted 2025-01-16 / Online 2025-01-31 |
 | Data | Kaggle [Mall Customer Segmentation Data](https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python) (n=200, 5 columns) |
-| Code | Not released |
-| Review date | 2026-05-08 |
+| <span style="white-space: nowrap">Review date</span> | 2026-05-08 |
 
 ## TL;DR
 
