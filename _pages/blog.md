@@ -4,7 +4,6 @@ permalink: /blog/
 title: blog
 nav: true
 nav_order: 1
-lang: ko
 pagination:
   enabled: true
   collection: posts
@@ -12,7 +11,6 @@ pagination:
   per_page: 5
   sort_field: date
   sort_reverse: true
-  locale: ko
   trail:
     before: 1 # The number of links before the current page
     after: 3 # The number of links after the current page
@@ -32,20 +30,6 @@ pagination:
   {% endif %}
 
 {%- comment -%}
-  Toggle button. Note: jekyll-paginate-v2 reuses this body for /en/blog/ as
-  well (it picks one paginating index as the master template), so we branch
-  on `page.lang` — which IS injected from each paginating page's own
-  front-matter — to render the correct toggle on each URL.
-{%- endcomment -%}
-<p style="text-align: right; margin-bottom: 1rem;">
-  {% if page.lang == "en" %}
-    <a href="{{ '/blog/' | relative_url }}" class="btn btn-sm btn-outline-secondary">🇰🇷 한국어</a>
-  {% else %}
-    <a href="{{ '/en/blog/' | relative_url }}" class="btn btn-sm btn-outline-secondary">🇺🇸 English</a>
-  {% endif %}
-</p>
-
-{%- comment -%}
   Auto-collect tags and categories from every post and rank them by
   frequency, then cap so the header stays one line as the archive
   grows. Tags and categories outside the cap are still reachable via
@@ -59,16 +43,7 @@ pagination:
 {%- assign TAG_LIMIT = 6 -%}
 {%- assign CAT_LIMIT = 3 -%}
 
-{%- comment -%}
-  Filter to the language of the *current* paginating index (page.lang),
-  so the same body renders correctly under both /blog/ and /en/blog/.
-{%- endcomment -%}
-{%- if page.lang == "en" -%}
-  {%- assign lang_posts = site.posts | where: "lang", "en" -%}
-{%- else -%}
-  {%- assign lang_posts = site.posts | where: "lang", "ko" -%}
-{%- endif -%}
-{%- assign tag_pool = lang_posts | map: "tags" | join: "," | split: "," -%}
+{%- assign tag_pool = site.posts | map: "tags" | join: "," | split: "," -%}
 {%- assign unique_tags = tag_pool | uniq -%}
 {%- assign weighted_tags = "" -%}
 {%- for tag in unique_tags -%}
@@ -83,7 +58,7 @@ pagination:
 {%- endfor -%}
 {%- assign sorted_tags = weighted_tags | split: "," | sort | reverse -%}
 
-{%- assign cat_pool = lang_posts | map: "categories" | join: "," | split: "," -%}
+{%- assign cat_pool = site.posts | map: "categories" | join: "," | split: "," -%}
 {%- assign unique_cats = cat_pool | uniq -%}
 {%- assign weighted_cats = "" -%}
 {%- for cat in unique_cats -%}
@@ -129,7 +104,7 @@ pagination:
   </div>
   {% endif %}
 
-{% assign featured_posts = lang_posts | where: "featured", "true" %}
+{% assign featured_posts = site.posts | where: "featured", "true" %}
 {% if featured_posts.size > 0 %}
 <br>
 
@@ -179,7 +154,7 @@ pagination:
     {% if page.pagination.enabled %}
       {% assign postlist = paginator.posts %}
     {% else %}
-      {% assign postlist = lang_posts %}
+      {% assign postlist = site.posts %}
     {% endif %}
 
     {% for post in postlist %}

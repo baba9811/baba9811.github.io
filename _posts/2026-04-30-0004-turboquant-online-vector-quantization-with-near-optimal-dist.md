@@ -1,11 +1,12 @@
 ---
 layout: post
 title: "[논문 리뷰] TurboQuant: Online Vector Quantization with Near-optimal Distortion Rate"
-date: 2026-04-30 10:00:00 +0900
+date: 2026-04-30
 description: "랜덤 회전 한 번으로 데이터 의존 학습 없이 정보이론 하한과 약 2.7배 이내까지 도달하는 온라인 벡터 양자화"
 tags: [vector-quantization, kv-cache, nearest-neighbor, rabitq, llm-inference, compression]
 categories: paper-review
 giscus_comments: false
+related_posts: false
 thumbnail: assets/img/papers/0004-turboquant-online-vector-quantization-with-near-optimal-dist/fig3-bounds.png
 bibliography: papers.bib
 toc:
@@ -25,7 +26,7 @@ en_url: /en/papers/0004-turboquant-online-vector-quantization-with-near-optimal-
 | 학회 | arXiv preprint · 2025-04-28 |
 | arXiv | [2504.19874](https://arxiv.org/abs/2504.19874) |
 | Code | 공개 코드 별도 미공개 |
-| <span style="white-space: nowrap">리뷰 일자</span> | 2026-04-30 |
+| 리뷰 일자 | 2026-04-30 |
 
 ## TL;DR
 

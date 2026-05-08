@@ -1,11 +1,12 @@
 ---
 layout: post
 title: "[Paper Review] How to Train Your Long-Context Visual Document Model"
-date: 2026-04-28 10:00:00 +0900
+date: 2026-04-28
 description: "How to train a 344K-context visual document VLM — the first large-scale, open recipe spanning CPT, SFT, LongPO and self-improvement."
 tags: [long-context, vlm, document-understanding, sft, cpt, preference-optimization, multimodal]
 categories: paper-review
 giscus_comments: false
+related_posts: false
 thumbnail: assets/img/papers/0001-how-to-train-your-long-context-visual-document-model/fig1-checkpoints-overview.png
 bibliography: papers.bib
 toc:
@@ -25,7 +26,7 @@ ko_url: /papers/0001-how-to-train-your-long-context-visual-document-model/
 | Venue | arXiv preprint · 2026 |
 | arXiv | [2602.15257](https://arxiv.org/abs/2602.15257) |
 | Code & models | [lightonai/distilabel · lc_sft_pipelines](https://github.com/lightonai/distilabel/tree/lc_sft_pipelines), [HF collection: lightonai/orion](https://huggingface.co/collections/lightonai/orion) |
-| <span style="white-space: nowrap">Review date</span> | 2026-04-28 |
+| Review date | 2026-04-28 |
 
 ## TL;DR
 
