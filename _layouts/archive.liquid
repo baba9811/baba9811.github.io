@@ -15,24 +15,79 @@ layout: default
     {% endif %}
   </header>
 
+  {%- comment -%}
+    Group archive entries by language so a tag/year/category page shows
+    a "한국어" section and an "English" section side-by-side instead of
+    interleaving the two language editions of the same paper.
+  {%- endcomment -%}
+  {% assign ko_docs = page.documents | where: "lang", "ko" %}
+  {% assign en_docs = page.documents | where: "lang", "en" %}
+  {% assign untagged_docs = page.documents | where_exp: "d", "d.lang == nil" %}
+
   <article class="archive">
-    <div class="table-responsive">
-      <table class="table table-sm table-borderless">
-        {% for document in page.documents %}
-          <tr>
-            <th scope="row">{{ document.date | date: '%b %d, %Y' }}</th>
-            <td>
-              {% if document.redirect == blank %}
-                <a class="post-link" href="{{ document.url | relative_url }}">{{ document.title }}</a>
-              {% elsif document.redirect contains '://' %}
-                <a class="post-link" href="{{ document.redirect }}" target="_blank">{{ document.title }}</a>
-              {% else %}
-                <a class="post-link" href="{{ document.redirect | relative_url }}">{{ document.title }}</a>
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-      </table>
-    </div>
+    {% if ko_docs.size > 0 %}
+      <h2 class="mt-4">한국어</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-borderless">
+          {% for document in ko_docs %}
+            <tr>
+              <th scope="row">{{ document.date | date: '%b %d, %Y' }}</th>
+              <td>
+                {% if document.redirect == blank %}
+                  <a class="post-link" href="{{ document.url | relative_url }}">{{ document.title }}</a>
+                {% elsif document.redirect contains '://' %}
+                  <a class="post-link" href="{{ document.redirect }}" target="_blank">{{ document.title }}</a>
+                {% else %}
+                  <a class="post-link" href="{{ document.redirect | relative_url }}">{{ document.title }}</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    {% endif %}
+
+    {% if en_docs.size > 0 %}
+      <h2 class="mt-4">English</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-borderless">
+          {% for document in en_docs %}
+            <tr>
+              <th scope="row">{{ document.date | date: '%b %d, %Y' }}</th>
+              <td>
+                {% if document.redirect == blank %}
+                  <a class="post-link" href="{{ document.url | relative_url }}">{{ document.title }}</a>
+                {% elsif document.redirect contains '://' %}
+                  <a class="post-link" href="{{ document.redirect }}" target="_blank">{{ document.title }}</a>
+                {% else %}
+                  <a class="post-link" href="{{ document.redirect | relative_url }}">{{ document.title }}</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    {% endif %}
+
+    {% if untagged_docs.size > 0 %}
+      <div class="table-responsive">
+        <table class="table table-sm table-borderless">
+          {% for document in untagged_docs %}
+            <tr>
+              <th scope="row">{{ document.date | date: '%b %d, %Y' }}</th>
+              <td>
+                {% if document.redirect == blank %}
+                  <a class="post-link" href="{{ document.url | relative_url }}">{{ document.title }}</a>
+                {% elsif document.redirect contains '://' %}
+                  <a class="post-link" href="{{ document.redirect }}" target="_blank">{{ document.title }}</a>
+                {% else %}
+                  <a class="post-link" href="{{ document.redirect | relative_url }}">{{ document.title }}</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    {% endif %}
   </article>
 </div>

@@ -7,13 +7,13 @@ tags: [personalized-marketing, k-means-clustering, lime, customer-segmentation, 
 categories: paper-review
 giscus_comments: false
 related_posts: false
-thumbnail: assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig1-proposed-method.png
+thumbnail: assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig1-proposed-method.png
 bibliography: papers.bib
 toc:
   beginning: true
 lang: en
-permalink: /en/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/
-ko_url: /papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/
+permalink: /en/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/
+ko_url: /papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/
 ---
 
 {% include lang_toggle.html %}
@@ -103,7 +103,7 @@ The paper says it uses both, but only shows the elbow plot (Fig. 9). The silhoue
 The whole pipeline fits in one diagram.
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig1-proposed-method.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig1-proposed-method.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 1: The proposed pipeline. (1) Data collection → (2) Pre-processing: missing-value handling, feature scaling, feature encoding → (3) K-means clustering with K chosen via elbow / silhouette → (4) LIME-based explainability."
    zoomable=true %}
@@ -139,7 +139,7 @@ $$
 Iterate until convergence or max iters. The flow is summarised in Fig. 2.
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig2-kmeans-flowchart.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig2-kmeans-flowchart.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 2: K-means clustering flowchart. Determine K → assign K initial centroids → assign each point to the nearest centroid → recompute centroids → loop until reassignments stop → output final clusters."
    zoomable=true %}
@@ -153,7 +153,7 @@ The paper lists *balanced sampling / dropping irrelevant variables / domain expe
 As described in *Related Work*. WCSS is computed for K=2 to K=10. Elbow lands at K=3 or K=4. Visualisations proceed with K=4.
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig9-elbow-method.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig9-elbow-method.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 9: WCSS vs K from the Elbow Method. Largest drop is K=1 → 2; the curve flattens around K=4-5. The paper picks K=3 or K=4 as optimal and uses K=4 for the rest of the visualisations."
    zoomable=true %}
@@ -241,7 +241,7 @@ Useful context before reading the cluster results.
 ### Four clusters at K=4
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig11-clusters-age-spending.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig11-clusters-age-spending.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 11: Four clusters projected onto age × spending score (1-100). Red = high spenders (75-100), purple = upper-middle (60-85), cyan = lower-middle (30-60), black = low (5-25). The split is essentially along spending score; age is distributed roughly evenly within each cluster."
    zoomable=true %}
@@ -251,7 +251,7 @@ The paper's takeaway is that *moderate spenders (purple + cyan) + middle-income 
 ### LIME on individual customers
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig12-lime-customer-0.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig12-lime-customer-0.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 12: LIME explanation for customer 0. Age ≤ 29 dominates with weight 10; Annual Income 39.75-62 has weight 5; CustomerID 46.5-101.5 has weight 3."
    zoomable=true %}
@@ -261,7 +261,7 @@ Customer 1 looks similar — `Age ≤ 29` weight 14, `CustomerID ≤ 46.5` weigh
 ### Performance comparison
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/tab1-tab2-performance.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/tab1-tab2-performance.png"
    class="img-fluid rounded z-depth-1"
    caption="Tables 1 & 2: The proposed K-Means+LIME records the lowest MSE/MAE against the supervised baselines (Linear Regression, Decision Tree, KNN) and the unsupervised competitors (GMM, DBSCAN)."
    zoomable=true %}
@@ -278,7 +278,7 @@ The numbers in one table:
 | DBSCAN | 1.5000 | 1.250 |
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig14-comparison.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig14-comparison.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 14: MSE/MAE comparison of K-Means(+LIME), GMM, and DBSCAN. K-Means+LIME is lowest at (0.9212, 0.9874)."
    zoomable=true %}

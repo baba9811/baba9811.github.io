@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[Paper Review] TradingAgents: Multi-Agents LLM Financial Trading Framework"
-date: 2026-04-28
+date: 2026-04-28 11:00:00 +0900
 description: "An LLM trading framework that mirrors a real trading firm's org chart — analysts, bullish/bearish researchers, a trader, a risk team, and a fund manager — coordinated through structured reports for cross-team handoff and natural-language debate inside teams."
 tags: [multi-agent, llm, finance, trading, agentic-debate, react]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/fig1-architecture.png
 bibliography: papers.bib
 toc:

@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[논문 리뷰] TradingAgents: Multi-Agents LLM Financial Trading Framework"
-date: 2026-04-28
+date: 2026-04-28 11:00:00 +0900
 description: "트레이딩 펌의 조직 구조를 그대로 옮긴 멀티 에이전트 LLM 트레이딩 프레임워크 — 분석가, 강세/약세 리서처, 트레이더, 리스크 관리, 펀드 매니저까지 일곱 역할이 구조화 보고서와 자연어 토론으로 협업한다."
 tags: [multi-agent, llm, finance, trading, agentic-debate, react]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/fig1-architecture.png
 bibliography: papers.bib
 toc:
@@ -26,7 +25,7 @@ en_url: /en/papers/0002-tradingagents-multi-agents-llm-financial-trading-framewo
 | 학회 | arXiv preprint · 2025 (v7, 2025-06-03) |
 | arXiv | [2412.20138](https://arxiv.org/abs/2412.20138) |
 | Code | [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) |
-| 리뷰 일자 | 2026-04-28 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-04-28 |
 
 ## TL;DR
 

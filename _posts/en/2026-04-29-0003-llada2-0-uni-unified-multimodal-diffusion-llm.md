@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[Paper Review] LLaDA2.0-Uni: Unifying Multimodal Understanding and Generation with Diffusion Large Language Model"
-date: 2026-04-29
+date: 2026-04-29 10:00:00 +0900
 description: "A single diffusion LLM that handles image understanding, generation, editing, and interleaved reasoning. Built around a SigLIP-VQ semantic tokenizer, a 16B MoE backbone, and an 8-step distilled diffusion decoder."
 tags: [diffusion-llm, multimodal, unified-model, image-generation, image-editing, moe, vlm]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0003-llada2-0-uni-unified-multimodal-diffusion-llm/fig4-architecture.png
 bibliography: papers.bib
 toc:
@@ -27,7 +26,7 @@ ko_url: /papers/0003-llada2-0-uni-unified-multimodal-diffusion-llm/
 | arXiv | [2604.20796](https://arxiv.org/abs/2604.20796) |
 | Code | [inclusionAI/LLaDA2.0-Uni](https://github.com/inclusionAI/LLaDA2.0-Uni) |
 | Model | [HuggingFace](https://huggingface.co/inclusionAI/LLaDA2.0-Uni) |
-| Review date | 2026-04-29 |
+| <span style="white-space: nowrap">Review date</span> | 2026-04-29 |
 
 ## TL;DR
 

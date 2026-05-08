@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[Paper Review] Unlocking the power of AI in CRM: A comprehensive multidimensional exploration"
-date: 2026-05-06
+date: 2026-05-06 11:00:00 +0900
 description: "A qualitative study that distills 1,055 papers down to 64, plus 24 in-depth interviews with CRM practitioners, to organize AI-powered CRM capabilities into three dimensions and eight sub-dimensions through a microfoundations-of-dynamic-capabilities lens."
 tags: [ai-crm, dynamic-capabilities, scoping-review, qualitative-research, customer-relationship-management]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0007-unlocking-power-of-ai-in-crm/fig2-framework.png
 bibliography: papers.bib
 toc:

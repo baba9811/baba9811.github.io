@@ -1,12 +1,11 @@
 ---
 layout: post
 title: "[논문 리뷰] How to Train Your Long-Context Visual Document Model"
-date: 2026-04-28
+date: 2026-04-28 10:00:00 +0900
 description: "344K 컨텍스트의 시각 문서 VLM 을 어떻게 훈련하는가 — CPT/SFT/LongPO 와 self-improvement 까지의 첫 대규모 공개 레시피."
 tags: [long-context, vlm, document-understanding, sft, cpt, preference-optimization, multimodal]
 categories: paper-review
 giscus_comments: false
-related_posts: false
 thumbnail: assets/img/papers/0001-how-to-train-your-long-context-visual-document-model/fig1-checkpoints-overview.png
 bibliography: papers.bib
 toc:
@@ -26,7 +25,7 @@ en_url: /en/papers/0001-how-to-train-your-long-context-visual-document-model/
 | 학회 | arXiv preprint · 2026 |
 | arXiv | [2602.15257](https://arxiv.org/abs/2602.15257) |
 | Code & 모델 | [lightonai/distilabel · lc_sft_pipelines](https://github.com/lightonai/distilabel/tree/lc_sft_pipelines), [HF collection: lightonai/orion](https://huggingface.co/collections/lightonai/orion) |
-| 리뷰 일자 | 2026-04-28 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-04-28 |
 
 ## TL;DR
 

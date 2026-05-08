@@ -7,13 +7,13 @@ tags: [personalized-marketing, k-means-clustering, lime, customer-segmentation, 
 categories: paper-review
 giscus_comments: false
 related_posts: false
-thumbnail: assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig1-proposed-method.png
+thumbnail: assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig1-proposed-method.png
 bibliography: papers.bib
 toc:
   beginning: true
 lang: ko
-permalink: /papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/
-en_url: /en/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/
+permalink: /papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/
+en_url: /en/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/
 ---
 
 {% include lang_toggle.html %}
@@ -103,7 +103,7 @@ K-means 의 K 를 어떻게 고를지에 대한 두 표준 지표.
 전체 파이프라인은 한 그림으로 요약된다.
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig1-proposed-method.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig1-proposed-method.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 1: 제안된 파이프라인. (1) 데이터 수집 → (2) 전처리: 결측치 처리·feature scaling·feature encoding → (3) K-means clustering: Elbow / Silhouette 로 K 결정 → (4) LIME 기반 explainability."
    zoomable=true %}
@@ -139,7 +139,7 @@ $$
 로 centroid 를 다시 계산한다. 수렴 또는 max iter 까지 반복. 알고리즘 흐름이 Fig. 2 에 정리돼 있다.
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig2-kmeans-flowchart.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig2-kmeans-flowchart.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 2: K-means clustering 알고리즘. K 결정 → 초기 centroid 할당 → 점 → 가까운 centroid 할당 → centroid 재계산 → 재할당 발생 시 반복 → 최종 클러스터 출력."
    zoomable=true %}
@@ -153,7 +153,7 @@ $$
 앞서 *관련 연구* 절에서 정리한 두 지표를 그대로 적용. 본 논문은 K=2 ~ K=10 범위에서 WCSS 를 계산해 그래프를 그렸고, K=3 또는 K=4 에서 elbow 가 관찰된다. 이후 시각화는 K=4 로 진행한다.
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig9-elbow-method.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig9-elbow-method.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 9: Elbow Method 로 본 WCSS vs K 곡선. K=1 → 2 에서 가장 큰 감소가 일어나고 K=4 ~ 5 부근에서 곡선이 완만해진다. 본 논문은 K=3 또는 K=4 를 optimal 로 보고 시각화는 K=4 로 진행."
    zoomable=true %}
@@ -241,7 +241,7 @@ LIME 을 K-means 출력에 사후 적용하는 절차가 5절 알고리즘 2 로
 ### 4개 클러스터 (K=4)
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig11-clusters-age-spending.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig11-clusters-age-spending.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 11: 나이 × Spending Score (1-100) 평면에서 본 4개 클러스터. 빨강 = 고지출 (75-100), 보라 = 중상지출 (60-85), 시안 = 중하지출 (30-60), 검정 = 저지출 (5-25). spending score 축으로 거의 완벽히 4 단으로 갈리며, 나이는 클러스터 내에서 골고루 분포한다."
    zoomable=true %}
@@ -251,7 +251,7 @@ LIME 을 K-means 출력에 사후 적용하는 절차가 5절 알고리즘 2 로
 ### LIME 으로 본 결정 요인
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig12-lime-customer-0.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig12-lime-customer-0.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 12: Customer 0 에 대한 LIME 설명. Age ≤ 29 가 weight 10 으로 압도적, Annual Income 39.75-62 가 weight 5, CustomerID 46.5-101.5 가 weight 3."
    zoomable=true %}
@@ -261,7 +261,7 @@ Customer 1 에서도 패턴이 비슷하다 — `Age ≤ 29` 가 weight 14, `Cus
 ### 모델 성능 비교
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/tab1-tab2-performance.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/tab1-tab2-performance.png"
    class="img-fluid rounded z-depth-1"
    caption="Tables 1 & 2: 제안된 K-Means+LIME 이 모든 베이스라인 (Linear Regression, Decision Tree, KNN) 과 비지도 비교군 (GMM, DBSCAN) 에서 가장 낮은 MSE/MAE 를 기록."
    zoomable=true %}
@@ -278,7 +278,7 @@ Customer 1 에서도 패턴이 비슷하다 — `Age ≤ 29` 가 weight 14, `Cus
 | DBSCAN | 1.5000 | 1.250 |
 
 {% include figure.liquid loading="eager"
-   path="assets/img/papers/0008-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig14-comparison.png"
+   path="assets/img/papers/0009-personalized-marketing-leveraging-ai-for-culturally-aware-se/fig14-comparison.png"
    class="img-fluid rounded z-depth-1"
    caption="Figure 14: K-Means(+LIME) vs GMM vs DBSCAN 의 MSE/MAE 비교 — K-Means+LIME 가 (0.9212, 0.9874) 로 가장 낮다."
    zoomable=true %}
