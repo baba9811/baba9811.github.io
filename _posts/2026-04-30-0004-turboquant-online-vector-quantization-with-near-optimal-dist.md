@@ -41,7 +41,7 @@ en_url: /en/papers/0004-turboquant-online-vector-quantization-with-near-optimal-
 
 TurboQuant 의 답은 단순하다 — **무작위 직교 회전 한 번**. 단위 구면 $\mathbb{S}^{d-1}$ 위의 임의 점에 균일 무작위 직교행렬 $\Pi$ 를 곱하면 결과도 다시 균일 분포가 되고, 각 좌표가 알려진 베타 분포를 따른다. 이 베타 분포에 대해 미리 1차원 Lloyd-Max 로 codebook 을 만들어 두면, 들어오는 어떤 worst-case 입력에도 그 codebook 그대로 좌표별 양자화하면 된다. 데이터 의존성이 0 이고, codebook 도 인풋과 무관한 상수.
 
-이 논문이 지금 읽을 가치가 있는 이유는 — 이론적으로는 Shannon distortion-rate 함수에 약 2.7배 이내까지 닿는 결과를 깨끗한 닫힌 형태로 보였고, 실용적으로는 KV cache 압축에서 SOTA, ANN 검색에서도 PQ/RaBitQ 를 누르며, **양자화 wall-clock 자체가 PQ 대비 두 자릿수, RaBitQ 대비 세 자릿수 빠르다**는 점이다.
+이 논문이 지금 읽을 가치가 있는 이유는 — 이론적으로는 Shannon distortion-rate 함수에 약 2.7배 이내까지 닿는 결과를 깨끗한 닫힌 형태로 보였고, 실용적으로는 KV cache 압축에서 SOTA, ANN 검색에서도 PQ/RaBitQ 를 누르며, <strong>양자화 wall-clock 자체가 PQ 대비 두 자릿수, RaBitQ 대비 세 자릿수 빠르다</strong>는 점이다.
 
 ## 핵심 기여 (Key Contributions)
 
@@ -137,7 +137,7 @@ $$
 이 bias 를 없애는 두 단계 알고리즘:
 
 1. $(b-1)$ 비트 TurboQuant_mse 를 적용해 $\tilde{\boldsymbol{x}} = Q_{\text{mse}}^{-1}(Q_{\text{mse}}(\boldsymbol{x}))$ 를 얻고 잔차 $\boldsymbol{r} = \boldsymbol{x} - \tilde{\boldsymbol{x}}$ 를 계산. 잔차의 $L_2$ norm 은 $\mathbb{E}\|\boldsymbol{r}\|_2 = \sqrt{\mathcal{C}(f_X, b-1)}$ 로 작다.
-2. 잔차에 QJL 을 적용 — 추가 무작위 행렬 $\boldsymbol{S} \in \mathbb{R}^{d \times d}$ (i.i.d. $\mathcal{N}(0, 1)$) 로 $\text{sign}(\boldsymbol{S} \boldsymbol{r})$ 만 저장. **추가로 잔차 norm $\|\boldsymbol{r}\|_2$ 를 floating-point 로 같이 저장**한다 (이게 디코딩 시 스케일 회복에 결정적).
+2. 잔차에 QJL 을 적용 — 추가 무작위 행렬 $\boldsymbol{S} \in \mathbb{R}^{d \times d}$ (i.i.d. $\mathcal{N}(0, 1)$) 로 $\text{sign}(\boldsymbol{S} \boldsymbol{r})$ 만 저장. <strong>추가로 잔차 norm $\|\boldsymbol{r}\|_2$ 를 floating-point 로 같이 저장</strong>한다 (이게 디코딩 시 스케일 회복에 결정적).
 
 알고리즘 의사코드:
 
@@ -222,7 +222,7 @@ TurboQuant 자체에는 학습 단계가 없다. 모든 실험은 단일 NVIDIA 
 | 4.3 LongBench-E (Bai et al. 2023, length-uniform 부분집합) | Llama-3.1-8B-Instruct + Ministral-7B-Instruct | 2.5 / 3.5 비트 (channel-wise outlier 분리) | KIVI, PolarQuant, Full Cache |
 | 4.4 ANN search recall@1@k | GloVe d=200 (10K query), OpenAI3 d=1536/3072 (1K query), 100K DB | 2 / 4 비트 | PQ (LUT256), RaBitQ |
 
-**2.5 / 3.5 비트의 의미**: 비트 예산은 채널을 outlier vs non-outlier 두 셋으로 나누고 각각에 다른 비트폭을 할당해 평균을 맞춘다. 예 — 2.5 비트 setup 에서는 32 outlier channel 을 3 비트로, 나머지 96 channel 을 2 비트로 양자화 → effective $(32 \times 3 + 96 \times 2)/128 = 2.5$. 이 outlier 처리 전략은 SmoothQuant (Xiao et al. 2023), RotateKV (Su et al. 2025) 등 prior work 와 일관. **키-값 비대칭 분리가 아니라 채널별 outlier 처리**다.
+**2.5 / 3.5 비트의 의미**: 비트 예산은 채널을 outlier vs non-outlier 두 셋으로 나누고 각각에 다른 비트폭을 할당해 평균을 맞춘다. 예 — 2.5 비트 setup 에서는 32 outlier channel 을 3 비트로, 나머지 96 channel 을 2 비트로 양자화 → effective $(32 \times 3 + 96 \times 2)/128 = 2.5$. 이 outlier 처리 전략은 SmoothQuant (Xiao et al. 2023), RotateKV (Su et al. 2025) 등 prior work 와 일관. <strong>키-값 비대칭 분리가 아니라 채널별 outlier 처리</strong>다.
 
 PQ 는 비교 fairness 를 위해 LUT256 (256-codeword) + 2비트 setup 은 4 좌표/lookup, 4비트 setup 은 2 좌표/lookup 으로 튜닝. PQ 는 학습/평가에 같은 dataset 을 쓰는 fair-but-slightly-favourable setup. RaBitQ 는 vectorize 불가로 CPU 만 돌고 claim 한 비트 비율보다 실제 사용 비트가 더 많다.
 

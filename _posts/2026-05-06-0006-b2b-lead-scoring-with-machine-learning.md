@@ -29,7 +29,7 @@ en_url: /en/papers/0006-b2b-lead-scoring-with-machine-learning/
 
 ## TL;DR
 
-- 제품 설계·제조용 소프트웨어를 파는 B2B SME의 실제 CRM 데이터를 가지고 **15개 분류 알고리즘을 PyCaret 한 번에 돌려 비교**한 응용 연구. 한 회사의 진짜 운영 데이터 (4년 4개월) 라는 점에서 toy benchmark 와는 결이 다르다.
+- 제품 설계·제조용 소프트웨어를 파는 B2B SME의 실제 CRM 데이터를 가지고 <strong>15개 분류 알고리즘을 PyCaret 한 번에 돌려 비교</strong>한 응용 연구. 한 회사의 진짜 운영 데이터 (4년 4개월) 라는 점에서 toy benchmark 와는 결이 다르다.
 - **Gradient Boosting Classifier가 압도적 1위**: Accuracy 0.9839, AUC 0.9891, Recall 0.9586, Precision 0.9106, F1 0.9338, Kappa 0.9247, MCC 0.9252. LightGBM·XGBoost·Logistic Regression 이 비슷하게 따라붙는다. KS 통계량 0.953 at threshold 0.279 — 두 클래스를 거의 완전히 분리.
 - 변수 중요도 1–3위는 **Lead Source, Reason for State, Lead Classification**. 즉 *어디서 왔는지·현재 상태가 왜 이 상태인지·과거 분류 라벨이 무엇인지* 가 "이 리드가 sales-qualified 가 될 확률" 의 거의 전부를 설명한다. 행동 신호 (이메일 클릭, 웹 방문) 보다 sales rep 이 입력하는 status 메타데이터가 더 강력하다는 점이 흥미롭다.
 - 클래스 불균형 (negative 14,600 vs positive 2,000) 에서 SMOTE 를 시도했지만 PR-AUC·F1 이 오히려 떨어져서 **불균형 그대로 학습**. 의사결정 임계값을 조정해 운영. 이 디테일이 실무자에게는 가장 큰 교훈일 수 있다.
