@@ -71,7 +71,7 @@ PVM's design draws on Geva et al. (2021) — the result that Transformer feed-fo
 
 ### Visual Signal Dilution: theoretical setup
 
-For a query $\mathbf{q}\_t$ at the current step, let $s\_k(\mathbf{q}\_t) = (\mathbf{q}\_t^{\top} \mathbf{k}\_k) / \sqrt{d}$ be the unnormalized score for the $k$-th context token. Partition the context into the visual set $\mathcal{V}$ ($|\mathcal{V}| = M$, fixed) and the textual history $\mathcal{T}\_t$ ($|\mathcal{T}\_t| = t$, monotonically growing). Decompose the softmax denominator into the two aggregate unnormalized masses:
+For a query $\mathbf{q}\_t$ at the current step, let $s\_k(\mathbf{q}\_t) = (\mathbf{q}\_t^{\top} \mathbf{k}\_k) / \sqrt{d}$ be the unnormalized score for the $k$-th context token. Partition the context into the visual set $\mathcal{V}$ ($\|\mathcal{V}\| = M$, fixed) and the textual history $\mathcal{T}\_t$ ($\|\mathcal{T}\_t\| = t$, monotonically growing). Decompose the softmax denominator into the two aggregate unnormalized masses:
 
 $$
 Z_{\mathcal{V}}(\mathbf{q}_t) = \sum_{k \in \mathcal{V}} \exp(s_k(\mathbf{q}_t)), \quad Z_{\mathcal{T}}(\mathbf{q}_t, t) = \sum_{k \in \mathcal{T}_t} \exp(s_k(\mathbf{q}_t)).

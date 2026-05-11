@@ -70,7 +70,7 @@ PVM의 design 모티브 중 하나는 Geva et al. (EMNLP 2021)의 *Transformer F
 
 ### Visual Signal Dilution: 이론적 분석
 
-현재 query vector $\mathbf{q}\_t$에 대해, $k$번째 컨텍스트 토큰의 unnormalized attention score는 $s\_k(\mathbf{q}\_t) = (\mathbf{q}\_t^{\top} \mathbf{k}\_k) / \sqrt{d}$. 컨텍스트는 visual set $\mathcal{V}$ ($|\mathcal{V}| = M$, 고정) 와 textual history $\mathcal{T}\_t$ ($|\mathcal{T}\_t| = t$, 단조 증가) 로 나뉜다. Softmax denominator를 두 부분의 aggregate unnormalized mass로 분해하면:
+현재 query vector $\mathbf{q}\_t$에 대해, $k$번째 컨텍스트 토큰의 unnormalized attention score는 $s\_k(\mathbf{q}\_t) = (\mathbf{q}\_t^{\top} \mathbf{k}\_k) / \sqrt{d}$. 컨텍스트는 visual set $\mathcal{V}$ ($\|\mathcal{V}\| = M$, 고정) 와 textual history $\mathcal{T}\_t$ ($\|\mathcal{T}\_t\| = t$, 단조 증가) 로 나뉜다. Softmax denominator를 두 부분의 aggregate unnormalized mass로 분해하면:
 
 $$
 Z_{\mathcal{V}}(\mathbf{q}_t) = \sum_{k \in \mathcal{V}} \exp(s_k(\mathbf{q}_t)), \quad Z_{\mathcal{T}}(\mathbf{q}_t, t) = \sum_{k \in \mathcal{T}_t} \exp(s_k(\mathbf{q}_t)).
