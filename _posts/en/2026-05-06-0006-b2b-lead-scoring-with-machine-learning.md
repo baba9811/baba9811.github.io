@@ -95,7 +95,7 @@ The whole pipeline fits in Figure 3: Raw data → EDA → Preprocessing → Trai
 
 ### Exploratory analysis and outliers
 
-Tukey's rule ($Q_1 - 1.5 \times IQR$, $Q_3 + 1.5 \times IQR$) gives a per-variable outlier rate (Table 2):
+Tukey's rule ($Q\_1 - 1.5 \times IQR$, $Q\_3 + 1.5 \times IQR$) gives a per-variable outlier rate (Table 2):
 
 | Variable | Outlier rate | Action |
 |----------|---|---|
@@ -174,7 +174,7 @@ $$
 F_m(x) = F_{m-1}(x) + \nu \cdot h_m(x), \quad h_m \approx -\nabla_F \mathcal{L}
 $$
 
-with $\nu$ the learning rate (0.1 here), $h_m$ a depth-3 regression tree, and 100 boosting stages. The split criterion is sklearn's `friedman_mse`. The full hyperparameter set the authors report (Figure 10):
+with $\nu$ the learning rate (0.1 here), $h\_m$ a depth-3 regression tree, and 100 boosting stages. The split criterion is sklearn's `friedman_mse`. The full hyperparameter set the authors report (Figure 10):
 
 ```text
 GradientBoostingClassifier(

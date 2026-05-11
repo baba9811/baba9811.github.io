@@ -119,7 +119,7 @@ $$
 \mathcal{L}_\text{Distill}(\theta) = \mathbb{E}_{x_0, z, t}\Big[ \big\| v_{\theta, t} - v_t \big\|_2^2 + \big\| u_{\theta, t} - v_t + t \cdot \frac{d u_{\theta^{-}, t}}{d t} \big\|_2^2 \Big]
 $$
 
-$v_t$ 는 target velocity, $v_{\theta,t}$ 와 $u_{\theta,t}$ 는 디코더의 두 출력. JVP (Jacobian-Vector Product) 텀은 UCGM (Sun et al., 2025) 의 second-order 차분으로 근사한다. Stage 별 학습:
+$v\_t$ 는 target velocity, $v\_{\theta,t}$ 와 $u\_{\theta,t}$ 는 디코더의 두 출력. JVP (Jacobian-Vector Product) 텀은 UCGM (Sun et al., 2025) 의 second-order 차분으로 근사한다. Stage 별 학습:
 
 - **Stage 1 — Warm-up.** semantic processor freeze, 나머지만 업데이트.
 - **Stage 2 — Multi-domain Generalization.** 전체 unfreeze.
@@ -135,7 +135,7 @@ $$
 s_i = \alpha \cdot \tilde{l}_i + (1 - \alpha) \cdot c_i
 $$
 
-여기서 $\tilde{l}_i$ 는 mean-normalized key norm, $c_i = \max_v p_\theta(v \mid x_t)$ 는 top-1 confidence, $\alpha = 0.5$. Modality 별로 다른 keep ratio 사용 — image token 은 공간 중복성이 크므로 더 공격적으로 prune ($r_\text{img} = 0.8$), text token 은 명령어/추론 chain 을 담고 있어 보존 ($r_\text{text} = 1.0$).
+여기서 $\tilde{l}\_i$ 는 mean-normalized key norm, $c\_i = \max\_v p\_\theta(v \mid x\_t)$ 는 top-1 confidence, $\alpha = 0.5$. Modality 별로 다른 keep ratio 사용 — image token 은 공간 중복성이 크므로 더 공격적으로 prune ($r\_\text{img} = 0.8$), text token 은 명령어/추론 chain 을 담고 있어 보존 ($r\_\text{text} = 1.0$).
 
 **Non-uniform Token Unmasking** — 표준 schedule 은 step 당 $\lceil m/T \rceil$ 개를 일정하게 unmask 하지만, 모델 confidence 가 이미 높은 위치는 빨리 풀고 낮은 위치는 천천히 푼다. confidence 가 threshold $\tau$ (≈0.93) 를 넘는 모든 위치를 한 번에 accept:
 
@@ -155,10 +155,10 @@ $$
 
 핵심 식 풀이.
 
-- 시퀀스를 $K$ 개 블록으로 나눠 ($K = L_\text{total} / L_B$, $L_B$ = 블록 길이) 블록별로 합.
-- $-\alpha'_t / (1 - \alpha_t)$ 는 디퓨전 시간 가중치 — denoising 시간 $t$ 에서의 노이즈 변화율.
+- 시퀀스를 $K$ 개 블록으로 나눠 ($K = L\_\text{total} / L\_B$, $L\_B$ = 블록 길이) 블록별로 합.
+- $-\alpha'\_t / (1 - \alpha\_t)$ 는 디퓨전 시간 가중치 — denoising 시간 $t$ 에서의 노이즈 변화율.
 - 지시함수 $\mathbb{1}[\cdot]$ 으로 mask 된 토큰에 대해서만 loss.
-- 조건은 *이전 블록의 깨끗한 버전* $x_{0, <k}$ + 현재 블록의 노이즈 버전 $x_{t,k}$ — 즉 블록 간엔 AR, 블록 내엔 디퓨전.
+- 조건은 *이전 블록의 깨끗한 버전* $x\_{0, <k}$ + 현재 블록의 노이즈 버전 $x\_{t,k}$ — 즉 블록 간엔 AR, 블록 내엔 디퓨전.
 
 ### SFT — Mask Token Reweighting Loss
 
@@ -168,9 +168,9 @@ $$
 \mathcal{L}_\text{MTRS} = \frac{\sum_j \beta_j \mathcal{L}_\text{SFT}^{(j)}}{\sum_j \beta_j}, \quad \beta_j = \frac{1}{\sqrt{\sum_{k=1}^K \sum_{i=1}^{L_B} \mathbb{1}[x^{i, (j)}_{t, k} = \text{[MASK]}]}}
 $$
 
-샘플 $j$ 별 가중치 $\beta_j$ 가 mask 된 토큰 수의 inverse square root. 의도는 길이 분산이 두 자릿수 차이까지 나는 SFT 데이터를 다룰 때 — 토큰 평균 loss 면 긴 샘플이 gradient 를 지배하고, 샘플 평균이면 짧은 샘플이 과대 평가된다. inverse-sqrt 가 그 사이 균형.
+샘플 $j$ 별 가중치 $\beta\_j$ 가 mask 된 토큰 수의 inverse square root. 의도는 길이 분산이 두 자릿수 차이까지 나는 SFT 데이터를 다룰 때 — 토큰 평균 loss 면 긴 샘플이 gradient 를 지배하고, 샘플 평균이면 짧은 샘플이 과대 평가된다. inverse-sqrt 가 그 사이 균형.
 
-추가로 **Complementary Masking** 도 적용. 한 sequence $x_0$ 에서 두 antithetical 학습 instance 를 만든다 — primary $x_t$ 와 inverse mask 의 $x'_t$. 이렇게 만들면 모든 토큰이 정확히 한 번씩 corrupted, token-level sampling bias 를 제거하고 효과적인 정보 활용을 두 배로 만든다.
+추가로 **Complementary Masking** 도 적용. 한 sequence $x\_0$ 에서 두 antithetical 학습 instance 를 만든다 — primary $x\_t$ 와 inverse mask 의 $x'\_t$. 이렇게 만들면 모든 토큰이 정확히 한 번씩 corrupted, token-level sampling bias 를 제거하고 효과적인 정보 활용을 두 배로 만든다.
 
 ### Flow Matching Loss (디퓨전 디코더)
 
@@ -178,7 +178,7 @@ $$
 \mathcal{L}_\text{FM}(\theta) = \mathbb{E}_{x_0, x_1, z, t}\big[\| v_{\theta, t}(x_t, z) - v_t \|_2^2\big]
 $$
 
-$z$ 는 조건이 되는 의미 visual token, $v_{\theta,t}$ 는 timestep $t$ 에서의 예측 velocity, $v_t$ 는 target velocity. Lipman et al. 의 표준 flow matching 목표.
+$z$ 는 조건이 되는 의미 visual token, $v\_{\theta,t}$ 는 timestep $t$ 에서의 예측 velocity, $v\_t$ 는 target velocity. Lipman et al. 의 표준 flow matching 목표.
 
 ### Load Balancing — Auxiliary-loss-free MoE Bias
 

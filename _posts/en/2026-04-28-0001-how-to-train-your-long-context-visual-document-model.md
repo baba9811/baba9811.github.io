@@ -185,7 +185,7 @@ $$
 + \mathcal{L}_{\text{NLL}}
 $$
 
-The key is that the **reference policy in the denominator sees short context $x_S$**, sidestepping the standard DPO failure where the reference model goes OOD on long inputs. With $\beta = 0.1$, $\lambda = 0.01$, the NLL is the dominant signal and preference is a gentle nudge.
+The key is that the **reference policy in the denominator sees short context $x\_S$**, sidestepping the standard DPO failure where the reference model goes OOD on long inputs. With $\beta = 0.1$, $\lambda = 0.01$, the NLL is the dominant signal and preference is a gentle nudge.
 
 ## Training Data and Pipeline
 

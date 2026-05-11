@@ -44,7 +44,7 @@ What makes the paper worth reading right now is the combination. First, it provi
 
 ## Key Contributions
 
-- **Theorem 3.1: a formal characterization of Visual Signal Dilution.** By decomposing the softmax partition function into visual ($Z_{\mathcal{V}}$) and textual ($Z_{\mathcal{T}}$) aggregate masses, the authors prove that the visual attention mass $\Omega_{\mathcal{V}}(t)$ asymptotically decays as $\mathcal{O}(t^{-1})$. They further characterize a *Low-Attention Equilibrium* in the saturation phase, where dilution halts but the visual mass plateaus orders of magnitude below the textual mass.
+- **Theorem 3.1: a formal characterization of Visual Signal Dilution.** By decomposing the softmax partition function into visual ($Z\_{\mathcal{V}}$) and textual ($Z\_{\mathcal{T}}$) aggregate masses, the authors prove that the visual attention mass $\Omega\_{\mathcal{V}}(t)$ asymptotically decays as $\mathcal{O}(t^{-1})$. They further characterize a *Low-Attention Equilibrium* in the saturation phase, where dilution halts but the visual mass plateaus orders of magnitude below the textual mass.
 - **PVM as a parallel retrieval architecture.** A bottleneck branch (Projection → Cross-Attn → FFN → Restoration) runs alongside the frozen FFN, with a Visual Silencing Mask and a learnable gate $\lambda$. The retrieval module's partition function is *confined to $\mathcal{V}$*, giving a *local invariance property* (Theorem 4.1) that decouples visual relevance from $t$ at the algebraic level.
 - **Robust, scalable empirical wins on 8 benchmarks.** +4.8 average on 8B, +4.4 on 4B — a consistent gain across model scales. Length-stratified analysis shows the relative improvement grows monotonically with output length, a direct experimental signature of the dilution theorem.
 - **Mechanistic evidence via LogitLens.** PVM's KL-divergence trajectory drops more steeply right after Layer 8 and opens a clear *Improvement Gap* against strong baselines as depth increases — internal predictions are not just more accurate, they converge faster.
@@ -71,7 +71,7 @@ PVM's design draws on Geva et al. (2021) — the result that Transformer feed-fo
 
 ### Visual Signal Dilution: theoretical setup
 
-For a query $\mathbf{q}_t$ at the current step, let $s_k(\mathbf{q}_t) = (\mathbf{q}_t^{\top} \mathbf{k}_k) / \sqrt{d}$ be the unnormalized score for the $k$-th context token. Partition the context into the visual set $\mathcal{V}$ ($|\mathcal{V}| = M$, fixed) and the textual history $\mathcal{T}_t$ ($|\mathcal{T}_t| = t$, monotonically growing). Decompose the softmax denominator into the two aggregate unnormalized masses:
+For a query $\mathbf{q}\_t$ at the current step, let $s\_k(\mathbf{q}\_t) = (\mathbf{q}\_t^{\top} \mathbf{k}\_k) / \sqrt{d}$ be the unnormalized score for the $k$-th context token. Partition the context into the visual set $\mathcal{V}$ ($|\mathcal{V}| = M$, fixed) and the textual history $\mathcal{T}\_t$ ($|\mathcal{T}\_t| = t$, monotonically growing). Decompose the softmax denominator into the two aggregate unnormalized masses:
 
 $$
 Z_{\mathcal{V}}(\mathbf{q}_t) = \sum_{k \in \mathcal{V}} \exp(s_k(\mathbf{q}_t)), \quad Z_{\mathcal{T}}(\mathbf{q}_t, t) = \sum_{k \in \mathcal{T}_t} \exp(s_k(\mathbf{q}_t)).
@@ -83,7 +83,7 @@ $$
 \Omega_{\mathcal{V}}(t) := \sum_{k \in \mathcal{V}} \alpha_{t, k} = \frac{Z_{\mathcal{V}}(\mathbf{q}_t)}{Z_{\mathcal{V}}(\mathbf{q}_t) + Z_{\mathcal{T}}(\mathbf{q}_t, t)}.
 $$
 
-The asymmetry between the two terms drives everything. $Z_{\mathcal{V}}$ has at most $M$ summands and is upper-bounded by $\beta = M \cdot \exp(s_{\max})$ thanks to input normalization. $Z_{\mathcal{T}}$, under a *persistent textual relevance* assumption ($t^{-1} Z_{\mathcal{T}}(\mathbf{q}_t, t) \ge \mu > 0$), accumulates **linearly** with $t$.
+The asymmetry between the two terms drives everything. $Z\_{\mathcal{V}}$ has at most $M$ summands and is upper-bounded by $\beta = M \cdot \exp(s\_{\max})$ thanks to input normalization. $Z\_{\mathcal{T}}$, under a *persistent textual relevance* assumption ($t^{-1} Z\_{\mathcal{T}}(\mathbf{q}\_t, t) \ge \mu > 0$), accumulates **linearly** with $t$.
 
 #### Theorem 3.1 (Visual Signal Dilution)
 
@@ -93,11 +93,11 @@ $$
 \Omega_{\mathcal{V}}(t) \le \frac{\beta}{\beta + \mu \cdot t} = \mathcal{O}(t^{-1}). \tag{2}
 $$
 
-The proof is one substitution: plug $Z_{\mathcal{V}} \le \beta$ and $Z_{\mathcal{T}} \ge \mu t$ into the definition of $\Omega_{\mathcal{V}}$, and the linear $\mu t$ term in the denominator dominates as $t$ grows.
+The proof is one substitution: plug $Z\_{\mathcal{V}} \le \beta$ and $Z\_{\mathcal{T}} \ge \mu t$ into the definition of $\Omega\_{\mathcal{V}}$, and the linear $\mu t$ term in the denominator dominates as $t$ grows.
 
 #### Phase II: the high-magnitude saturation trap
 
-In practice, $Z_{\mathcal{T}}$ does not grow forever. Once $t$ exceeds the effective attention window $W_{\text{eff}}$, the textual mass plateaus at $Z_{\mathcal{T}}^{\text{sat}}$. But saturation does *not* rescue the visual signal — instead, the system locks into a *Low-Attention Equilibrium*:
+In practice, $Z\_{\mathcal{T}}$ does not grow forever. Once $t$ exceeds the effective attention window $W\_{\text{eff}}$, the textual mass plateaus at $Z\_{\mathcal{T}}^{\text{sat}}$. But saturation does *not* rescue the visual signal — instead, the system locks into a *Low-Attention Equilibrium*:
 
 $$
 \lim_{t \to \infty} \Omega_{\mathcal{V}}(t) \approx \frac{\mathbb{E}[Z_{\mathcal{V}}]}{Z_{\mathcal{T}}^{\text{sat}}} \ll 1.
@@ -112,7 +112,7 @@ The authors stress-test Qwen3-VL-8B-Instruct on a COCO 2017 subset using a *Blin
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/fig2-3-dilution-empirical.png"
    class="img-fluid rounded z-depth-1"
-   caption="Figures 2, 3: Empirical verification of visual signal dilution. (Left) On a log scale, $\\Omega_{\\mathcal{V}}$ tracks the $\\mathcal{O}(t^{-1})$ trajectory predicted by Theorem 3.1. (Right) The Text-to-Visual Ratio (TVR) follows the two-phase mechanism — linear accumulation, then a saturation plateau where textual priors structurally overwhelm visual signals."
+   caption="Figures 2, 3: Empirical verification of visual signal dilution. (Left) On a log scale, $\\Omega\_{\\mathcal{V}}$ tracks the $\\mathcal{O}(t^{-1})$ trajectory predicted by Theorem 3.1. (Right) The Text-to-Visual Ratio (TVR) follows the two-phase mechanism — linear accumulation, then a saturation plateau where textual priors structurally overwhelm visual signals."
    zoomable=true %}
 
 A layer-wise breakdown reveals the decay is not uniform — *intermediate layers 8-27* suffer the steepest drop, which is exactly where multimodal reasoning lives. That's a natural place to insert a retrieval module.
@@ -143,32 +143,32 @@ PVM operationalizes both insights directly.
 
 The MHSA output hidden state $\mathbf{x} \in \mathbb{R}^d$ branches into two:
 
-- **Reasoning Path (Original):** $\mathbf{h}_{\text{ffn}} = \text{FFN}(\mathbf{x})$. The frozen FFN keeps the model's pretrained static knowledge and logical patterns intact.
+- **Reasoning Path (Original):** $\mathbf{h}\_{\text{ffn}} = \text{FFN}(\mathbf{x})$. The frozen FFN keeps the model's pretrained static knowledge and logical patterns intact.
 - **Looking Path (PVM):** the same $\mathbf{x}$ acts as the Query for a dedicated retrieval module that pulls visual details on demand.
 
 #### The PVM module: three stages
 
-For parameter efficiency, PVM operates in a projected latent space $d' < d$. Visual features are $\mathbf{V}_{\text{img}} \in \mathbb{R}^{M \times d}$.
+For parameter efficiency, PVM operates in a projected latent space $d' < d$. Visual features are $\mathbf{V}\_{\text{img}} \in \mathbb{R}^{M \times d}$.
 
-1. **Projection.** Two independent reducers $\mathbf{W}_{\text{down}}^{\text{txt}}, \mathbf{W}_{\text{down}}^{\text{vis}} \in \mathbb{R}^{d \times d'}$ map the hidden state and the visual features into the latent space:
+1. **Projection.** Two independent reducers $\mathbf{W}\_{\text{down}}^{\text{txt}}, \mathbf{W}\_{\text{down}}^{\text{vis}} \in \mathbb{R}^{d \times d'}$ map the hidden state and the visual features into the latent space:
 
    $$
    \mathbf{x}_{\text{lat}} = \mathbf{x} \mathbf{W}_{\text{down}}^{\text{txt}}, \quad \mathbf{V}_{\text{lat}} = \mathbf{V}_{\text{img}} \mathbf{W}_{\text{down}}^{\text{vis}}.
    $$
 
-2. **Latent Retrieval.** A cross-attention layer with Q = $\mathbf{x}_{\text{lat}}$ and K = V = $\mathbf{V}_{\text{lat}}$. This is the load-bearing piece of the design: the attention domain is restricted entirely to $\mathcal{V}$, realizing *independent attention normalization*. A lightweight latent FFN follows:
+2. **Latent Retrieval.** A cross-attention layer with Q = $\mathbf{x}\_{\text{lat}}$ and K = V = $\mathbf{V}\_{\text{lat}}$. This is the load-bearing piece of the design: the attention domain is restricted entirely to $\mathcal{V}$, realizing *independent attention normalization*. A lightweight latent FFN follows:
 
    $$
    \mathbf{h}_{\text{attn}} = \text{CrossAttn}(Q = \mathbf{x}_{\text{lat}}, K = \mathbf{V}_{\text{lat}}, V = \mathbf{V}_{\text{lat}}), \quad \mathbf{h}_{\text{lat}} = \mathbf{h}_{\text{attn}} + \text{FFN}_{\text{lat}}(\text{RMSNorm}(\mathbf{h}_{\text{attn}})).
    $$
 
-3. **Restoration.** An up-projection $\mathbf{W}_{\text{up}} \in \mathbb{R}^{d' \times d}$ maps back to the model dimension: $\mathbf{h}_{\text{pvm}} = \mathbf{h}_{\text{lat}} \mathbf{W}_{\text{up}}$.
+3. **Restoration.** An up-projection $\mathbf{W}\_{\text{up}} \in \mathbb{R}^{d' \times d}$ maps back to the model dimension: $\mathbf{h}\_{\text{pvm}} = \mathbf{h}\_{\text{lat}} \mathbf{W}\_{\text{up}}$.
 
 #### Gated fusion with selective activation
 
 Two safeguards control how PVM injects into the main stream:
 
-- **Visual Silencing Mask** $\mathcal{M}_{\text{txt}} \in \{0, 1\}^L$: 1 for text tokens, 0 for image tokens. This blocks the self-reflexive loop where visual tokens would retrieve themselves.
+- **Visual Silencing Mask** $\mathcal{M}\_{\text{txt}} \in \{0, 1\}^L$: 1 for text tokens, 0 for image tokens. This blocks the self-reflexive loop where visual tokens would retrieve themselves.
 - **Learnable scalar gate $\lambda$**: initialized to 0, so PVM contributes nothing at the start of training. Pretrained capabilities are preserved during the warm-up.
 
 Final fusion:
@@ -182,28 +182,28 @@ The full forward pass:
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/algo1-forward-pass.png"
    class="img-fluid rounded z-depth-1"
-   caption="Algorithm 1: Forward pass of a PVM-enhanced Transformer block. Stage 1 runs standard self-attention. Stage 2 bifurcates into the frozen FFN (Path A) and the PVM branch (Path B), which compresses to latent space (B1), runs gated cross-attention plus a latent FFN (B2), then restores and applies the silencing mask (B3). Stage 3 fuses everything via $\\mathbf{y} = \\mathbf{x} + \\mathbf{h}_{\\text{ffn}} + \\text{injection}$."
+   caption="Algorithm 1: Forward pass of a PVM-enhanced Transformer block. Stage 1 runs standard self-attention. Stage 2 bifurcates into the frozen FFN (Path A) and the PVM branch (Path B), which compresses to latent space (B1), runs gated cross-attention plus a latent FFN (B2), then restores and applies the silencing mask (B3). Stage 3 fuses everything via $\\mathbf{y} = \\mathbf{x} + \\mathbf{h}\_{\\text{ffn}} + \\text{injection}$."
    zoomable=true %}
 
 ### Theorem 4.1: structural mitigation of dilution
 
-In the PVM branch, let $\psi_k = \frac{1}{\sqrt{d'}} \mathbf{x} \mathbf{W}_Q (\mathbf{v}_k \mathbf{W}_K)^{\top}$ be the unnormalized score for the $k$-th visual token, and let $\beta_k(\mathbf{x}) = \exp(\psi_k) / Z_{\text{pvm}}(\mathbf{x})$ denote the probability mass. The crucial observation:
+In the PVM branch, let $\psi\_k = \frac{1}{\sqrt{d'}} \mathbf{x} \mathbf{W}\_Q (\mathbf{v}\_k \mathbf{W}\_K)^{\top}$ be the unnormalized score for the $k$-th visual token, and let $\beta\_k(\mathbf{x}) = \exp(\psi\_k) / Z\_{\text{pvm}}(\mathbf{x})$ denote the probability mass. The crucial observation:
 
 $$
 Z_{\text{pvm}}(\mathbf{x}) = \sum_{j \in \mathcal{V}} \exp(\psi_j)
 $$
 
-depends only on the fixed visual set $\mathcal{V}$. Sequence length $t$ does not appear anywhere in the definition — neither in the score $\psi_k$ nor in the summation index.
+depends only on the fixed visual set $\mathcal{V}$. Sequence length $t$ does not appear anywhere in the definition — neither in the score $\psi\_k$ nor in the summation index.
 
-**Theorem 4.1 (Structural Mitigation of Visual Dilution).** Conditioning on a fixed local hidden state $\mathbf{x}$, the retrieval representation $\mathbf{h}_{\text{pvm}}$ is decoupled from the textual-history length $t$ in its partition function and satisfies the *local invariance property*:
+**Theorem 4.1 (Structural Mitigation of Visual Dilution).** Conditioning on a fixed local hidden state $\mathbf{x}$, the retrieval representation $\mathbf{h}\_{\text{pvm}}$ is decoupled from the textual-history length $t$ in its partition function and satisfies the *local invariance property*:
 
 $$
 \frac{\partial \|\mathbf{h}_{\text{pvm}}\|}{\partial t} = 0.
 $$
 
-This stands in direct contrast with the standard backbone, where $\Omega_{\mathcal{V}}(t) \in \mathcal{O}(t^{-1})$. PVM cuts that dependency at the algebraic level.
+This stands in direct contrast with the standard backbone, where $\Omega\_{\mathcal{V}}(t) \in \mathcal{O}(t^{-1})$. PVM cuts that dependency at the algebraic level.
 
-> The authors are careful to disclose the caveat in Appendix B: in real autoregressive generation, $\mathbf{x}_t$ itself drifts with context, so the *fixed local query* assumption does not hold globally. The structural isolation of the partition function still removes the direct dilution mechanism, but the theorem is a *local* guarantee, not a global one.
+> The authors are careful to disclose the caveat in Appendix B: in real autoregressive generation, $\mathbf{x}\_t$ itself drifts with context, so the *fixed local query* assumption does not hold globally. The structural isolation of the partition function still removes the direct dilution mechanism, but the theorem is a *local* guarantee, not a global one.
 
 ## Training Objective
 
@@ -213,14 +213,14 @@ PVM trains in two stages.
 
 The LLM backbone, vision encoder, and projector are all *frozen*; only the PVM modules and gating scalars $\lambda$ are trained. The objective is standard autoregressive cross-entropy. The point of this stage is purely to align textual queries with the right visual keys — a clean, focused task.
 
-- Data: $\mathcal{D}_{\text{sft}}$, 526k samples filtered from OpenMMReasoner-SFT-874K (Zhang et al., 2025) for visual centricity and answer clarity.
+- Data: $\mathcal{D}\_{\text{sft}}$, 526k samples filtered from OpenMMReasoner-SFT-874K (Zhang et al., 2025) for visual centricity and answer clarity.
 - Hyperparameters: AdamW, LR 1e-4 with cosine schedule, warmup 0.1, global batch 64, gradient accumulation 8.
 
 ### Stage II: Policy Refinement (GRPO)
 
 The LLM backbone and PVM are unfrozen (vision encoder remains frozen), and Group Relative Policy Optimization (Shao et al., 2024) drives complex-reasoning improvements. The point of this stage is to push active visual retrieval into the long CoT.
 
-- Data: $\mathcal{D}_{\text{rl}}$, 3.6k complex reasoning queries aggregated from MMK12, ThinkLite-VL-hard, ViRL39K, and We-Math2.0-Pro. Each query yields 8 rollouts; only the highest-signal samples are kept.
+- Data: $\mathcal{D}\_{\text{rl}}$, 3.6k complex reasoning queries aggregated from MMK12, ThinkLite-VL-hard, ViRL39K, and We-Math2.0-Pro. Each query yields 8 rollouts; only the highest-signal samples are kept.
 - Hyperparameters: AdamW, LR 1e-6 constant, group size $G$=8, max completion length 16384, KL coefficient 0.0.
 
 The GRPO surrogate objective is:
@@ -229,14 +229,14 @@ $$
 \mathcal{L}_{\text{GRPO}}(\theta) = \mathbb{E}_{q, \{o_i\}_{i=1}^G} \left[ \frac{1}{G} \sum_{i=1}^{G} \min\left( \frac{\pi_\theta(o_i \mid q)}{\pi_{\theta_{\text{old}}}(o_i \mid q)} A_i, \, \text{clip}\left(\frac{\pi_\theta(o_i \mid q)}{\pi_{\theta_{\text{old}}}(o_i \mid q)}, 1-\epsilon, 1+\epsilon\right) A_i \right) \right]
 $$
 
-with $A_i = (r_i - \text{mean}(\mathbf{r})) / \text{std}(\mathbf{r})$ as the group-relative advantage. By replacing PPO's critic with group statistics, GRPO trades a separate value model for cheaper memory.
+with $A\_i = (r\_i - \text{mean}(\mathbf{r})) / \text{std}(\mathbf{r})$ as the group-relative advantage. By replacing PPO's critic with group statistics, GRPO trades a separate value model for cheaper memory.
 
 ## Data and Pipeline
 
 | Stage | Dataset | Size | Trainable | Goal |
 |-------|---------|------|-----------|------|
-| Stage I (SFT) | OpenMMReasoner-SFT subset $\mathcal{D}_{\text{sft}}$ | 526k | PVM + gate $\lambda$ (LLM, vision encoder, projector frozen) | Visual memory alignment |
-| Stage II (GRPO) | MMK12 + ThinkLite-VL-hard + ViRL39K + We-Math2.0-Pro $\mathcal{D}_{\text{rl}}$ | 3.6k complex reasoning | LLM + PVM unfrozen, vision encoder frozen | Policy refinement for deep reasoning |
+| Stage I (SFT) | OpenMMReasoner-SFT subset $\mathcal{D}\_{\text{sft}}$ | 526k | PVM + gate $\lambda$ (LLM, vision encoder, projector frozen) | Visual memory alignment |
+| Stage II (GRPO) | MMK12 + ThinkLite-VL-hard + ViRL39K + We-Math2.0-Pro $\mathcal{D}\_{\text{rl}}$ | 3.6k complex reasoning | LLM + PVM unfrozen, vision encoder frozen | Policy refinement for deep reasoning |
 
 | Setting | Value |
 |---------|-------|
@@ -282,7 +282,7 @@ Relative gain grows strictly: Very Short +6.1%, Short +7.3%, Medium +17.0%, Long
 
 ### Mechanistic analysis: prediction convergence
 
-Following Cheng et al. (2026), the authors apply the LogitLens technique (nostalgebraist, 2020; Belrose et al., 2023) to probe internal prediction dynamics. Each intermediate hidden state $\mathbf{h}_\ell$ is projected through the unembedding matrix $\mathbf{E}$ to a vocabulary-space distribution $P_\ell$, and the KL divergence to the final-layer distribution measures how decided the model already is at depth $\ell$:
+Following Cheng et al. (2026), the authors apply the LogitLens technique (nostalgebraist, 2020; Belrose et al., 2023) to probe internal prediction dynamics. Each intermediate hidden state $\mathbf{h}\_\ell$ is projected through the unembedding matrix $\mathbf{E}$ to a vocabulary-space distribution $P\_\ell$, and the KL divergence to the final-layer distribution measures how decided the model already is at depth $\ell$:
 
 $$
 D_{\text{KL}}(P_{\text{final}} \| P_\ell) = \sum_{v=1}^{V} P_{\text{final}}(v) \log \frac{P_{\text{final}}(v)}{P_\ell(v)}.
@@ -364,7 +364,7 @@ A single H200, bfloat16, FlashAttention-2. The 1.18 ms TPOT increase is negligib
 The authors acknowledge the following limitations:
 
 - **Backbone coverage.** Only Qwen3-VL 4B/8B are evaluated. PVM's parallel design is in principle backbone-agnostic, but generalization to InternVL, GLM-4.1V, Pixtral, and Llama-3.2-Vision is left to future work.
-- **Fixed local query assumption.** Theorem 4.1's invariance is local — it conditions on a fixed hidden state $\mathbf{x}$. In real autoregressive decoding, $\mathbf{x}_t$ itself drifts with context, so global invariance is not guaranteed. The paper is honest about this in Appendix B.
+- **Fixed local query assumption.** Theorem 4.1's invariance is local — it conditions on a fixed hidden state $\mathbf{x}$. In real autoregressive decoding, $\mathbf{x}\_t$ itself drifts with context, so global invariance is not guaranteed. The paper is honest about this in Appendix B.
 - **Static visual context.** The work focuses on a single static image. Streaming video or dynamically changing multi-image setups would require a time-varying $\mathcal{V}$ and additional design.
 
 A few additional concerns from the reviewer's side:

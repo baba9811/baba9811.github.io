@@ -74,8 +74,8 @@ $$
 
 - $f$: the black-box model being explained
 - $g$: the interpretable model (linear, tree, etc.)
-- $\pi_x(z)$: a proximity weight that captures how close $z$ is to $x$
-- $\mathcal{L}$: the $\pi_x$-weighted disagreement between $f$ and $g$
+- $\pi\_x(z)$: a proximity weight that captures how close $z$ is to $x$
+- $\mathcal{L}$: the $\pi\_x$-weighted disagreement between $f$ and $g$
 - $\Omega(g)$: a complexity penalty on $g$ (e.g., feature count)
 
 This paper applies LIME **post-hoc to K-means output**. K-means is not a classifier, so the paper effectively trains a *surrogate classifier* on top of the K-means cluster labels and points `LimeTabularExplainer` at that surrogate. Algorithm 2 (§5) lays out the steps.
@@ -86,7 +86,7 @@ The two standard yardsticks for choosing K in K-means.
 
 - **Elbow Method**: sweep K from 1 to 10, compute WCSS (Within-Cluster Sum of Squares, Eq. 3), and look for the *kink* in the curve. On this dataset it sits around K=3-4.
 
-- **Silhouette Score** (Rousseeuw, 1987): for point $i$, $s_i$ compares the mean intra-cluster distance $a_i$ to the mean nearest-cluster distance $b_i$, normalised by max. $s_i \approx 1$ is well-clustered, $\approx 0$ is on a boundary, $< 0$ is probably misclustered.
+- **Silhouette Score** (Rousseeuw, 1987): for point $i$, $s\_i$ compares the mean intra-cluster distance $a\_i$ to the mean nearest-cluster distance $b\_i$, normalised by max. $s\_i \approx 1$ is well-clustered, $\approx 0$ is on a boundary, $< 0$ is probably misclustered.
 
   $$
   s_i = \frac{b_i - a_i}{\max(a_i, b_i)}

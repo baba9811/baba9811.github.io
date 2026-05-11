@@ -94,7 +94,7 @@ B2B 영업은 7단계 컨설티브 세일즈 모델 (Moncrief & Marshall, 2005) 
 
 ### Exploratory data analysis 와 outlier 처리
 
-Tukey rule ($Q_1 - 1.5 \times IQR$, $Q_3 + 1.5 \times IQR$) 로 outlier 비율을 변수별로 측정 (Table 2). 주요 결과:
+Tukey rule ($Q\_1 - 1.5 \times IQR$, $Q\_3 + 1.5 \times IQR$) 로 outlier 비율을 변수별로 측정 (Table 2). 주요 결과:
 
 | 변수 | Outlier 비율 | 처리 |
 |------|---|---|
@@ -173,7 +173,7 @@ $$
 F_m(x) = F_{m-1}(x) + \nu \cdot h_m(x), \quad h_m \approx -\nabla_F \mathcal{L}
 $$
 
-$\nu$ 는 learning rate (이 논문에서는 0.1), $h_m$ 은 max_depth 3 의 회귀 트리, 100 stage. 본 논문은 sklearn 의 `friedman_mse` criterion 으로 split 을 결정. 저자들이 보고한 최종 hyperparameter (Figure 10) 는 다음과 같다:
+$\nu$ 는 learning rate (이 논문에서는 0.1), $h\_m$ 은 max_depth 3 의 회귀 트리, 100 stage. 본 논문은 sklearn 의 `friedman_mse` criterion 으로 split 을 결정. 저자들이 보고한 최종 hyperparameter (Figure 10) 는 다음과 같다:
 
 ```text
 GradientBoostingClassifier(

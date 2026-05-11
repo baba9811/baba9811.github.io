@@ -119,7 +119,7 @@ $$
 \mathcal{L}_\text{Distill}(\theta) = \mathbb{E}_{x_0, z, t}\Big[ \big\| v_{\theta, t} - v_t \big\|_2^2 + \big\| u_{\theta, t} - v_t + t \cdot \frac{d u_{\theta^{-}, t}}{d t} \big\|_2^2 \Big]
 $$
 
-$v_t$ is target velocity, $v_{\theta,t}$ and $u_{\theta,t}$ are the decoder's two outputs. The JVP term is approximated with UCGM's second-order finite difference (Sun et al., 2025). Training is staged:
+$v\_t$ is target velocity, $v\_{\theta,t}$ and $u\_{\theta,t}$ are the decoder's two outputs. The JVP term is approximated with UCGM's second-order finite difference (Sun et al., 2025). Training is staged:
 
 - **Stage 1 — Warm-up**: freeze the semantic processor, update the rest.
 - **Stage 2 — Multi-domain generalization**: unfreeze everything.
@@ -135,7 +135,7 @@ $$
 s_i = \alpha \cdot \tilde{l}_i + (1 - \alpha) \cdot c_i
 $$
 
-where $\tilde{l}_i$ is the mean-normalized key norm, $c_i = \max_v p_\theta(v \mid x_t)$ is the top-1 confidence, and $\alpha = 0.5$. Different keep ratios per modality — image tokens have spatial redundancy and tolerate aggressive pruning ($r_\text{img} = 0.8$), text tokens carry instructions and reasoning chains and are kept fully ($r_\text{text} = 1.0$).
+where $\tilde{l}\_i$ is the mean-normalized key norm, $c\_i = \max\_v p\_\theta(v \mid x\_t)$ is the top-1 confidence, and $\alpha = 0.5$. Different keep ratios per modality — image tokens have spatial redundancy and tolerate aggressive pruning ($r\_\text{img} = 0.8$), text tokens carry instructions and reasoning chains and are kept fully ($r\_\text{text} = 1.0$).
 
 **Non-uniform Token Unmasking.** Instead of unmasking $\lceil m/T \rceil$ tokens per step on a fixed schedule, accept every position whose model confidence already exceeds a threshold $\tau$ (≈0.93):
 
@@ -153,7 +153,7 @@ $$
 \mathcal{L}_\text{BDLM}(\theta) = -\mathbb{E}_{t, x_0, x_t}\left[ \frac{\alpha'_t}{1 - \alpha_t} \sum_{k=1}^{K} \sum_{i=1}^{L_B} \mathbb{1}[x^i_{t,k} = \text{[MASK]}] \cdot \log p_\theta(x^i_{0,k} \mid x_{0, <k}, x_{t,k}) \right]
 $$
 
-In words: split the sequence into $K$ blocks of length $L_B$, sum across blocks. The factor $-\alpha'_t / (1 - \alpha_t)$ is the diffusion-time weighting. The indicator $\mathbb{1}[\cdot]$ restricts the loss to masked tokens. Each block's prediction conditions on **clean previous blocks** $x_{0, <k}$ plus **the noisy current block** $x_{t,k}$ — AR between blocks, diffusion within.
+In words: split the sequence into $K$ blocks of length $L\_B$, sum across blocks. The factor $-\alpha'\_t / (1 - \alpha\_t)$ is the diffusion-time weighting. The indicator $\mathbb{1}[\cdot]$ restricts the loss to masked tokens. Each block's prediction conditions on **clean previous blocks** $x\_{0, <k}$ plus **the noisy current block** $x\_{t,k}$ — AR between blocks, diffusion within.
 
 ### SFT — Mask Token Reweighting Loss
 
@@ -163,9 +163,9 @@ $$
 \mathcal{L}_\text{MTRS} = \frac{\sum_j \beta_j \mathcal{L}_\text{SFT}^{(j)}}{\sum_j \beta_j}, \quad \beta_j = \frac{1}{\sqrt{\sum_{k=1}^K \sum_{i=1}^{L_B} \mathbb{1}[x^{i, (j)}_{t, k} = \text{[MASK]}]}}
 $$
 
-Sample weight $\beta_j$ is inverse square root of the number of masked tokens. The motivation: SFT data lengths span two orders of magnitude. Token-level averaging lets long samples dominate the gradient; sample-level averaging over-credits short samples. Inverse-sqrt sits in between.
+Sample weight $\beta\_j$ is inverse square root of the number of masked tokens. The motivation: SFT data lengths span two orders of magnitude. Token-level averaging lets long samples dominate the gradient; sample-level averaging over-credits short samples. Inverse-sqrt sits in between.
 
-The authors also adapt **complementary masking**: from one sequence $x_0$ build two antithetical instances — primary $x_t$ and complement $x'_t$ with the inverse mask. Every token position is corrupted exactly once across the pair, doubling effective information utilization and removing per-token sampling bias.
+The authors also adapt **complementary masking**: from one sequence $x\_0$ build two antithetical instances — primary $x\_t$ and complement $x'\_t$ with the inverse mask. Every token position is corrupted exactly once across the pair, doubling effective information utilization and removing per-token sampling bias.
 
 ### Flow Matching loss (diffusion decoder)
 
@@ -173,7 +173,7 @@ $$
 \mathcal{L}_\text{FM}(\theta) = \mathbb{E}_{x_0, x_1, z, t}\big[\| v_{\theta, t}(x_t, z) - v_t \|_2^2\big]
 $$
 
-$z$ is the conditioning semantic visual tokens, $v_{\theta,t}$ is the predicted velocity at timestep $t$, $v_t$ the target velocity. Standard Lipman-style flow matching.
+$z$ is the conditioning semantic visual tokens, $v\_{\theta,t}$ is the predicted velocity at timestep $t$, $v\_t$ the target velocity. Standard Lipman-style flow matching.
 
 ### Load balancing — auxiliary-loss-free MoE bias
 

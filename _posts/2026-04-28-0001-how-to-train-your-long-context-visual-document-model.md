@@ -82,7 +82,7 @@ $$
 + \mathcal{L}_{\text{NLL}}
 $$
 
-여기서 $x_S, x_L$ 은 short/long context 입력, $y_w, y_l$ 은 chosen/rejected 응답, $\lambda = 0.01$ 로 preference term 의 가중치를 NLL 보다 훨씬 작게 잡는다. 직관적으로 "**short context 에서 잘하는 행동을 long context 에서도 보존**" 하라는 정렬이다.
+여기서 $x\_S, x\_L$ 은 short/long context 입력, $y\_w, y\_l$ 은 chosen/rejected 응답, $\lambda = 0.01$ 로 preference term 의 가중치를 NLL 보다 훨씬 작게 잡는다. 직관적으로 "**short context 에서 잘하는 행동을 long context 에서도 보존**" 하라는 정렬이다.
 
 ### MMLongBenchDoc 와 MMLBD-C
 
@@ -185,7 +185,7 @@ $$
 + \mathcal{L}_{\text{NLL}}
 $$
 
-핵심은 <strong>분모의 reference policy 에는 short context $x_S$ 를 넣는다</strong>는 점이다. 일반 DPO 에서 reference 가 long context 에서 OOD 로 동작해 점수가 무너지는 문제를 우회한다. $\beta = 0.1$, $\lambda = 0.01$ — preference 의 영향력은 작게 잡고 NLL 이 주된 driver 다.
+핵심은 <strong>분모의 reference policy 에는 short context $x\_S$ 를 넣는다</strong>는 점이다. 일반 DPO 에서 reference 가 long context 에서 OOD 로 동작해 점수가 무너지는 문제를 우회한다. $\beta = 0.1$, $\lambda = 0.01$ — preference 의 영향력은 작게 잡고 NLL 이 주된 driver 다.
 
 ## 학습 데이터와 파이프라인
 

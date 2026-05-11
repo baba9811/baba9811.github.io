@@ -74,8 +74,8 @@ $$
 
 - $f$: 설명할 black-box 모델
 - $g$: interpretable 모델 (linear, decision tree 등)
-- $\pi_x(z)$: $z$ 가 $x$ 와 얼마나 가까운지를 나타내는 proximity weight
-- $\mathcal{L}$: $f$ 와 $g$ 의 prediction 차이를 $\pi_x$ 로 가중 평균한 loss
+- $\pi\_x(z)$: $z$ 가 $x$ 와 얼마나 가까운지를 나타내는 proximity weight
+- $\mathcal{L}$: $f$ 와 $g$ 의 prediction 차이를 $\pi\_x$ 로 가중 평균한 loss
 - $\Omega(g)$: $g$ 의 복잡도 페널티 (feature 수 등)
 
 본 논문은 이 LIME 을 **K-means 출력에 사후 적용** 한다. 정확히 말하면 K-means 는 분류기가 아니므로, 클러스터 라벨을 target 으로 두고 그 클러스터 라벨을 예측하는 *대리 (surrogate) 분류기* 를 생각한 뒤 LIME 의 `LimeTabularExplainer` 를 이 surrogate 분류기에 붙이는 형태다. 알고리즘 2 (5절) 에 그 절차가 정리돼 있다.
@@ -86,7 +86,7 @@ K-means 의 K 를 어떻게 고를지에 대한 두 표준 지표.
 
 - **Elbow Method**: K 를 1 → 10 으로 늘려가며 WCSS (Within-Cluster Sum of Squares, Eq. 3) 를 계산해 그래프를 그렸을 때 *기울기가 꺾이는 점* (elbow) 을 K 로 잡는다. 본 논문 데이터셋에서는 K=3 ~ 4 부근.
 
-- **Silhouette Score** (Rousseeuw, 1987): 점 $i$ 의 silhouette $s_i$ 는 자기 클러스터 내 평균 거리 $a_i$ 와 가장 가까운 다른 클러스터까지의 평균 거리 $b_i$ 의 차이를 max 로 정규화한 값이다. $s_i \approx 1$ 이면 잘 분리, $s_i \approx 0$ 이면 경계, $s_i < 0$ 이면 잘못 분류된 점.
+- **Silhouette Score** (Rousseeuw, 1987): 점 $i$ 의 silhouette $s\_i$ 는 자기 클러스터 내 평균 거리 $a\_i$ 와 가장 가까운 다른 클러스터까지의 평균 거리 $b\_i$ 의 차이를 max 로 정규화한 값이다. $s\_i \approx 1$ 이면 잘 분리, $s\_i \approx 0$ 이면 경계, $s\_i < 0$ 이면 잘못 분류된 점.
 
   $$
   s_i = \frac{b_i - a_i}{\max(a_i, b_i)}
@@ -128,7 +128,7 @@ $$
 d(x_i, \mu_k) = \sqrt{\sum_{j=1}^{n} (x_{ij} - \mu_{kj})^2}
 $$
 
-로 점 $x_i$ 를 가장 가까운 centroid $\mu_k$ 의 클러스터에 할당하고, Eq. 2 의 centroid 업데이트
+로 점 $x\_i$ 를 가장 가까운 centroid $\mu\_k$ 의 클러스터에 할당하고, Eq. 2 의 centroid 업데이트
 
 $$
 \mu_k = \frac{1}{|C_k|} \sum_{x_i \in C_k} x_i
