@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-personalized-marketing-leveraging-ai-for-culturally-aware-segmentation-and-targeting",
+        },{id: "post-paper-review-graph-based-audience-expansion-model-for-marketing-campaigns",
+        
+          title: "[Paper Review] Graph-Based Audience Expansion Model for Marketing Campaigns",
+        
+        description: "A two-stage lookalike model from Rakuten — TransE-style pretraining on a 70+ service cross-service knowledge graph, then a GCN that aggregates &#39;knowledge queries&#39; (head + relation embeddings) rather than neighbor entities. SIGIR 2024 short paper.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0010-graph-based-audience-expansion-model-for-marketing-campaigns/";
+          
+        },
+      },{id: "post-논문-리뷰-graph-based-audience-expansion-model-for-marketing-campaigns",
+        
+          title: "[논문 리뷰] Graph-Based Audience Expansion Model for Marketing Campaigns",
+        
+        description: "Rakuten 의 70여 개 서비스에 걸친 cross-service knowledge graph 에 TransE 사전학습과 GCN 을 잇고, neighbor entity 가 아닌 &#39;knowledge query&#39; (head + relation 임베딩 합) 를 메시지로 전달해 oversmoothing 을 우회한 광고용 lookalike 모델. SIGIR 2024 short paper.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0010-graph-based-audience-expansion-model-for-marketing-campaigns/";
+          
+        },
+      },{id: "post-paper-review-personalized-marketing-leveraging-ai-for-culturally-aware-segmentation-and-targeting",
         
           title: "[Paper Review] Personalized marketing: Leveraging AI for culturally aware segmentation and targeting",
         
