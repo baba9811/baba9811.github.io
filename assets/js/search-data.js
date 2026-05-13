@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-agenticrectune-multi-agent-with-self-evolving-skillhub-for-recommendation-system-optimization",
+        },{id: "post-paper-review-improving-large-scale-recommender-systems-with-auxiliary-learning",
+        
+          title: "[Paper Review] Improving Large-Scale Recommender Systems with Auxiliary Learning",
+        
+        description: "Analysis of C2AL, Meta&#39;s framework that combats majority-cohort bias in large-scale ads recommendation models via cohort-contrastive auxiliary learning.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0012-improving-large-scale-recommender-systems-with-auxiliary-lea/";
+          
+        },
+      },{id: "post-논문-리뷰-improving-large-scale-recommender-systems-with-auxiliary-learning",
+        
+          title: "[논문 리뷰] Improving Large-Scale Recommender Systems with Auxiliary Learning",
+        
+        description: "Meta 의 광고 추천 모델에서 majority cohort 편향을 보조 학습으로 풀어내는 C2AL 프레임워크 분석",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0012-improving-large-scale-recommender-systems-with-auxiliary-lea/";
+          
+        },
+      },{id: "post-paper-review-agenticrectune-multi-agent-with-self-evolving-skillhub-for-recommendation-system-optimization",
         
           title: "[Paper Review] AgenticRecTune: Multi-Agent with Self-Evolving Skillhub for Recommendation System Optimization",
         
