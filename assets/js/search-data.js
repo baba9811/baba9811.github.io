@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-graph-based-audience-expansion-model-for-marketing-campaigns",
+        },{id: "post-paper-review-agenticrectune-multi-agent-with-self-evolving-skillhub-for-recommendation-system-optimization",
+        
+          title: "[Paper Review] AgenticRecTune: Multi-Agent with Self-Evolving Skillhub for Recommendation System Optimization",
+        
+        description: "An LLM multi-agent framework that automates the tuning of system-level configuration (fusion weights, demotion weights, diversity thresholds) across all three stages — pre-ranking, ranking, re-ranking — of Google Discover. Five specialized agents (Actor, Critic, Insight, Skill, Online) form a closed loop that feeds live A/B results back into memory and a self-evolving skillhub, simultaneously lifting engagement and diversity in production.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0011-agenticrectune-multi-agent-self-evolving-skillhub/";
+          
+        },
+      },{id: "post-논문-리뷰-agenticrectune-multi-agent-with-self-evolving-skillhub-for-recommendation-system-optimization",
+        
+          title: "[논문 리뷰] AgenticRecTune: Multi-Agent with Self-Evolving Skillhub for Recommendation System Optimization",
+        
+        description: "Google Discover 의 pre-ranking · ranking · re-ranking 세 단계 시스템 구성 (fusion weight, demotion weight, diversity threshold 등) 을 사람이 더 이상 튜닝하지 않도록, Actor · Critic · Insight · Skill · Online 다섯 에이전트가 라이브 A/B 결과를 메모리·스킬허브로 되먹임하며 자기진화하는 LLM 에이전트 프레임워크. Engagement 와 Diversity 를 동시에 끌어올린 산업 적용 사례.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0011-agenticrectune-multi-agent-self-evolving-skillhub/";
+          
+        },
+      },{id: "post-paper-review-graph-based-audience-expansion-model-for-marketing-campaigns",
         
           title: "[Paper Review] Graph-Based Audience Expansion Model for Marketing Campaigns",
         
