@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-algorithmically-establishing-trust-in-evaluators",
+        },{id: "post-paper-review-goldfish-monolingual-language-models-for-350-languages",
+        
+          title: "[Paper Review] Goldfish: Monolingual Language Models for 350 Languages",
+        
+        description: "1,154 small monolingual GPT-2 models covering 350 low-resource languages. With 5MB-1GB of byte-premium-scaled text and 39M-125M parameters, they consistently beat XGLM 4.5B, BLOOM 7.1B, and MaLA-500 10B on FLORES perplexity.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0015-goldfish/";
+          
+        },
+      },{id: "post-논문-리뷰-goldfish-monolingual-language-models-for-350-languages",
+        
+          title: "[논문 리뷰] Goldfish: Monolingual Language Models for 350 Languages",
+        
+        description: "350개 저자원 언어를 위한 1,154개의 작은 단일언어 GPT-2 모델 모음. 1GB 이하 코퍼스에서 5MB~1GB 데이터로 학습한 39M~125M 모델이 XGLM 4.5B·BLOOM 7.1B·MaLA-500 10B 같은 거대 다국어 모델보다 일관되게 낮은 perplexity를 보인다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0015-goldfish/";
+          
+        },
+      },{id: "post-paper-review-algorithmically-establishing-trust-in-evaluators",
         
           title: "[Paper Review] Algorithmically Establishing Trust in Evaluators",
         
