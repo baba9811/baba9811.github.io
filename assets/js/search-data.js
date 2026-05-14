@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-improving-large-scale-recommender-systems-with-auxiliary-learning",
+        },{id: "post-paper-review-rtp-lx-can-llms-evaluate-toxicity-in-multilingual-scenarios",
+        
+          title: "[Paper Review] RTP-LX: Can LLMs Evaluate Toxicity in Multilingual Scenarios?",
+        
+        description: "AAAI-25 paper introducing RTP-LX: a human-transcreated, human-annotated corpus of 1,100 toxic prompts across 28 languages, used to stress-test 10 S/LLMs as multilingual safety evaluators.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0013-rtp-lx-can-llms-evaluate-toxicity-in-multilingual-scenarios/";
+          
+        },
+      },{id: "post-논문-리뷰-rtp-lx-can-llms-evaluate-toxicity-in-multilingual-scenarios",
+        
+          title: "[논문 리뷰] RTP-LX: Can LLMs Evaluate Toxicity in Multilingual Scenarios?",
+        
+        description: "28개 언어로 사람 손으로 transcreate·annotate 한 1,100개 유해 프롬프트 코퍼스로, 10개 S/LLM이 다국어·문화-맥락 유해성을 판별할 수 있는지 묻는 AAAI-25 논문.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0013-rtp-lx-can-llms-evaluate-toxicity-in-multilingual-scenarios/";
+          
+        },
+      },{id: "post-paper-review-improving-large-scale-recommender-systems-with-auxiliary-learning",
         
           title: "[Paper Review] Improving Large-Scale Recommender Systems with Auxiliary Learning",
         
