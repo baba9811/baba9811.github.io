@@ -106,13 +106,13 @@ A standard supervised setup. Input $\mathbf{x} \in \mathcal{X}$, binary label $y
 The baseline objective minimizes the expected loss on $\mathcal{D}$:
 
 $$
-\{\theta\_S^*, \theta\_H^*\} = \arg\min\_{\theta\_S, \theta\_H} \mathbb{E}\_{(\mathbf{x}, y) \sim \mathcal{D}} \left[ \mathcal{L}(\hat{y}, y) \right]
+\{\theta_S^*, \theta_H^*\} = \arg\min_{\theta_S, \theta_H} \mathbb{E}_{(\mathbf{x}, y) \sim \mathcal{D}} \left[ \mathcal{L}(\hat{y}, y) \right]
 $$
 
 with the standard gradient update
 
 $$
-\theta^{(t+1)} = \theta^{(t)} - \alpha^{(t)} \nabla\_\theta \mathcal{L}(\theta), \quad \theta \in \{\theta\_S, \theta\_H\}.
+\theta^{(t+1)} = \theta^{(t)} - \alpha^{(t)} \nabla_\theta \mathcal{L}(\theta), \quad \theta \in \{\theta_S, \theta_H\}.
 $$
 
 On heterogeneous data this objective lets $\mathbf{h}$ become biased toward majority cohorts.
@@ -136,15 +136,15 @@ The authors note that divergence is a *necessary but not sufficient* criterion; 
 Given the two cohorts, define two binary auxiliary labels by *masking the primary positive label* with cohort membership:
 
 $$
-y\_{\text{head}} = y \cdot \mathbb{1}(\mathbf{x} \in \mathcal{C}\_{\text{head}}) \qquad y\_{\text{tail}} = y \cdot \mathbb{1}(\mathbf{x} \in \mathcal{C}\_{\text{tail}})
+y_{\text{head}} = y \cdot \mathbb{1}(\mathbf{x} \in \mathcal{C}_{\text{head}}) \qquad y_{\text{tail}} = y \cdot \mathbb{1}(\mathbf{x} \in \mathcal{C}_{\text{tail}})
 $$
 
 Add two heads $g\_{\text{head}}, g\_{\text{tail}}$ (parameters $\theta\_{\text{head}}, \theta\_{\text{tail}}$) on top of the shared representation $\mathbf{h}$. The training objective is
 
 $$
 \begin{aligned}
-\mathcal{L}\_{\text{C2AL}} = \; & \underbrace{\mathcal{L}(g\_{\text{primary}}(\theta\_S; \theta\_H), y)}\_{\text{Primary Task Loss}} \\
-& + \underbrace{\lambda\_{\text{head}} \mathcal{L}(g\_{\text{head}}(\theta\_S; \theta\_{\text{head}}), y\_{\text{head}}) + \lambda\_{\text{tail}} \mathcal{L}(g\_{\text{tail}}(\theta\_S; \theta\_{\text{tail}}), y\_{\text{tail}})}\_{\text{Cohort-Contrast Losses}}
+\mathcal{L}_{\text{C2AL}} = \; & \underbrace{\mathcal{L}(g_{\text{primary}}(\theta_S; \theta_H), y)}_{\text{Primary Task Loss}} \\
+& + \underbrace{\lambda_{\text{head}} \mathcal{L}(g_{\text{head}}(\theta_S; \theta_{\text{head}}), y_{\text{head}}) + \lambda_{\text{tail}} \mathcal{L}(g_{\text{tail}}(\theta_S; \theta_{\text{tail}}), y_{\text{tail}})}_{\text{Cohort-Contrast Losses}}
 \end{aligned}
 $$
 
@@ -155,13 +155,13 @@ $$
 For analysis, fold the two auxiliary losses into a single weighted aux:
 
 $$
-\mathcal{L}\_{\text{C2AL}} = \mathcal{L}\_{\text{primary}}(\mathbf{G}, y) + \lambda\_{\text{aux}} \mathcal{L}\_{\text{aux}}(\mathbf{G}, y\_{\text{aux}})
+\mathcal{L}_{\text{C2AL}} = \mathcal{L}_{\text{primary}}(\mathbf{G}, y) + \lambda_{\text{aux}} \mathcal{L}_{\text{aux}}(\mathbf{G}, y_{\text{aux}})
 $$
 
 Take the partial derivative with respect to the attention matrix $\mathbf{Y}$. Because $\mathbf{G} = \mathbf{X}\mathbf{X}^\top \mathbf{Y}$, the chain rule gives
 
 $$
-\nabla\_{\mathbf{Y}} \mathcal{L}\_{\text{C2AL}} = (\mathbf{X}\mathbf{X}^\top)\left(\nabla\_{\mathbf{G}} \mathcal{L}\_{\text{primary}} + \lambda\_{\text{aux}} \nabla\_{\mathbf{G}} \mathcal{L}\_{\text{aux}}\right).
+\nabla_{\mathbf{Y}} \mathcal{L}_{\text{C2AL}} = (\mathbf{X}\mathbf{X}^\top)\left(\nabla_{\mathbf{G}} \mathcal{L}_{\text{primary}} + \lambda_{\text{aux}} \nabla_{\mathbf{G}} \mathcal{L}_{\text{aux}}\right).
 $$
 
 This is the central mechanistic insight. With $\lambda\_{\text{aux}} = 0$ (the baseline case), $\nabla\_{\mathbf{Y}}\,\mathcal{L}\_{\text{C2AL}}$ is dominated by majority-cohort gradients and $\mathbf{Y}$ converges to a sparse, concentrated state that captures only the high-density region's feature interactions. The auxiliary term injects cohort-specific signal $\nabla\_{\mathbf{G}}\,\mathcal{L}\_{\text{aux}}$ directly into the update for $\mathbf{Y}$, forcing minority-cohort signal into the attention matrix.
@@ -210,15 +210,15 @@ To make this even sharper, decompose the auxiliary gradient on the shared parame
 
 $$
 \begin{aligned}
-G\_{\text{aux}}^{\parallel} &:= \frac{\langle G\_{\text{aux}}, G\_{\text{primary}} \rangle}{\|G\_{\text{primary}}\|\_2^2} \cdot G\_{\text{primary}}, \\
-G\_{\text{aux}}^{\perp} &:= G\_{\text{aux}} - G\_{\text{aux}}^{\parallel}.
+G_{\text{aux}}^{\parallel} &:= \frac{\langle G_{\text{aux}}, G_{\text{primary}} \rangle}{\|G_{\text{primary}}\|_2^2} \cdot G_{\text{primary}}, \\
+G_{\text{aux}}^{\perp} &:= G_{\text{aux}} - G_{\text{aux}}^{\parallel}.
 \end{aligned}
 $$
 
 The update rule splits into three terms:
 
 $$
-\theta\_S^{(t+1)} = \theta\_S^{(t)} - \alpha^{(t)}\left(G\_{\text{primary}}^{(t)} + G\_{\text{aux}}^{\parallel (t)} + G\_{\text{aux}}^{\perp (t)}\right).
+\theta_S^{(t+1)} = \theta_S^{(t)} - \alpha^{(t)}\left(G_{\text{primary}}^{(t)} + G_{\text{aux}}^{\parallel (t)} + G_{\text{aux}}^{\perp (t)}\right).
 $$
 
 The parallel component $G\_{\text{primary}} + G\_{\text{aux}}^{\parallel}$ drives convergence to a local minimum of the primary loss. The orthogonal component $G\_{\text{aux}}^{\perp}$ acts as a *regularization term* that prevents the encoder from settling into a narrow minimum dominated by majority cohorts. Where $\ell\_1$ and $\ell\_2$ regularization operate on *parameter space*, C2AL's orthogonal component operates on the model's *predictive behavior over specific cohorts* — what the authors call **functional regularization**. This is arguably the paper's most conceptually clean contribution.
@@ -228,7 +228,7 @@ The parallel component $G\_{\text{primary}} + G\_{\text{aux}}^{\parallel}$ drive
 To summarize, the C2AL training loss is
 
 $$
-\mathcal{L}\_{\text{C2AL}} = \mathcal{L}\_{\text{primary}} + \lambda\_{\text{head}} \mathcal{L}\_{\text{head}} + \lambda\_{\text{tail}} \mathcal{L}\_{\text{tail}}
+\mathcal{L}_{\text{C2AL}} = \mathcal{L}_{\text{primary}} + \lambda_{\text{head}} \mathcal{L}_{\text{head}} + \lambda_{\text{tail}} \mathcal{L}_{\text{tail}}
 $$
 
 - $\mathcal{L}\_{\text{primary}}$: binary cross-entropy on the primary task (CTR / CVR).
@@ -253,13 +253,13 @@ After training, only the primary head is kept; the serving architecture is uncha
 NE is the standard ads-ranking metric: it normalizes the model's binary cross-entropy by the entropy of a "predict the global mean" baseline.
 
 $$
-\text{NE} = \frac{-\frac{1}{N}\sum\_{i=1}^N \left[y\_i \log(\hat{y}\_i) + (1 - y\_i) \log(1 - \hat{y}\_i)\right]}{-\frac{1}{N}\sum\_{i=1}^N \left[y\_i \log(\bar{y}) + (1 - y\_i) \log(1 - \bar{y})\right]}
+\text{NE} = \frac{-\frac{1}{N}\sum_{i=1}^N \left[y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i)\right]}{-\frac{1}{N}\sum_{i=1}^N \left[y_i \log(\bar{y}) + (1 - y_i) \log(1 - \bar{y})\right]}
 $$
 
 where $\bar{y} = \frac{1}{N}\sum y\_i$ is the empirical label mean. Lower NE means better predictions. The relative improvement is
 
 $$
-\text{NE}\_{\text{diff}} = \frac{\text{NE}\_{\text{C2AL}} - \text{NE}\_{\text{baseline}}}{\text{NE}\_{\text{baseline}}}.
+\text{NE}_{\text{diff}} = \frac{\text{NE}_{\text{C2AL}} - \text{NE}_{\text{baseline}}}{\text{NE}_{\text{baseline}}}.
 $$
 
 At Meta's production scale, even 0.01 % NE differences are considered meaningful — they translate to material online revenue and user-experience effects.

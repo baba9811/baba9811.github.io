@@ -110,7 +110,7 @@ $$
 Here $b\_j$ is the floor that a secondary metric (e.g., retention) must not drop below. The full optimization problem is
 
 $$
-\Theta^{*} = \arg\max_{\Theta \in \mathcal{P}} \mathbb{E}\_{(x, y\_{\text{true}}) \sim \mathcal{D}} \bigl[ U\bigl(M(\mathcal{F}(x; \mathbf{w}, \Theta), y\_{\text{true}})\bigr) \bigr] \quad \text{s.t.} \quad \mathbb{E}\_{x \sim \mathcal{D}}[C(\Theta)] \le C_{\max}
+\Theta^{*} = \arg\max_{\Theta \in \mathcal{P}} \mathbb{E}_{(x, y_{\text{true}}) \sim \mathcal{D}} \bigl[ U\bigl(M(\mathcal{F}(x; \mathbf{w}, \Theta), y_{\text{true}})\bigr) \bigr] \quad \text{s.t.} \quad \mathbb{E}_{x \sim \mathcal{D}}[C(\Theta)] \le C_{\max}
 $$
 
 with $C(\Theta)$ a system-cost function (latency, infra). The paper highlights two structural reasons gradient methods fail here: (i) *non-differentiable* operations (sorting, top-K, business logic) break the gradient, and (ii) *multi-metric* trade-offs are intrinsic. Both motivate the move from gradient-based optimization to LLM-reasoning-based search.
@@ -209,7 +209,7 @@ Together, these two mechanisms turn the skillhub into a *learning engine* rather
 The LLMs are not fine-tuned. Everything operates through prompts and in-context information. There is no gradient-based loss; the optimization target is the multi-level compositional utility $U(M)$ from §3.
 
 $$
-\Theta^{*} = \arg\max_{\Theta \in \mathcal{P}} \mathbb{E}\_{(x, y\_{\text{true}}) \sim \mathcal{D}} \bigl[ U\bigl(M(\mathcal{F}(x; \mathbf{w}, \Theta), y\_{\text{true}})\bigr) \bigr] \quad \text{s.t.} \quad \mathbb{E}\_{x \sim \mathcal{D}}[C(\Theta)] \le C_{\max}
+\Theta^{*} = \arg\max_{\Theta \in \mathcal{P}} \mathbb{E}_{(x, y_{\text{true}}) \sim \mathcal{D}} \bigl[ U\bigl(M(\mathcal{F}(x; \mathbf{w}, \Theta), y_{\text{true}})\bigr) \bigr] \quad \text{s.t.} \quad \mathbb{E}_{x \sim \mathcal{D}}[C(\Theta)] \le C_{\max}
 $$
 
 The LLMs do receive two implicit "loss-like" signals. (1) The Critic's five-rule alignment score acts as an implicit *cross-rule loss* over Actor outputs. (2) The Insight Agent's sensitivity patterns — relationships between parameter deltas and metric deltas — serve as an *implicit gradient surrogate*. Both signals accumulate in the skillhub's Domain Knowledge slot and shape next-round prompts.

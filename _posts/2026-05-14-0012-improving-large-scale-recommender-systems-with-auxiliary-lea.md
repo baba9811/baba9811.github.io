@@ -106,13 +106,13 @@ Standard supervised learning setup. 입력 $\mathbf{x} \in \mathcal{X}$, 이진 
 baseline single-task objective 는 데이터 분포 $\mathcal{D}$ 위 expected loss 최소화:
 
 $$
-\{\theta\_S^*, \theta\_H^*\} = \arg\min\_{\theta\_S, \theta\_H} \mathbb{E}\_{(\mathbf{x}, y) \sim \mathcal{D}} \left[ \mathcal{L}(\hat{y}, y) \right]
+\{\theta_S^*, \theta_H^*\} = \arg\min_{\theta_S, \theta_H} \mathbb{E}_{(\mathbf{x}, y) \sim \mathcal{D}} \left[ \mathcal{L}(\hat{y}, y) \right]
 $$
 
 학습 시 두 파라미터 모두 동일 loss 의 gradient 로 업데이트:
 
 $$
-\theta^{(t+1)} = \theta^{(t)} - \alpha^{(t)} \nabla\_\theta \mathcal{L}(\theta), \quad \theta \in \{\theta\_S, \theta\_H\}
+\theta^{(t+1)} = \theta^{(t)} - \alpha^{(t)} \nabla_\theta \mathcal{L}(\theta), \quad \theta \in \{\theta_S, \theta_H\}
 $$
 
 이질적 데이터에서는 위 expected loss 가 majority cohort 쪽으로 편향된 $\mathbf{h}$ 를 만든다는 게 출발점.
@@ -136,15 +136,15 @@ $$
 두 cohort 가 정해지면, 두 개의 binary auxiliary label 을 만든다. *원래 양성 $y=1$ 이고 동시에 해당 cohort 에 속하는 샘플* 만 양성으로 보는 indicator 마스킹이 핵심.
 
 $$
-y\_{\text{head}} = y \cdot \mathbb{1}(\mathbf{x} \in \mathcal{C}\_{\text{head}}) \qquad y\_{\text{tail}} = y \cdot \mathbb{1}(\mathbf{x} \in \mathcal{C}\_{\text{tail}})
+y_{\text{head}} = y \cdot \mathbb{1}(\mathbf{x} \in \mathcal{C}_{\text{head}}) \qquad y_{\text{tail}} = y \cdot \mathbb{1}(\mathbf{x} \in \mathcal{C}_{\text{tail}})
 $$
 
 그리고 공유 representation $\mathbf{h}$ 위에 두 개의 head $g\_{\text{head}}$, $g\_{\text{tail}}$ (parameter $\theta\_{\text{head}}, \theta\_{\text{tail}}$) 를 얹는다. 학습 시 전체 손실은:
 
 $$
 \begin{aligned}
-\mathcal{L}\_{\text{C2AL}} = \; & \underbrace{\mathcal{L}(g\_{\text{primary}}(\theta\_S; \theta\_H), y)}\_{\text{Primary Task Loss}} \\
-& + \underbrace{\lambda\_{\text{head}} \mathcal{L}(g\_{\text{head}}(\theta\_S; \theta\_{\text{head}}), y\_{\text{head}}) + \lambda\_{\text{tail}} \mathcal{L}(g\_{\text{tail}}(\theta\_S; \theta\_{\text{tail}}), y\_{\text{tail}})}\_{\text{Cohort-Contrast Losses}}
+\mathcal{L}_{\text{C2AL}} = \; & \underbrace{\mathcal{L}(g_{\text{primary}}(\theta_S; \theta_H), y)}_{\text{Primary Task Loss}} \\
+& + \underbrace{\lambda_{\text{head}} \mathcal{L}(g_{\text{head}}(\theta_S; \theta_{\text{head}}), y_{\text{head}}) + \lambda_{\text{tail}} \mathcal{L}(g_{\text{tail}}(\theta_S; \theta_{\text{tail}}), y_{\text{tail}})}_{\text{Cohort-Contrast Losses}}
 \end{aligned}
 $$
 
@@ -155,13 +155,13 @@ $$
 분석을 단순화하기 위해 두 auxiliary loss 를 하나의 weighted aux 로 통합:
 
 $$
-\mathcal{L}\_{\text{C2AL}} = \mathcal{L}\_{\text{primary}}(\mathbf{G}, y) + \lambda\_{\text{aux}} \mathcal{L}\_{\text{aux}}(\mathbf{G}, y\_{\text{aux}})
+\mathcal{L}_{\text{C2AL}} = \mathcal{L}_{\text{primary}}(\mathbf{G}, y) + \lambda_{\text{aux}} \mathcal{L}_{\text{aux}}(\mathbf{G}, y_{\text{aux}})
 $$
 
 이제 attention matrix $\mathbf{Y}$ 에 대한 partial derivative 를 보자. $\mathbf{G} = \mathbf{X}\mathbf{X}^\top \mathbf{Y}$ 이므로 chain rule 로:
 
 $$
-\nabla\_{\mathbf{Y}} \mathcal{L}\_{\text{C2AL}} = (\mathbf{X}\mathbf{X}^\top)\left(\nabla\_{\mathbf{G}} \mathcal{L}\_{\text{primary}} + \lambda\_{\text{aux}} \nabla\_{\mathbf{G}} \mathcal{L}\_{\text{aux}}\right)
+\nabla_{\mathbf{Y}} \mathcal{L}_{\text{C2AL}} = (\mathbf{X}\mathbf{X}^\top)\left(\nabla_{\mathbf{G}} \mathcal{L}_{\text{primary}} + \lambda_{\text{aux}} \nabla_{\mathbf{G}} \mathcal{L}_{\text{aux}}\right)
 $$
 
 이게 mechanistic insight 의 본체다. baseline ($\lambda\_{\text{aux}} = 0$) 에서는 $\nabla\_{\mathbf{Y}} \mathcal{L}\_{\text{C2AL}}$ 이 majority cohort 의 gradient 로만 채워지고, $\mathbf{Y}$ 가 sparse / concentrated 분포로 수렴해 *high-density region 의 feature interaction 만* 잡는다. auxiliary term 은 cohort-specific gradient signal $\nabla\_{\mathbf{G}} \mathcal{L}\_{\text{aux}}$ 를 *직접* 주입해, attention matrix 의 업데이트에 minority cohort 의 signal 을 강제로 끼워 넣는다.
@@ -210,15 +210,15 @@ $$
 
 $$
 \begin{aligned}
-G\_{\text{aux}}^{\parallel} &:= \frac{\langle G\_{\text{aux}}, G\_{\text{primary}} \rangle}{\|G\_{\text{primary}}\|\_2^2} \cdot G\_{\text{primary}}, \\
-G\_{\text{aux}}^{\perp} &:= G\_{\text{aux}} - G\_{\text{aux}}^{\parallel}
+G_{\text{aux}}^{\parallel} &:= \frac{\langle G_{\text{aux}}, G_{\text{primary}} \rangle}{\|G_{\text{primary}}\|_2^2} \cdot G_{\text{primary}}, \\
+G_{\text{aux}}^{\perp} &:= G_{\text{aux}} - G_{\text{aux}}^{\parallel}
 \end{aligned}
 $$
 
 업데이트 룰은 세 항으로 정리:
 
 $$
-\theta\_S^{(t+1)} = \theta\_S^{(t)} - \alpha^{(t)} \left(G\_{\text{primary}}^{(t)} + G\_{\text{aux}}^{\parallel (t)} + G\_{\text{aux}}^{\perp (t)}\right)
+\theta_S^{(t+1)} = \theta_S^{(t)} - \alpha^{(t)} \left(G_{\text{primary}}^{(t)} + G_{\text{aux}}^{\parallel (t)} + G_{\text{aux}}^{\perp (t)}\right)
 $$
 
 여기서 $G\_{\text{primary}} + G\_{\text{aux}}^{\parallel}$ 은 primary task loss 의 local minimum 으로의 convergence 를 함께 끌고, $G\_{\text{aux}}^{\perp}$ 는 *regularization term* 으로 작용한다. $\ell\_1, \ell\_2$ 같은 전통적 regularization 이 *parameter space* 에 작동하는 반면, C2AL 의 orthogonal component 는 *모델의 predictive behavior on specific cohorts* 에 작동하는 **functional regularization** 이다. 이게 본 논문의 가장 개념적인 기여다.
@@ -228,7 +228,7 @@ $$
 요약하면 C2AL 의 학습 손실은 다음과 같다:
 
 $$
-\mathcal{L}\_{\text{C2AL}} = \mathcal{L}\_{\text{primary}} + \lambda\_{\text{head}} \mathcal{L}\_{\text{head}} + \lambda\_{\text{tail}} \mathcal{L}\_{\text{tail}}
+\mathcal{L}_{\text{C2AL}} = \mathcal{L}_{\text{primary}} + \lambda_{\text{head}} \mathcal{L}_{\text{head}} + \lambda_{\text{tail}} \mathcal{L}_{\text{tail}}
 $$
 
 - $\mathcal{L}\_{\text{primary}}$: 원래 primary task (CTR/CVR 예측) 의 binary cross-entropy.
@@ -253,13 +253,13 @@ $$
 NE 는 모델의 binary cross-entropy 를 *predict-the-global-mean* 모델의 entropy 로 정규화한 값으로, 광고 ranking 에서 표준 지표다:
 
 $$
-\text{NE} = \frac{-\frac{1}{N}\sum\_{i=1}^N \left[y\_i \log(\hat{y}\_i) + (1 - y\_i) \log(1 - \hat{y}\_i)\right]}{-\frac{1}{N}\sum\_{i=1}^N \left[y\_i \log(\bar{y}) + (1 - y\_i) \log(1 - \bar{y})\right]}
+\text{NE} = \frac{-\frac{1}{N}\sum_{i=1}^N \left[y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i)\right]}{-\frac{1}{N}\sum_{i=1}^N \left[y_i \log(\bar{y}) + (1 - y_i) \log(1 - \bar{y})\right]}
 $$
 
 여기서 $\bar{y} = \frac{1}{N}\sum y\_i$ 는 empirical label mean. NE 가 *작을수록* 좋다. NE_diff 는 baseline 대비 상대 개선:
 
 $$
-\text{NE}\_{\text{diff}} = \frac{\text{NE}\_{\text{C2AL}} - \text{NE}\_{\text{baseline}}}{\text{NE}\_{\text{baseline}}}
+\text{NE}_{\text{diff}} = \frac{\text{NE}_{\text{C2AL}} - \text{NE}_{\text{baseline}}}{\text{NE}_{\text{baseline}}}
 $$
 
 production 스케일에서는 NE 0.01% 의 차이도 광고 매출과 사용자 경험에 상당한 임팩트를 준다는 게 광고 시스템 평가 관행이다.
