@@ -142,7 +142,10 @@ $$
 그리고 공유 representation $\mathbf{h}$ 위에 두 개의 head $g\_{\text{head}}$, $g\_{\text{tail}}$ (parameter $\theta\_{\text{head}}, \theta\_{\text{tail}}$) 를 얹는다. 학습 시 전체 손실은:
 
 $$
-\mathcal{L}\_{\text{C2AL}} = \underbrace{\mathcal{L}(g\_{\text{primary}}(\theta\_S; \theta\_H), y)}\_{\text{Primary Task Loss}} + \underbrace{\lambda\_{\text{head}} \mathcal{L}(g\_{\text{head}}(\theta\_S; \theta\_{\text{head}}), y\_{\text{head}}) + \lambda\_{\text{tail}} \mathcal{L}(g\_{\text{tail}}(\theta\_S; \theta\_{\text{tail}}), y\_{\text{tail}})}\_{\text{Cohort-Contrast Losses}}
+\begin{aligned}
+\mathcal{L}\_{\text{C2AL}} = \; & \underbrace{\mathcal{L}(g\_{\text{primary}}(\theta\_S; \theta\_H), y)}\_{\text{Primary Task Loss}} \\
+& + \underbrace{\lambda\_{\text{head}} \mathcal{L}(g\_{\text{head}}(\theta\_S; \theta\_{\text{head}}), y\_{\text{head}}) + \lambda\_{\text{tail}} \mathcal{L}(g\_{\text{tail}}(\theta\_S; \theta\_{\text{tail}}), y\_{\text{tail}})}\_{\text{Cohort-Contrast Losses}}
+\end{aligned}
 $$
 
 **핵심**: 위 손실은 학습 시에만 쓰이고, 추론 시에는 두 auxiliary head 와 파라미터 $\{\theta\_{\text{head}}, \theta\_{\text{tail}}\}$ 가 *완전히 폐기* 된다. 모델은 single-task 아키텍처로 회귀해 $\hat{y} = g\_{\text{primary}}(\mathbf{h}; \theta\_H)$ 만 평가한다. 따라서 inference cost / latency 변화 0, serving infra 변경 0.
@@ -206,7 +209,10 @@ $$
 위 dynamics 를 projection 으로 분해하면 더 명확해진다. 공유 파라미터에 대한 gradient 를 $G\_{\text{primary}}(\theta\_S) = \nabla\_{\theta\_S} \mathcal{L}(\theta\_S, \theta\_H, y)$, $G\_{\text{aux}}(\theta\_S) = \lambda\_{\text{head}} \nabla\_{\theta\_S} \mathcal{L}(\theta\_S, \theta\_{\text{head}}, y\_{\text{head}}) + \lambda\_{\text{tail}} \nabla\_{\theta\_S} \mathcal{L}(\theta\_S, \theta\_{\text{tail}}, y\_{\text{tail}})$ 로 두면, $G\_{\text{aux}}$ 를 $G\_{\text{primary}}$ 에 대한 parallel / orthogonal component 로 분해할 수 있다:
 
 $$
-G\_{\text{aux}}^{\parallel} := \frac{\langle G\_{\text{aux}}, G\_{\text{primary}} \rangle}{\|G\_{\text{primary}}\|\_2^2} \cdot G\_{\text{primary}}, \quad G\_{\text{aux}}^{\perp} := G\_{\text{aux}} - G\_{\text{aux}}^{\parallel}
+\begin{aligned}
+G\_{\text{aux}}^{\parallel} &:= \frac{\langle G\_{\text{aux}}, G\_{\text{primary}} \rangle}{\|G\_{\text{primary}}\|\_2^2} \cdot G\_{\text{primary}}, \\
+G\_{\text{aux}}^{\perp} &:= G\_{\text{aux}} - G\_{\text{aux}}^{\parallel}
+\end{aligned}
 $$
 
 업데이트 룰은 세 항으로 정리:

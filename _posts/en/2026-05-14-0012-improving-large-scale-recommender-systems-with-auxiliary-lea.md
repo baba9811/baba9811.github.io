@@ -142,7 +142,10 @@ $$
 Add two heads $g\_{\text{head}}, g\_{\text{tail}}$ (parameters $\theta\_{\text{head}}, \theta\_{\text{tail}}$) on top of the shared representation $\mathbf{h}$. The training objective is
 
 $$
-\mathcal{L}\_{\text{C2AL}} = \underbrace{\mathcal{L}(g\_{\text{primary}}(\theta\_S; \theta\_H), y)}\_{\text{Primary Task Loss}} + \underbrace{\lambda\_{\text{head}} \mathcal{L}(g\_{\text{head}}(\theta\_S; \theta\_{\text{head}}), y\_{\text{head}}) + \lambda\_{\text{tail}} \mathcal{L}(g\_{\text{tail}}(\theta\_S; \theta\_{\text{tail}}), y\_{\text{tail}})}\_{\text{Cohort-Contrast Losses}}
+\begin{aligned}
+\mathcal{L}\_{\text{C2AL}} = \; & \underbrace{\mathcal{L}(g\_{\text{primary}}(\theta\_S; \theta\_H), y)}\_{\text{Primary Task Loss}} \\
+& + \underbrace{\lambda\_{\text{head}} \mathcal{L}(g\_{\text{head}}(\theta\_S; \theta\_{\text{head}}), y\_{\text{head}}) + \lambda\_{\text{tail}} \mathcal{L}(g\_{\text{tail}}(\theta\_S; \theta\_{\text{tail}}), y\_{\text{tail}})}\_{\text{Cohort-Contrast Losses}}
+\end{aligned}
 $$
 
 **Crucially**, this loss is used only during training. At inference, both auxiliary heads and their parameters $\{\theta\_{\text{head}}, \theta\_{\text{tail}}\}$ are *discarded*, and the model reverts to the single-task architecture evaluating only $\hat{y} = g\_{\text{primary}}(\mathbf{h}; \theta\_H)$. Inference cost, latency, and serving infrastructure are unchanged.
@@ -206,7 +209,10 @@ The third region is where the magic happens. For a majority positive sample, the
 To make this even sharper, decompose the auxiliary gradient on the shared parameters. With $G\_{\text{primary}}(\theta\_S) = \nabla\_{\theta\_S}\,\mathcal{L}(\theta\_S, \theta\_H, y)$ and $G\_{\text{aux}}(\theta\_S) = \lambda\_{\text{head}}\,\nabla\_{\theta\_S}\,\mathcal{L}(\theta\_S, \theta\_{\text{head}}, y\_{\text{head}}) + \lambda\_{\text{tail}}\,\nabla\_{\theta\_S}\,\mathcal{L}(\theta\_S, \theta\_{\text{tail}}, y\_{\text{tail}})$, project $G\_{\text{aux}}$ onto and orthogonal to $G\_{\text{primary}}$:
 
 $$
-G\_{\text{aux}}^{\parallel} := \frac{\langle G\_{\text{aux}}, G\_{\text{primary}} \rangle}{\|G\_{\text{primary}}\|\_2^2} \cdot G\_{\text{primary}}, \quad G\_{\text{aux}}^{\perp} := G\_{\text{aux}} - G\_{\text{aux}}^{\parallel}.
+\begin{aligned}
+G\_{\text{aux}}^{\parallel} &:= \frac{\langle G\_{\text{aux}}, G\_{\text{primary}} \rangle}{\|G\_{\text{primary}}\|\_2^2} \cdot G\_{\text{primary}}, \\
+G\_{\text{aux}}^{\perp} &:= G\_{\text{aux}} - G\_{\text{aux}}^{\parallel}.
+\end{aligned}
 $$
 
 The update rule splits into three terms:
