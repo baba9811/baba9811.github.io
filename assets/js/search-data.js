@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-rtp-lx-can-llms-evaluate-toxicity-in-multilingual-scenarios",
+        },{id: "post-paper-review-algorithmically-establishing-trust-in-evaluators",
+        
+          title: "[Paper Review] Algorithmically Establishing Trust in Evaluators",
+        
+        description: "A zero-knowledge-style challenge–response protocol that certifies the trustworthiness of an evaluator (e.g. LLM-as-a-judge) without any labelled data, bounded by (1/4)^r.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0014-algorithmically-establishing-trust-in-evaluators/";
+          
+        },
+      },{id: "post-논문-리뷰-algorithmically-establishing-trust-in-evaluators",
+        
+          title: "[논문 리뷰] Algorithmically Establishing Trust in Evaluators",
+        
+        description: "라벨 없는 환경에서 LLM-as-a-judge 같은 평가자(evaluator)의 신뢰를 zero-knowledge 스타일의 챌린지-응답 프로토콜로 (1/4)^r 확률 한계까지 증명적으로 확립하는 No-Data Algorithm.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0014-algorithmically-establishing-trust-in-evaluators/";
+          
+        },
+      },{id: "post-paper-review-rtp-lx-can-llms-evaluate-toxicity-in-multilingual-scenarios",
         
           title: "[Paper Review] RTP-LX: Can LLMs Evaluate Toxicity in Multilingual Scenarios?",
         
