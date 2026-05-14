@@ -112,7 +112,7 @@ The authors stress-test Qwen3-VL-8B-Instruct on a COCO 2017 subset using a *Blin
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/fig2-3-dilution-empirical.png"
    class="img-fluid rounded z-depth-1"
-   caption="Figures 2, 3: Empirical verification of visual signal dilution. (Left) On a log scale, $\\Omega\_{\\mathcal{V}}$ tracks the $\\mathcal{O}(t^{-1})$ trajectory predicted by Theorem 3.1. (Right) The Text-to-Visual Ratio (TVR) follows the two-phase mechanism — linear accumulation, then a saturation plateau where textual priors structurally overwhelm visual signals."
+   caption="Figures 2, 3: Empirical verification of visual signal dilution. (Left) On a log scale, $\Omega_{\mathcal{V}}$ tracks the $\mathcal{O}(t^{-1})$ trajectory predicted by Theorem 3.1. (Right) The Text-to-Visual Ratio (TVR) follows the two-phase mechanism — linear accumulation, then a saturation plateau where textual priors structurally overwhelm visual signals."
    zoomable=true %}
 
 A layer-wise breakdown reveals the decay is not uniform — *intermediate layers 8-27* suffer the steepest drop, which is exactly where multimodal reasoning lives. That's a natural place to insert a retrieval module.
@@ -136,7 +136,7 @@ PVM operationalizes both insights directly.
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/fig4-pvm-framework.png"
    class="img-fluid rounded z-depth-1"
-   caption="Figure 4: Overview of the PVM framework. The module runs as a parallel branch alongside the frozen FFN. The hidden state is the Query, original visual embeddings are the Keys/Values. The bottleneck adapter (Projection → Cross-Attn → FFN → Restoration) outputs a residual that is gated by a Visual Silencing Mask (text-only activation) and a learnable scalar $\\lambda$ initialized to 0."
+   caption="Figure 4: Overview of the PVM framework. The module runs as a parallel branch alongside the frozen FFN. The hidden state is the Query, original visual embeddings are the Keys/Values. The bottleneck adapter (Projection → Cross-Attn → FFN → Restoration) outputs a residual that is gated by a Visual Silencing Mask (text-only activation) and a learnable scalar $\lambda$ initialized to 0."
    zoomable=true %}
 
 #### Two parallel paths
@@ -182,7 +182,7 @@ The full forward pass:
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/algo1-forward-pass.png"
    class="img-fluid rounded z-depth-1"
-   caption="Algorithm 1: Forward pass of a PVM-enhanced Transformer block. Stage 1 runs standard self-attention. Stage 2 bifurcates into the frozen FFN (Path A) and the PVM branch (Path B), which compresses to latent space (B1), runs gated cross-attention plus a latent FFN (B2), then restores and applies the silencing mask (B3). Stage 3 fuses everything via $\\mathbf{y} = \\mathbf{x} + \\mathbf{h}\_{\\text{ffn}} + \\text{injection}$."
+   caption="Algorithm 1: Forward pass of a PVM-enhanced Transformer block. Stage 1 runs standard self-attention. Stage 2 bifurcates into the frozen FFN (Path A) and the PVM branch (Path B), which compresses to latent space (B1), runs gated cross-attention plus a latent FFN (B2), then restores and applies the silencing mask (B3). Stage 3 fuses everything via $\mathbf{y} = \mathbf{x} + \mathbf{h}_{\text{ffn}} + \text{injection}$."
    zoomable=true %}
 
 ### Theorem 4.1: structural mitigation of dilution
@@ -325,7 +325,7 @@ Strided wins by +1.3 over Max Decay and +2.2 over Peak Attention on average (the
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0008-persistent-visual-memory/fig8-layer-distribution.png"
    class="img-fluid rounded z-depth-1"
-   caption="Figure 8: Per-layer mean visual attention mass distribution. Layers 0-7 are nearly inactive, the peak sits around layers 13-18, and a gradual decay follows — the \"Rise-Peak-Decay\" shape that guides PVM's data-driven injection strategy."
+   caption="Figure 8: Per-layer mean visual attention mass distribution. Layers 0-7 are nearly inactive, the peak sits around layers 13-18, and a gradual decay follows — the &quot;Rise-Peak-Decay&quot; shape that guides PVM's data-driven injection strategy."
    zoomable=true %}
 
 ### Latent dimension size

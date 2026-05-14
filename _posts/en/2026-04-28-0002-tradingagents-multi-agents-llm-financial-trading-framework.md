@@ -112,7 +112,7 @@ The trader takes both the analyst reports and the (now resolved) researcher view
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0002-tradingagents-multi-agents-llm-financial-trading-framework/fig4-trader.png"
    class="img-fluid rounded z-depth-1"
-   caption="Figure 4: the trader's structured output bundles a decision, a reasoning string, and a recommendation. \"Strong financials and growth prospects outweigh valuation and liquidity risks → BUY for long-term growth despite short-term risks.\""
+   caption="Figure 4: the trader's structured output bundles a decision, a reasoning string, and a recommendation. &quot;Strong financials and growth prospects outweigh valuation and liquidity risks → BUY for long-term growth despite short-term risks.&quot;"
    zoomable=true %}
 
 The interesting field here is *Reasoning*, not *Decision*. The next stage — risk management — is going to attack that reasoning string directly.
