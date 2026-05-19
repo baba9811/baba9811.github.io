@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-goldfish-monolingual-language-models-for-350-languages",
+        },{id: "post-paper-review-mint-managed-infrastructure-for-training-and-serving-millions-of-llms",
+        
+          title: "[Paper Review] MinT: Managed Infrastructure for Training and Serving Millions of LLMs",
+        
+        description: "A managed infrastructure for training and serving millions of LoRA policies over a small set of resident base models. Adapter revisions become the unit that crosses the training-serving boundary, cutting the handoff by 18.3x and validating the path up to 1T-scale MoE.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0016-mint-managed-infrastructure-for-training-and-serving-million/";
+          
+        },
+      },{id: "post-논문-리뷰-mint-managed-infrastructure-for-training-and-serving-millions-of-llms",
+        
+          title: "[논문 리뷰] MinT: Managed Infrastructure for Training and Serving Millions of LLMs",
+        
+        description: "수백만 개의 LoRA 정책을 공유 베이스 모델 위에서 학습·서빙하는 관리형 인프라. Adapter revision을 학습-서빙 경계의 단위로 삼아 핸드오프를 18.3× 줄이고, 1T급 MoE까지 검증한다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0016-mint-managed-infrastructure-for-training-and-serving-million/";
+          
+        },
+      },{id: "post-paper-review-goldfish-monolingual-language-models-for-350-languages",
         
           title: "[Paper Review] Goldfish: Monolingual Language Models for 350 Languages",
         
