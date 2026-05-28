@@ -1,0 +1,278 @@
+---
+layout: post
+title: "[논문 리뷰] ShowUI: One Vision-Language-Action Model for GUI Visual Agent"
+date: 2026-05-29 14:00:00 +0900
+description: "스크린샷을 사람처럼 '보고' 클릭하는 GUI 에이전트. 2B 모델과 256K 데이터로 zero-shot 그라운딩 75.1%를 달성한 ShowUI의 UI-guided 토큰 선택과 interleaved vision-language-action 스트리밍을 깊게 본다."
+tags: [gui-agent, vision-language-action, multimodal, visual-grounding, token-selection, computer-use]
+categories: paper-review
+giscus_comments: false
+thumbnail: assets/img/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/fig3-architecture.png
+bibliography: papers.bib
+toc:
+  beginning: true
+lang: ko
+permalink: /papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/
+en_url: /en/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/
+---
+
+{% include lang_toggle.html %}
+
+#### 메타정보
+
+| 항목 | 내용 |
+|------|------|
+| 저자 | Kevin Qinghong Lin et al. (저자 9명, National University of Singapore · Microsoft) |
+| 학회 | CVPR · 2025 |
+| arXiv | [2411.17465](https://arxiv.org/abs/2411.17465) |
+| Code | [showlab/ShowUI](https://github.com/showlab/ShowUI) |
+| 데이터 | 자체 수집 웹 그라운딩 22K + AMEX 모바일 97K + OmniAct 데스크톱 + GUIAct 내비게이션 — 총 256K 샘플 |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-05-29 |
+
+#### TL;DR
+
+- 스크린샷을 HTML이나 accessibility tree 없이 <strong>사람처럼 픽셀로만 보고</strong> 클릭·입력하는 GUI 비주얼 에이전트 ShowUI를 제안한다. Qwen2-VL-2B 위에 세 가지 설계를 얹어, <strong>2B 모델이 256K 데이터만으로 zero-shot Screenspot 그라운딩 75.1%</strong>를 찍어 7B·18B 모델을 모두 앞선다.
+- 핵심은 <strong>UI-Guided Visual Token Selection</strong> — 스크린샷의 인접 패치를 RGB로 묶어 UI connected graph를 만들고, 한 컴포넌트 안의 중복 토큰을 학습 중에 무작위로 건너뛴다. 위치 정보를 보존하기 때문에 토큰을 평균으로 합치는 token merging과 달리 그라운딩 성능이 거의 떨어지지 않으면서 visual token을 ~33% 줄이고 학습을 1.4배 가속한다.
+- <strong>Interleaved Vision-Language-Action Streaming</strong>으로 내비게이션의 시각-행동 히스토리와 그라운딩의 다중 질의를 하나의 스트림으로 통합하고, <strong>데이터 품질·균형 샘플링</strong>으로 작지만 강한 학습 코퍼스를 만든다. 모델은 [showlab/ShowUI](https://github.com/showlab/ShowUI)에 전부 공개돼 있다.
+
+#### 소개 (Introduction)
+
+Graphical User Interface(GUI)는 사람이 디지털 세계와 상호작용하는 기본 통로다. 그래서 "사용자의 자연어 지시를 받아 화면을 조작하는 에이전트"는 워크플로우 자동화의 오랜 목표였다. 초기 접근의 대부분은 <strong>language agent</strong> — 화면 뒤의 HTML이나 accessibility tree 같은 텍스트 메타정보를 GPT-4 류의 closed-source LLM에 먹여 다음 행동을 고르는 방식이었다. 텍스트 구조가 깔끔하게 주어지는 환경에서는 강력하지만, 현실의 사용자는 그런 "구조적 오라클"에 접근하지 못한 채 <strong>눈으로 화면을 보고</strong> 마우스를 움직인다. 모바일 앱, 캔버스 기반 디자인 툴, 게임처럼 DOM이 의미를 거의 담지 못하는 화면에서는 텍스트 메타정보 자체가 없거나 신뢰할 수 없다.
+
+그래서 최근 흐름은 <strong>GUI visual agent</strong> — 스크린샷을 직접 입력으로 받아 사람처럼 시각적으로 UI를 인지하고 조작하는 모델로 옮겨가고 있다. 그런데 이 전환에는 세 가지 고유한 난관이 따른다. (a) <strong>비싼 시각 모델링</strong>: UI 스크린샷은 보통 2K 해상도라 패치로 쪼개면 토큰 수가 폭발하고, self-attention의 long-context 비용이 커진다. (b) <strong>시각-언어-행동의 얽힘 관리</strong>: 행동은 기기마다 다르고(모바일의 `PRESS HOME`은 웹에 없고, `SCROLL`은 웹에선 상하 2방향·모바일에선 4방향), 내비게이션은 여러 스텝의 스크린샷·행동 히스토리가 누적된다. (c) <strong>다양한 학습 데이터</strong>: 웹·모바일·데스크톱에 걸친 GUI 데이터는 그라운딩·내비게이션 등 목적이 제각각이라 어떻게 골라 섞을지가 불명확하다.
+
+ShowUI는 이 세 난관을 각각 정조준하는 세 가지 설계로 답한다. 그리고 그 답이 단지 "큰 모델로 밀어붙이기"가 아니라 <strong>GUI라는 도메인의 구조를 이용한 효율화</strong>라는 점에서 읽을 가치가 있다. 자연 이미지 연구의 토큰 압축 기법(token pruning, token merging)을 그대로 가져오면 GUI에서 망가지는데, 왜 망가지고 무엇으로 고쳐야 하는지를 이 논문이 깔끔하게 보여준다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/fig2-comparison.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 2. (왼쪽) Screenspot zero-shot 그라운딩에서 모델 크기·학습 데이터 대비 정확도. ShowUI-2B는 가장 작고 가장 적은 데이터로 최고 정확도를 낸다. (오른쪽) UI-guided 토큰 선택으로 visual token을 33% 줄이고 학습을 1.4배 가속한다."
+   zoomable=true %}
+
+#### 핵심 기여 (Key Contributions)
+
+- <strong>UI-Guided Visual Token Selection</strong>: RGB 공간에서 스크린샷의 중복 패치를 묶어 UI connected graph를 구성하고, 이를 self-attention의 토큰 선택 기준으로 삼는다. 추가 학습 파라미터 없이 visual token 중복을 줄여 계산량을 낮춘다.
+- <strong>Interleaved Vision-Language-Action Streaming</strong>: 행동을 JSON으로 표준화하고, 내비게이션의 시각-행동 히스토리(action-visual)와 그라운딩의 다중 질의(action-query)를 하나의 interleaved 스트림으로 통합해 다양한 GUI 시나리오를 한 모델로 처리한다.
+- <strong>소규모 고품질 instruction-following 데이터셋</strong>: 데이터 타입별 가치를 분석(웹에서 static text는 40%지만 정보량이 낮다 등)하고, 시각적으로 풍부한 요소만 남긴 뒤 균형 샘플링으로 불균형을 보정한다. 총 256K 샘플로 학습.
+- <strong>결과</strong>: 2B 모델이 zero-shot Screenspot 그라운딩 75.1%로 7B·18B 모델을 앞서고, AITW(모바일)·Mind2Web(웹)·MiniWob(온라인) 내비게이션에서 경쟁력 있는 성능을 보인다. 모델·코드 전면 공개.
+
+#### 관련 연구 / 배경 지식
+
+<strong>GUI 에이전트의 두 갈래.</strong> 하나는 <strong>training-free</strong> 방식으로, GUI를 HTML로 변환하거나 accessibility tree를 읽거나 OCR·Set-of-Marks로 화면을 텍스트화한 뒤 closed-source LLM에 넘긴다. 강력하지만 비싼 API에 의존하고, 텍스트 오라클이 없는 화면에선 무력하다. 다른 하나는 <strong>training-based</strong> 방식으로, 대규모 vision-text 코퍼스로 사전학습한 모델에 element grounding이나 navigation을 직접 학습시킨다. SeeClick 류가 웹 스크린샷으로 그라운딩 능력을 키운 대표 사례이고, ShowUI도 이 두 번째 갈래에 속한다.
+
+<strong>그라운딩 vs 내비게이션.</strong> GUI 태스크는 크게 두 가지다. <strong>그라운딩</strong>은 "이 버튼을 눌러"라는 지시에서 클릭할 좌표 $[x, y]$를 찍는 것이고(한 스크린샷 + 한 질의), <strong>내비게이션</strong>은 여러 스텝에 걸쳐 화면을 바꿔가며 목표를 달성하는 것(누적 히스토리)이다. 두 태스크는 입력 구조가 달라 보통 따로 다뤄지는데, ShowUI는 이를 하나의 streaming 형식으로 합친다.
+
+<strong>왜 자연 이미지의 토큰 압축이 GUI에서 안 통하는가.</strong> Vision Transformer의 계산 병목은 긴 토큰 시퀀스를 처리하는 cascaded self-attention이다. 자연 이미지에서는 token pruning이나 token merging(ToMe)으로 비슷한 패치를 합쳐 토큰을 줄인다. 그러나 GUI 그라운딩은 <strong>정확한 위치</strong>가 생명이다. 토큰을 평균으로 합쳐버리면(merging) 그 토큰이 화면의 어디였는지 위치 정보가 사라져 좌표를 찍을 수 없다. ShowUI는 여기서 영감을 Mixture-of-Depth(MoD)에서 가져온다 — 토큰을 합치는 대신 <strong>일부 토큰을 라우팅으로 건너뛰되, 살아남은 토큰은 원래 위치 임베딩을 그대로 유지</strong>한다. 문제는 "어떤 토큰을 건너뛸지"의 기준인데, ShowUI는 그 기준을 학습하는 대신 <strong>UI connected graph라는 공짜 사전 지식</strong>으로 대체한다.
+
+#### 방법 / 아키텍처 상세
+
+ShowUI는 Qwen2-VL-2B를 백본으로 삼아 세 컴포넌트를 얹는다. 전체 동작은 다음과 같다: 사용자 태스크 쿼리, 사전 정의된 action space(시스템 프롬프트의 README로 제공), 초기 스크린샷을 받아 → 다음 행동을 예측 → 화면 갱신 → 반복. 시각 토큰과 텍스트(행동) 토큰이 하나의 시퀀스에 interleaved되어 self-attention을 통과한다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/fig3-architecture.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 3. ShowUI의 동작 개요. 태스크 쿼리·action space·초기 스크린샷에서 시작해, 시각 관찰(녹색)과 행동 히스토리(주황)를 interleaved 스트림으로 쌓으며 다음 행동을 순차 생성한다."
+   zoomable=true %}
+
+### UI Connected Graph: GUI 중복을 RGB로 잡아내기
+
+핵심 통찰은 "UI 스크린샷은 자연 이미지와 근본적으로 다르다"는 것이다. 자연 이미지는 텍스처·패턴이 풍부해 거의 모든 패치가 정보를 담지만, UI는 빈 공간·단색 배경·반복되는 영역이 많아 <strong>상당수 패치가 중복</strong>이다. 게다가 UI는 가독성을 위해 일관된 색 구성을 쓰기 때문에, 시각적으로 같은 영역은 <strong>RGB 값이 거의 정확히 같다</strong>. 이 성질이 공짜 redundancy 신호가 된다.
+
+ShowUI는 스크린샷을 패치 격자로 나눠 각 패치를 그래프의 노드로 보고, 인접한 두 패치의 RGB 차이가 임계값 $\delta$보다 작으면 두 노드를 연결한다. 그 결과 화면은 $K$개의 connected component로 묶이는데, $K$는 원래 패치 수 $G\_h \times G\_w$보다 훨씬 작다. 연결 판정은 다음 조건으로 이뤄진다.
+
+$$
+\| \mathrm{RGB}(i, j) - \mathrm{RGB}(i', j') \| < \delta
+$$
+
+여기서 $(i', j')$는 $(i, j)$의 오른쪽·아래 이웃이다. 컴포넌트를 효율적으로 찾기 위해 Union-Find를 쓴다.
+
+```text
+Algorithm 1: Find Connected Components on UI-Graph
+입력:  크기 H × W 스크린샷, 패치 크기 c, 임계값 δ
+출력:  패치 → connected component 할당 맵
+1: 이미지를 G_h × G_w 패치로 분할 (G_h = H/c, G_w = W/c), 각 패치는 노드
+2: 모든 노드에 대해 Union-Find 구조 UF 초기화
+3: for 모든 노드 (i, j) do
+4:     for (i,j)의 오른쪽·아래 이웃 (i', j') do
+5:         if ‖RGB(i,j) − RGB(i',j')‖ < δ then
+6:             UF.union((i, j), (i', j'))
+7: return UF의 할당 맵
+```
+
+이 그래프가 화면의 정보량에 따라 <strong>적응적</strong>으로 컴포넌트 수를 정한다는 점이 좋다. 예컨대 여백이 많은 Google 검색 화면은 1296개 패치가 291개 컴포넌트로 압축되고, 텍스트가 빽빽한 Overleaf 화면은 986개 컴포넌트로 덜 압축된다. 즉 "압축률을 사람이 정하지 않아도 화면이 알아서 결정한다".
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/fig5-uigraph-examples.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 5. 모바일(a–d)·PC(e–f)·웹(g–h) 스크린샷에서 구성된 UI-connected graph. 여백이 많은 화면(예: 1272→175)은 컴포넌트가 적고, 텍스트가 밀집한 화면(예: 1296→740)은 많다. 압축이 정보량에 적응한다."
+   zoomable=true %}
+
+### Token Selection vs Token Merging: 위치를 지켜라
+
+UI connected graph를 얻었으니 이제 이걸로 토큰을 줄여야 한다. 두 가지 방법이 있다.
+
+- <strong>Token Merging</strong>: 한 컴포넌트의 모든 패치를 하나의 토큰으로 풀링(pooling)한다. 토큰 수는 컴포넌트 수까지 줄지만, 풀링 과정에서 <strong>개별 패치의 위치 정보가 사라진다</strong>. 그라운딩에서 치명적이다.
+- <strong>Token Selection (ShowUI의 선택)</strong>: 한 컴포넌트 안에서 일부 토큰을 학습 중 <strong>무작위로 건너뛰고</strong>, 단일 패치 컴포넌트는 건드리지 않는다. 살아남은 토큰은 <strong>원래 위치 임베딩을 그대로 유지</strong>하므로, 더 짧은 시퀀스 위에서도 self-attention이 원래 공간 관계를 보존한 채 동작한다. 추가 학습 파라미터가 없다.
+
+이 token selection은 self-attention 블록에 삽입되는데, Un-Pooling/Pooling으로 감싸 일부 레이어에서만 토큰을 줄였다 복원한다. 학습 때는 정해진 비율로 무작위 마스킹을 하고, 추론 때는 토큰 선택을 켜거나(속도↑) 끌 수(정확도↑) 있다. 두 경우 모두 전체 시퀀스의 위치 관계가 일관되게 유지된다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/fig4-token-selection.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 4. (왼쪽) 스크린샷을 28×28 패치로 나눠 RGB가 같은 인접 패치를 묶어 UI connected graph를 만든다. (오른쪽) token merging은 한 컴포넌트를 한 토큰으로 합쳐 위치 정보를 잃지만, token selection은 일부 토큰만 샘플링하고 원래 위치 관계를 유지한다."
+   zoomable=true %}
+
+참고로 1344×756 PC 스크린샷은 14×14 패치로 약 5184개의 raw 토큰이 되고, Qwen2-VL의 2×2 merge를 거치면 1296개가 된다. 여기서도 self-attention 비용은 여전히 부담스럽다. ShowUI는 그 위에서 token selection으로 한 번 더 줄인다.
+
+### Interleaved Vision-Language-Action Streaming
+
+두 번째 컴포넌트는 행동을 다른 모달리티와 어떻게 엮느냐다. ShowUI는 모든 행동을 JSON으로 표준화한다.
+
+```text
+{'action': 'CLICK', 'value': None, 'position': [0.18, 0.50]}
+{'action': 'TYPE',  'value': 'las vegas', 'position': [0.54, 0.42]}
+```
+
+좌표 `[x, y]`는 0–1로 정규화돼 기기·해상도에 무관하게 통일된다. 게다가 시스템 프롬프트에 각 행동의 사용법을 적은 <strong>README</strong>를 함께 넣는다(예: "`CLICK`: 요소를 클릭, value는 불필요, position 필요"). 이렇게 하면 모델이 고정된 행동 집합을 외우는 대신 <strong>action space 문서를 읽고 test time에 함수 호출처럼 해석</strong>하게 되어, 학습 때 보지 못한 새 행동도 다룰 수 있다.
+
+행동을 다른 모달리티와 엮는 방식은 태스크에 따라 두 가지다(Figure 6).
+
+- <strong>Action-Visual Streaming (내비게이션)</strong>: 스크린샷과 행동을 시간 순서대로 번갈아 쌓는다. $i$번째 행동을 한 뒤 $(i+1)$번째 스크린샷이 큐에 들어가고, 모델은 그걸 보고 다음 행동을 낸다. 응용에 따라 시각 히스토리의 일부를 마스킹할 수 있다. 모바일은 소프트웨어가 화면을 크게 바꾸므로 스크린샷을 유지하고, 웹은 화면이 비교적 정적이라 마스킹해 효율을 높인다.
+- <strong>Action-Query Streaming (그라운딩)</strong>: 한 스크린샷에 여러 질의-행동 쌍을 묶어 <strong>한 번의 forward로 동시에</strong> 예측한다. 스크린샷 토큰(1–2K)에 비해 질의는 10토큰 미만으로 훨씬 짧기 때문에, 이미지 하나에 행동 하나만 붙이는 방식은 낭비다. 여러 질의를 한 화면에 묶으면 학습 데이터 활용도가 크게 오른다.
+
+히스토리 길이는 2로 설정했다. 이 streaming 설계 덕분에 그라운딩과 내비게이션이라는 입력 구조가 다른 두 태스크를 <strong>하나의 모델·하나의 형식</strong>으로 학습할 수 있다.
+
+#### 학습 목표 / 손실 함수
+
+ShowUI의 학습 목표는 특별한 보조 손실 없이, interleaved 스트림 위에서 행동 토큰에 대한 <strong>표준 language modeling 손실</strong>이다. Figure 6에서 보듯 시각 토큰은 조건(컨텍스트)으로만 들어가고, LM loss는 행동(action-visual 모드) 또는 질의에 대응하는 행동(action-query 모드)에만 걸린다. 즉 스크린샷을 $s$, 행동을 $a$로 쓰면 시퀀스 $\{s\_1, a\_1, s\_2, a\_2, \dots\}$에서 행동 부분만 다음 토큰 예측 대상이 된다.
+
+$$
+\mathcal{L} = - \sum_{t \in \mathcal{A}} \log p_\theta\!\left(a_t \mid a_{<t}, \; v_{\le t}\right)
+$$
+
+여기서 $\mathcal{A}$는 행동 토큰의 인덱스 집합, $a\_t$는 $t$번째 행동 토큰, $v\_{\le t}$는 그 시점까지의 시각 관찰(token selection을 거친 압축 표현)이다. UI-guided token selection은 이 목적함수를 바꾸지 않고 $v$의 시퀀스 길이만 줄인다 — 추가 파라미터도, 추가 손실 항도 없다는 점이 설계의 깔끔함이다.
+
+#### 학습 데이터와 파이프라인
+
+세 번째 기여는 데이터다. 저자들은 "모든 데이터를 다 긁어 넣기"를 거부하고 타입별 가치를 분석한다. 웹에서 `static text` 태그는 전체의 40%를 차지하지만, 대부분의 VLM이 이미 OCR 능력을 갖췄으므로 <strong>정보 가치가 낮다</strong>. 그래서 `Button`·`Checkbox`처럼 시각적으로 풍부한 요소만 남긴다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/tab1-data.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Table 1. ShowUI instruction-tuning 데이터 개요. 그라운딩(Web/Mobile/Desktop)과 내비게이션(Web/Mobile) 합쳐 256K 샘플, 2.7M 요소."
+   zoomable=true %}
+
+| 종류 | 출처 | 규모 | 비고 |
+|------|------|------|------|
+| 그라운딩·웹 | 자체 수집 (PyAutoGUI 파서, 22개 사이트) | 22K 스크린샷 / 576K 요소 | static text 제거 후 시각 요소만 (스크린샷당 평균 26개) |
+| 그라운딩·모바일 | AMEX | 97K 스크린샷 / 926K 요소 | element grounding + functionality |
+| 그라운딩·데스크톱 | OmniAct | 100 스크린샷 / 2K raw 주석 | GPT-4o로 appearance·spatial·intention 질의 증강 → 6K 요소 |
+| 내비게이션·웹 | GUIAct | 72K / 569K (행동 9종, 평균 길이 7.9) | one/multi-step |
+| 내비게이션·모바일 | GUIAct | 65K / 585K (행동 5종, 평균 길이 9.0) | multi-step |
+| <strong>합계</strong> | Diverse | <strong>256K 샘플 / 2.7M 요소</strong> | |
+
+데이터 규모가 타입마다 크게 다르다(데스크톱은 100개뿐). 그대로 섞으면 큰 데이터셋에 학습이 쏠린다. 그래서 <strong>균형 샘플링(balanced sampling)</strong>으로 각 배치가 모든 타입을 비슷한 확률로 포함하게 한다. 가중치는 (Web : Mobile : Desktop : GUIAct-Web : GUIAct-Mobile) = (1 : 1 : 1 : 1 : 1).
+
+<strong>학습 설정.</strong> 백본은 Qwen2-VL-2B. LoRA(rank 64, alpha 128)를 language model과 vision encoder 양쪽에 적용해 전체의 4%만 학습한다. instruction-tuning은 V100 32장, downstream 적응은 8장. GPU당 batch size 1에 gradient accumulation 2, float16, DeepSpeed Zero-2, SDPA attention, 학습률 1e-4, 최대 visual patch 1280. UI-graph는 vision encoder와 LM 양쪽에 비율 0.75 마스킹·layer 14 cross-layer 삽입으로 적용하고, 히스토리는 2. 전체 instruction-tuning은 약 2일.
+
+#### 실험 결과
+
+### 그라운딩 — Screenspot
+
+Screenspot은 모바일·데스크톱·웹 세 기기에서 텍스트/아이콘 요소를 zero-shot으로 찾는 그라운딩 벤치마크다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/tab2-grounding.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Table 2. Screenspot zero-shot 그라운딩. ShowUI(2B, 256K)가 평균 75.1%로 UGround-7B(73.3, 1.3M)와 GPT-4V 기반 OmniParser(73.0)를 앞선다."
+   zoomable=true %}
+
+ShowUI(2B, 256K)는 평균 <strong>75.1%</strong>로, UGround-7B(73.3, 데이터 1.3M)·GPT-4V를 쓰는 OmniParser(73.0)·SeeClick-9.6B(53.4)·CogAgent-18B(47.4)를 모두 앞선다. 그라운딩 데이터만 쓴 변형 ShowUI-G(119K)도 74.9로 거의 동등하다. 즉 <strong>더 작은 모델이 더 적은 데이터로 더 잘한다</strong>.
+
+세부 경향도 시사적이다. (i) 모든 모델에서 텍스트 트랙 점수가 아이콘 트랙보다 높다 — 텍스트 그라운딩 능력은 웹·모바일 데이터에서 잘 전이되지만, 아이콘은 순수한 시각 그라운딩이라 더 어렵다. (ii) 아이콘은 모바일에서 점수가 높은데, 데스크톱·웹보다 모바일 UI 그라운딩 데이터가 풍부했기 때문이다. (iii) 내비게이션 데이터를 섞어도 균형 샘플링을 쓰면 그라운딩 성능이 떨어지지 않는다.
+
+### 모바일 내비게이션 — AITW
+
+AITW(Android in the Wild)는 11종 행동을 가진 안드로이드 환경이다. ShowUI는 전체 평균 <strong>70.0</strong>으로 Qwen2-VL-2B(67.2)·SeeClick(59.3)·OmniParser(57.7)를 앞선다. 특히 interleaved streaming(시각 히스토리)을 뺀 변형 ShowUI†(68.3)와 비교하면 <strong>시각 컨텍스트가 +1.7</strong>을 기여한다. 행동 공간이 11종으로 큰 모바일에서, 직전 화면을 보는 것이 적절한 행동 선택에 중요함을 보여준다. 또한 GUIAct에서 배운 zero-shot 내비게이션이 전이된다는 점도 확인된다.
+
+### 웹 내비게이션 — Mind2Web
+
+Mind2Web은 Cross-Task·Cross-Website·Cross-Domain 세 split으로 일반화를 본다. ShowUI는 Step Success Rate에서 각각 37.2 / 35.1 / 35.2로 SeeClick과 비슷한 수준이며, 2B zero-shot으로도 Operation F1 80%+를 달성한다. 흥미로운 발견은 <strong>시각 컨텍스트의 이득이 AITW보다 작다</strong>는 것 — Mind2Web은 시각적으로 비슷한 단일 웹사이트에 집중되고 행동이 3종뿐이라 직전 화면 정보의 가치가 작다. 그리고 cross-website·cross-domain 설정이 더 어려운 점에서, <strong>병목은 텍스트 태스크 이해가 아니라 UI 시각 인지</strong>(처음 보는 사이트·도메인)에 있다고 저자들은 결론짓는다. 후속 개선의 방향은 "시각적으로 다양한 도메인의 학습 데이터"다.
+
+### 온라인 — MiniWob
+
+MiniWob은 35-task split의 온라인 인터랙티브 환경이다. ShowUI는 71.5로 SeeClick(67.0)·Qwen2-VL-2B(66.8)를 앞선다. 다만 zero-shot 변형 ShowUI-ZS는 27.1로, fine-tune된 Qwen-VL(48.4)과 큰 격차가 난다. 저자들의 해석은 "offline instruction-tuning만으로는 out-of-distribution 오류를 충분히 다루지 못하며, <strong>온라인 환경에 맞는 학습 전략(예: RL)</strong>이 필요하다"는 것이다.
+
+#### 결과 분석 / Ablation
+
+ablation은 UI-guided token selection의 설계 선택을 정조준한다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/fig9-ablation.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 9. UI-Guided Token Selection ablation. (a) 압축 방식: token merging은 위치 손실로 급락(테스트 적용 34.7), random selection도 56.2, UI-graph selection은 70.4/64.9로 baseline 70.8에 근접. (b) 삽입 레이어: cross-layer가 최선. (c) 선택 비율: 0.5가 속도·성능 균형점."
+   zoomable=true %}
+
+<strong>압축 방식(9a).</strong> baseline(압축 없음)은 #Vis.Ctx 1344.0에 Screenspot 70.8이다. token merging은 학습 시 토큰을 852.8로 줄이지만 정확도가 42.3(학습만 적용)·34.7(테스트도 적용)로 무너진다 — 위치 정보 손실의 직접적 증거다. random token selection은 65.3 / 56.2로 merging보다는 낫지만 여전히 손해다. ShowUI의 UI-graph token selection은 947.4 토큰에서 <strong>70.4(학습만)·64.9(테스트도 적용)</strong>로, baseline 70.8에 거의 근접한다. 즉 "어떤 토큰을 버릴지"의 기준으로 UI connected graph가 무작위보다 훨씬 효과적임을 보여준다. 테스트 때 적용하면 해상도 손실로 살짝 떨어지지만(64.9), random(56.2)보다 훨씬 안정적이다.
+
+<strong>삽입 레이어(9b).</strong> 같은 수(14개)의 레이어에 token selection을 삽입할 때, 초반 레이어에만(68.2)·후반에만(67.6)·전체 28개(65.7)보다 cross-layer(삽입 레이어와 비삽입 레이어를 번갈아, 70.5)가 확연히 낫다. 모든 레이어에서 줄이면 오히려 손해라는 점이 흥미롭다 — 일부 레이어는 full 토큰으로 정보를 복원해야 한다.
+
+<strong>선택 비율(9c).</strong> 비율 0(압축 없음, 70.8)에서 1.0(최대 압축, 64.5)까지 갈수록 토큰은 1344→762로 줄지만 정확도도 떨어진다. 0.5(947 토큰, 70.4)가 속도와 성능의 균형점으로 제시된다. 배포 설정은 부록 기준 0.75 마스킹으로, Figure 2의 "33% 감소·1.4배 가속"이 이에 대응한다.
+
+<strong>Interleaved streaming(Fig 10·11)·데이터(Table 6).</strong> 다중 턴 streaming은 학습 초기 warmup 단계에서 진행이 빠르고 데이터 활용도가 높다. 시각+행동+다중턴 설정이 행동만 쓰는 설정을 일관되게 앞선다. 데이터 측면에서는 (i) 품질이 중요하다 — OmniAct는 요소가 2K뿐인데도 웹 데이터에 필적하고, GPT-4o 증강으로 더 좋아진다. (ii) 자체 수집 22K 웹 데이터가 SeeClick의 270K를 앞선다 — static text를 걸러 요소 크기를 줄여도 성능이 떨어지지 않는다(정적 텍스트는 VLM에 덜 유익하다는 방증). (iii) 균형 샘플링이 +3.7% 정확도를 준다.
+
+#### 한계와 비판적 평가
+
+- <strong>저자가 인정한 한계</strong>: ShowUI는 주로 offline 데이터로 학습됐다. 온라인 환경에서의 깊은 탐색을 위해 RL 등으로 강화하는 것이 향후 과제이며, MiniWob zero-shot(27.1 vs fine-tune 48.4)의 큰 격차가 이 한계를 드러낸다.
+- <strong>RGB 정확 일치의 취약성</strong>: UI connected graph는 인접 패치의 RGB가 거의 정확히 같다는 가정에 의존한다. 안티앨리어싱·그라데이션·사진/썸네일이 많은 화면(이미지 위주 쇼핑·미디어 페이지, 앱 아이콘 그리드)에서는 압축이 잘 안 될 수 있고, 임계값 $\delta$의 민감도 분석이 본문에 깊게 제시되지 않았다.
+- <strong>학습 가속 ≠ 추론 가속</strong>: Figure 2의 1.4배는 <strong>학습</strong> 가속이다. 추론에서 토큰 선택을 끄면(정확도 70.4 유지) 속도 이득이 없고, 켜면(64.9) 정확도가 떨어진다. 실제 에이전트 루프에서의 latency·비용은 보고되지 않았다.
+- <strong>그라운딩 평가의 단일성</strong>: 그라운딩 정량 평가가 Screenspot 계열에 집중돼 있다. 다양한 해상도·언어권·테마(다크 모드 등)에 대한 강건성은 정성 예시 수준에서만 확인된다.
+- <strong>베이스라인 비교의 폭</strong>: 그라운딩에서 더 큰 모델을 앞선 점은 인상적이나, "같은 2B 백본을 더 많은 데이터/더 큰 모델로 키웠을 때"의 상한이 비교되지 않아, 효율 이득과 데이터 효과가 분리되어 측정되지 않는다.
+
+#### 시사점 / Takeaways
+
+- <strong>스케일보다 도메인 구조.</strong> 2B 모델이 256K 데이터로 7B·18B GUI 모델을 그라운딩에서 앞섰다. 데이터 품질·균형 샘플링과 시각 토큰 효율화가 단순 스케일업을 이긴 사례다.
+- <strong>GUI에는 GUI만의 redundancy prior가 있다.</strong> RGB 기반 UI connected graph는 자연 이미지엔 없는, GUI에만 통하는 무료·무파라미터 압축 신호다. "도메인의 구조를 공짜로 활용한다"는 발상이 핵심.
+- <strong>그라운딩에서는 위치가 전부다.</strong> token merging(위치 손실)이 무너지고 token selection(위치 유지)이 살아남는 ablation은, 좌표를 찍는 태스크에서 위치 정보 보존이 협상 불가임을 명확히 보여준다.
+- <strong>행동을 함수 호출처럼.</strong> 행동을 JSON으로 표준화하고 README로 action space를 문서화하면, 기기마다 다른 행동을 한 모델로 다루고 학습 때 못 본 새 행동도 해석할 수 있다.
+- <strong>GUI 내비게이션의 병목은 텍스트가 아니라 시각 인지다.</strong> cross-domain 일반화를 막는 건 태스크 이해가 아니라 처음 보는 화면을 보는 능력이다. 다음 데이터는 "시각적으로 다양한" 쪽으로 모아야 한다.
+
+#### 설치 및 사용법
+
+ShowUI는 [showlab/ShowUI](https://github.com/showlab/ShowUI)에 공개돼 있고, 체크포인트는 Hugging Face의 `showlab/ShowUI-2B`로 받을 수 있다. Qwen2-VL 계열이라 `transformers`로 바로 로드된다. 아래는 그라운딩(좌표 예측)의 최소 골격으로, 정확한 전처리 헬퍼는 레포의 예제를 따르는 것이 좋다.
+
+```python
+from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
+
+model = Qwen2VLForConditionalGeneration.from_pretrained(
+    "showlab/ShowUI-2B", torch_dtype="auto", device_map="auto"
+)
+processor = AutoProcessor.from_pretrained("showlab/ShowUI-2B")
+
+# 행동 공간을 설명하는 system README + 스크린샷 + 질의를 넣으면
+# 모델이 {'action': 'CLICK', 'value': None, 'position': [x, y]} 형식으로 출력
+messages = [{
+    "role": "user",
+    "content": [
+        {"type": "image", "image": "screenshot.png"},
+        {"type": "text", "text": "Click the search button"},
+    ],
+}]
+text = processor.apply_chat_template(messages, add_generation_prompt=True)
+# 이후 processor로 토크나이즈 → model.generate → position [x,y] (0–1 정규화) 파싱
+```
+
+#### 참고 자료
+
+- 논문: <https://arxiv.org/abs/2411.17465>
+- Code: <https://github.com/showlab/ShowUI>
+- 모델 카드: <https://huggingface.co/showlab/ShowUI-2B>
+- CVPR 2025 Open Access: <https://openaccess.thecvf.com/content/CVPR2025/html/Lin_ShowUI_One_Vision-Language-Action_Model_for_GUI_Visual_Agent_CVPR_2025_paper.html>
+
+#### 더 읽어보기
+
+- **[SeeClick: Harnessing GUI Grounding for Advanced Visual GUI Agents](https://arxiv.org/abs/2401.10935)** (Cheng et al., 2024) — 웹 스크린샷으로 GUI 그라운딩 능력을 사전학습한 대표 연구로, ShowUI의 직접 비교 대상이자 데이터 비교 기준.
+- **[OmniParser for Pure Vision Based GUI Agent](https://arxiv.org/abs/2408.00203)** (Lu et al., 2024) — 화면을 구조화 요소로 파싱해 GPT-4V에 넘기는 순수 비전 GUI 파서. ShowUI가 end-to-end로 이를 앞선 비교군.
+- **[Navigating the Digital World as Humans Do: Universal Visual Grounding for GUI Agents (UGround)](https://arxiv.org/abs/2410.05243)** (Gou et al., 2024) — 대규모 데이터로 7B 보편 그라운딩 모델을 만든 작업. ShowUI-2B가 더 적은 데이터로 추월.
+- **[Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution](https://arxiv.org/abs/2409.12191)** (Wang et al., 2024) — ShowUI의 백본. 임의 해상도 처리와 동적 토큰 수가 GUI 고해상도 입력의 토대.
+- **[Mixture-of-Depths: Dynamically Allocating Compute in Transformer-Based Language Models](https://arxiv.org/abs/2404.02258)** (Raposo et al., 2024) — 토큰을 라우팅으로 건너뛰어 연산을 동적 할당하는 아이디어. ShowUI의 token selection이 직접 영감을 받은 연구.
+- **[CogAgent: A Visual Language Model for GUI Agents](https://arxiv.org/abs/2312.08914)** (Hong et al., 2023) — 고해상도 GUI를 다루는 18B VLM. 큰 모델·큰 데이터의 대척점에서 ShowUI의 효율성을 부각.
