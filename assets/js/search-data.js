@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-mint-managed-infrastructure-for-training-and-serving-millions-of-llms",
+        },{id: "post-paper-review-showui-one-vision-language-action-model-for-gui-visual-agent",
+        
+          title: "[Paper Review] ShowUI: One Vision-Language-Action Model for GUI Visual Agent",
+        
+        description: "A GUI agent that &#39;sees&#39; screenshots like a human and clicks. A deep dive into ShowUI&#39;s UI-guided token selection and interleaved vision-language-action streaming, which hit 75.1% zero-shot grounding with a 2B model and 256K data.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/";
+          
+        },
+      },{id: "post-논문-리뷰-showui-one-vision-language-action-model-for-gui-visual-agent",
+        
+          title: "[논문 리뷰] ShowUI: One Vision-Language-Action Model for GUI Visual Agent",
+        
+        description: "스크린샷을 사람처럼 &#39;보고&#39; 클릭하는 GUI 에이전트. 2B 모델과 256K 데이터로 zero-shot 그라운딩 75.1%를 달성한 ShowUI의 UI-guided 토큰 선택과 interleaved vision-language-action 스트리밍을 깊게 본다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/";
+          
+        },
+      },{id: "post-paper-review-mint-managed-infrastructure-for-training-and-serving-millions-of-llms",
         
           title: "[Paper Review] MinT: Managed Infrastructure for Training and Serving Millions of LLMs",
         
