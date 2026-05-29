@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Paper Review] MobileExplorer: Accelerating On-Device Inference for Mobile GUI Agents via Online Exploration"
-date: 2026-05-29 14:00:00 +0900
+date: 2026-05-29 17:00:00 +0900
 description: "Instead of letting slow on-device VLM inference idle, MobileExplorer spends that window probing the screen to gather hints for the next reasoning step."
 tags: [gui-agent, on-device, vlm, mobile, inference-acceleration, online-exploration]
 categories: paper-review

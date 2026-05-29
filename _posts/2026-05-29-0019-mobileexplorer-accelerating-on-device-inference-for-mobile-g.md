@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[논문 리뷰] MobileExplorer: Accelerating On-Device Inference for Mobile GUI Agents via Online Exploration"
-date: 2026-05-29 14:00:00 +0900
+date: 2026-05-29 17:00:00 +0900
 description: "온디바이스 VLM 추론의 긴 대기 시간을 그냥 흘려보내지 않고, 그 시간에 화면을 미리 탐색해 다음 추론에 쓸 힌트를 모으는 모바일 GUI 에이전트 프레임워크."
 tags: [gui-agent, on-device, vlm, mobile, inference-acceleration, online-exploration]
 categories: paper-review
