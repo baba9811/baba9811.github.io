@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-showui-one-vision-language-action-model-for-gui-visual-agent",
+        },{id: "post-paper-review-ferret-ui-lite-lessons-from-building-small-on-device-gui-agents",
+        
+          title: "[Paper Review] Ferret-UI Lite: Lessons from Building Small On-Device GUI Agents",
+        
+        description: "Apple&#39;s 3B on-device GUI agent. A close read of how real+synthetic data curation, zoom-in visual tool-use, and a two-stage SFT→RLVR recipe push a small model as far as it can go on GUI grounding and navigation — and where it honestly hits a wall.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0018-ferret-ui-lite-lessons-from-building-small-on-device-gui-age/";
+          
+        },
+      },{id: "post-논문-리뷰-ferret-ui-lite-lessons-from-building-small-on-device-gui-agents",
+        
+          title: "[논문 리뷰] Ferret-UI Lite: Lessons from Building Small On-Device GUI Agents",
+        
+        description: "Apple이 만든 3B 온디바이스 GUI 에이전트. 실+합성 데이터 큐레이션, zoom-in 시각 도구 사용, SFT→RLVR 2단계 학습으로 작은 모델을 어디까지 끌어올릴 수 있는지, 그리고 어디서 막히는지를 정직하게 기록한 &#39;교훈 보고서&#39;를 깊게 읽는다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0018-ferret-ui-lite-lessons-from-building-small-on-device-gui-age/";
+          
+        },
+      },{id: "post-paper-review-showui-one-vision-language-action-model-for-gui-visual-agent",
         
           title: "[Paper Review] ShowUI: One Vision-Language-Action Model for GUI Visual Agent",
         
