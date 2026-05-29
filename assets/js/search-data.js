@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-ferret-ui-lite-lessons-from-building-small-on-device-gui-agents",
+        },{id: "post-paper-review-mobileexplorer-accelerating-on-device-inference-for-mobile-gui-agents-via-online-exploration",
+        
+          title: "[Paper Review] MobileExplorer: Accelerating On-Device Inference for Mobile GUI Agents via Online Exploration...",
+        
+        description: "Instead of letting slow on-device VLM inference idle, MobileExplorer spends that window probing the screen to gather hints for the next reasoning step.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0019-mobileexplorer-accelerating-on-device-inference-for-mobile-g/";
+          
+        },
+      },{id: "post-논문-리뷰-mobileexplorer-accelerating-on-device-inference-for-mobile-gui-agents-via-online-exploration",
+        
+          title: "[논문 리뷰] MobileExplorer: Accelerating On-Device Inference for Mobile GUI Agents via Online Exploration...",
+        
+        description: "온디바이스 VLM 추론의 긴 대기 시간을 그냥 흘려보내지 않고, 그 시간에 화면을 미리 탐색해 다음 추론에 쓸 힌트를 모으는 모바일 GUI 에이전트 프레임워크.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0019-mobileexplorer-accelerating-on-device-inference-for-mobile-g/";
+          
+        },
+      },{id: "post-paper-review-ferret-ui-lite-lessons-from-building-small-on-device-gui-agents",
         
           title: "[Paper Review] Ferret-UI Lite: Lessons from Building Small On-Device GUI Agents",
         
@@ -38,17 +60,6 @@ ninja.data = [{
             window.location.href = "/papers/0018-ferret-ui-lite-lessons-from-building-small-on-device-gui-age/";
           
         },
-      },{id: "post-paper-review-mobileexplorer-accelerating-on-device-inference-for-mobile-gui-agents-via-online-exploration",
-        
-          title: "[Paper Review] MobileExplorer: Accelerating On-Device Inference for Mobile GUI Agents via Online Exploration...",
-        
-        description: "Instead of letting slow on-device VLM inference idle, MobileExplorer spends that window probing the screen to gather hints for the next reasoning step.",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/en/papers/0019-mobileexplorer-accelerating-on-device-inference-for-mobile-g/";
-          
-        },
       },{id: "post-paper-review-showui-one-vision-language-action-model-for-gui-visual-agent",
         
           title: "[Paper Review] ShowUI: One Vision-Language-Action Model for GUI Visual Agent",
@@ -58,17 +69,6 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/en/papers/0017-showui-one-vision-language-action-model-for-gui-visual-agent/";
-          
-        },
-      },{id: "post-논문-리뷰-mobileexplorer-accelerating-on-device-inference-for-mobile-gui-agents-via-online-exploration",
-        
-          title: "[논문 리뷰] MobileExplorer: Accelerating On-Device Inference for Mobile GUI Agents via Online Exploration...",
-        
-        description: "온디바이스 VLM 추론의 긴 대기 시간을 그냥 흘려보내지 않고, 그 시간에 화면을 미리 탐색해 다음 추론에 쓸 힌트를 모으는 모바일 GUI 에이전트 프레임워크.",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/papers/0019-mobileexplorer-accelerating-on-device-inference-for-mobile-g/";
           
         },
       },{id: "post-논문-리뷰-showui-one-vision-language-action-model-for-gui-visual-agent",
