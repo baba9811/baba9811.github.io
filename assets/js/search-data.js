@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-mobileexplorer-accelerating-on-device-inference-for-mobile-gui-agents-via-online-exploration",
+        },{id: "post-paper-review-personalization-and-targeting-how-to-experiment-learn-amp-optimize",
+        
+          title: "[Paper Review] Personalization and targeting: how to experiment, learn &amp; optimize",
+        
+        description: "An IJRM review that formalizes personalization as a causal-inference problem and walks through the test-and-learn cycle for experimenting, learning, and optimizing",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0020-personalization-and-targeting-how-to-experiment-learn-optimi/";
+          
+        },
+      },{id: "post-논문-리뷰-personalization-and-targeting-how-to-experiment-learn-amp-optimize",
+        
+          title: "[논문 리뷰] Personalization and targeting: how to experiment, learn &amp; optimize",
+        
+        description: "개인화를 인과추론 문제로 정식화하고, test-and-learn 사이클로 실험·학습·최적화하는 법을 정리한 IJRM 리뷰 논문",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0020-personalization-and-targeting-how-to-experiment-learn-optimi/";
+          
+        },
+      },{id: "post-paper-review-mobileexplorer-accelerating-on-device-inference-for-mobile-gui-agents-via-online-exploration",
         
           title: "[Paper Review] MobileExplorer: Accelerating On-Device Inference for Mobile GUI Agents via Online Exploration...",
         
