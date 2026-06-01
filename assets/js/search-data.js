@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-personalization-and-targeting-how-to-experiment-learn-amp-optimize",
+        },{id: "post-paper-review-robust-uplift-modeling-with-large-scale-contexts-for-real-time-marketing",
+        
+          title: "[Paper Review] Robust Uplift Modeling with Large-Scale Contexts for Real-time Marketing",
+        
+        description: "A review of UMLC (KDD 2025): a model-agnostic uplift framework that tames the distribution shift and variance inflation caused by large-scale contexts via response-guided context grouping and feature interaction.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0021-robust-uplift-modeling-with-large-scale-contexts-for-real-ti/";
+          
+        },
+      },{id: "post-논문-리뷰-robust-uplift-modeling-with-large-scale-contexts-for-real-time-marketing",
+        
+          title: "[논문 리뷰] Robust Uplift Modeling with Large-Scale Contexts for Real-time Marketing",
+        
+        description: "대규모 컨텍스트(짧은 영상 등)가 만드는 분포 변화와 분산 폭증을 response-guided 컨텍스트 그룹핑과 feature interaction으로 해결하는 model-agnostic uplift 프레임워크 UMLC (KDD 2025) 리뷰",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0021-robust-uplift-modeling-with-large-scale-contexts-for-real-ti/";
+          
+        },
+      },{id: "post-paper-review-personalization-and-targeting-how-to-experiment-learn-amp-optimize",
         
           title: "[Paper Review] Personalization and targeting: how to experiment, learn &amp; optimize",
         
