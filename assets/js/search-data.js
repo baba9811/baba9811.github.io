@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-robust-uplift-modeling-with-large-scale-contexts-for-real-time-marketing",
+        },{id: "post-paper-review-multi-interest-recommendation-a-survey",
+        
+          title: "[Paper Review] Multi-Interest Recommendation: A Survey",
+        
+        description: "The first comprehensive survey of multi-interest recommendation, organizing the field around extractors, aggregators, diversity regularization, applications, and open challenges.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0022-multi-interest-recommendation-a-survey/";
+          
+        },
+      },{id: "post-논문-리뷰-multi-interest-recommendation-a-survey",
+        
+          title: "[논문 리뷰] Multi-Interest Recommendation: A Survey",
+        
+        description: "추천 시스템에서 사용자의 다중 관심사를 명시적으로 모델링하는 연구를 추출기·집계기·정규화·응용·미래 방향의 다섯 축으로 정리한 최초의 종합 서베이.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0022-multi-interest-recommendation-a-survey/";
+          
+        },
+      },{id: "post-paper-review-robust-uplift-modeling-with-large-scale-contexts-for-real-time-marketing",
         
           title: "[Paper Review] Robust Uplift Modeling with Large-Scale Contexts for Real-time Marketing",
         
