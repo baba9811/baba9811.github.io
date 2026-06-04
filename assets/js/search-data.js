@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-multi-interest-recommendation-a-survey",
+        },{id: "post-paper-review-a-survey-on-generative-recommendation-data-model-and-tasks",
+        
+          title: "[Paper Review] A Survey on Generative Recommendation: Data, Model, and Tasks",
+        
+        description: "A survey that reframes recommendation from discriminative scoring to generative synthesis, organized along the data, model, and task axes",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0023-a-survey-on-generative-recommendation-data-model-and-tasks/";
+          
+        },
+      },{id: "post-논문-리뷰-a-survey-on-generative-recommendation-data-model-and-tasks",
+        
+          title: "[논문 리뷰] A Survey on Generative Recommendation: Data, Model, and Tasks",
+        
+        description: "추천 시스템을 판별형 점수화에서 생성형 합성으로 재정의하는 흐름을, 데이터·모델·태스크 세 축으로 체계화한 서베이",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0023-a-survey-on-generative-recommendation-data-model-and-tasks/";
+          
+        },
+      },{id: "post-paper-review-multi-interest-recommendation-a-survey",
         
           title: "[Paper Review] Multi-Interest Recommendation: A Survey",
         
