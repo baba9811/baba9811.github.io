@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-a-survey-on-generative-recommendation-data-model-and-tasks",
+        },{id: "post-paper-review-code-world-model-preparedness-report",
+        
+          title: "[Paper Review] Code World Model Preparedness Report",
+        
+        description: "Meta&#39;s pre-release frontier-risk assessment of CWM, a 32B open-weight code model, across cybersecurity, chemical &amp; biological, and honesty (propensity) domains.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0024-code-world-model-preparedness-report/";
+          
+        },
+      },{id: "post-논문-리뷰-code-world-model-preparedness-report",
+        
+          title: "[논문 리뷰] Code World Model Preparedness Report",
+        
+        description: "Meta가 32B 오픈웨이트 코드 모델 CWM을 공개하기 전, 사이버보안·화학생물학·정직성 세 영역에서 프런티어 위험을 사전 평가한 preparedness 리포트 정리.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0024-code-world-model-preparedness-report/";
+          
+        },
+      },{id: "post-paper-review-a-survey-on-generative-recommendation-data-model-and-tasks",
         
           title: "[Paper Review] A Survey on Generative Recommendation: Data, Model, and Tasks",
         
