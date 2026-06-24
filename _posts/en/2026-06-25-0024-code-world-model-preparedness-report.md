@@ -237,7 +237,7 @@ The authors flag a trade-off, though: they didn't measure whether the structured
 - This report: <https://arxiv.org/abs/2605.00932>
 - CWM main technical report: <https://ai.meta.com/research/publications/cwm-an-open-weights-llm-for-research-on-code-generation-with-world-models/>
 - CWM model & code: <https://github.com/facebookresearch/cwm>
-- Meta Frontier AI Framework: <https://ai.meta.com/static-resource/meta-frontier-ai-framework>
+- Meta Frontier AI Framework (now renamed the Advanced AI Scaling Framework v2): <https://ai.meta.com/static-resource/Meta_Advanced-AI-Scaling-Framework-v2> — announcement: <https://about.fb.com/news/2025/02/meta-approach-frontier-ai/>
 
 #### Further reading
 

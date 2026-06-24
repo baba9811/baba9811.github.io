@@ -237,7 +237,7 @@ Table 14가 핵심이다. CWM은 with reasoning에서 honesty 62.7·normalized 5
 - 논문(이 리포트): <https://arxiv.org/abs/2605.00932>
 - CWM 본체 기술 보고서: <https://ai.meta.com/research/publications/cwm-an-open-weights-llm-for-research-on-code-generation-with-world-models/>
 - CWM 모델·코드: <https://github.com/facebookresearch/cwm>
-- Meta Frontier AI Framework: <https://ai.meta.com/static-resource/meta-frontier-ai-framework>
+- Meta Frontier AI Framework (현재는 Advanced AI Scaling Framework v2로 개명): <https://ai.meta.com/static-resource/Meta_Advanced-AI-Scaling-Framework-v2> — 발표 글: <https://about.fb.com/news/2025/02/meta-approach-frontier-ai/>
 
 #### 더 읽어보기
 
