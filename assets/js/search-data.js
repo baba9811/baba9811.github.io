@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-code-world-model-preparedness-report",
+        },{id: "post-paper-review-shield-an-auto-healing-agentic-defense-framework-for-llm-resource-exhaustion-attacks",
+        
+          title: "[Paper Review] SHIELD: An Auto-Healing Agentic Defense Framework for LLM Resource Exhaustion Attacks...",
+        
+        description: "Turning detection failures into knowledge — SHIELD pairs a three-stage defense pipeline with a knowledge-update and prompt-optimization loop to self-heal against sponge attacks.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0025-shield-an-auto-healing-agentic-defense-framework-for-llm-res/";
+          
+        },
+      },{id: "post-논문-리뷰-shield-an-auto-healing-agentic-defense-framework-for-llm-resource-exhaustion-attacks",
+        
+          title: "[논문 리뷰] SHIELD: An Auto-Healing Agentic Defense Framework for LLM Resource Exhaustion Attacks...",
+        
+        description: "탐지 실패를 지식으로 바꾸는 자가 치유형 멀티 에이전트 방어 — sponge 공격에 맞서 3단계 방어 파이프라인과 지식 갱신·프롬프트 최적화 루프를 결합한 SHIELD",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0025-shield-an-auto-healing-agentic-defense-framework-for-llm-res/";
+          
+        },
+      },{id: "post-paper-review-code-world-model-preparedness-report",
         
           title: "[Paper Review] Code World Model Preparedness Report",
         
