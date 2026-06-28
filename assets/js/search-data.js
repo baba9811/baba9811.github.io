@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-shield-an-auto-healing-agentic-defense-framework-for-llm-resource-exhaustion-attacks",
+        },{id: "post-paper-review-autodata-an-agentic-data-scientist-to-create-high-quality-synthetic-data",
+        
+          title: "[Paper Review] Autodata: An agentic data scientist to create high quality synthetic data...",
+        
+        description: "An LLM agent that acts as a data scientist — creating synthetic data, evaluating it, and revising its recipe in a loop — plus how to meta-optimize the agent itself.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0026-autodata-an-agentic-data-scientist/";
+          
+        },
+      },{id: "post-논문-리뷰-autodata-an-agentic-data-scientist-to-create-high-quality-synthetic-data",
+        
+          title: "[논문 리뷰] Autodata: An agentic data scientist to create high quality synthetic data...",
+        
+        description: "LLM 에이전트가 데이터 사이언티스트처럼 합성 데이터를 만들고, 평가하고, 레시피를 고쳐가며 반복하는 Autodata 프레임워크 — 그리고 그 에이전트 자체를 메타 최적화하는 방법.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0026-autodata-an-agentic-data-scientist/";
+          
+        },
+      },{id: "post-paper-review-shield-an-auto-healing-agentic-defense-framework-for-llm-resource-exhaustion-attacks",
         
           title: "[Paper Review] SHIELD: An Auto-Healing Agentic Defense Framework for LLM Resource Exhaustion Attacks...",
         
