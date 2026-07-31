@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-autodata-an-agentic-data-scientist-to-create-high-quality-synthetic-data",
+        },{id: "post-paper-review-kimi-k3-open-frontier-intelligence",
+        
+          title: "[Paper Review] Kimi K3: Open Frontier Intelligence",
+        
+        description: "A 2.8T-parameter, 104B-active, 1M-context open-weight MoE. Kimi Delta Attention, Attention Residuals, and Stable LatentMoE push scaling efficiency 2.5x over Kimi K2 to reach the frontier.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0027-kimi-k3-open-frontier-intelligence/";
+          
+        },
+      },{id: "post-논문-리뷰-kimi-k3-open-frontier-intelligence",
+        
+          title: "[논문 리뷰] Kimi K3: Open Frontier Intelligence",
+        
+        description: "2.8T 파라미터 · 104B 활성 · 1M 컨텍스트의 오픈 웨이트 MoE. Kimi Delta Attention, Attention Residuals, Stable LatentMoE 로 Kimi K2 대비 scaling 효율을 2.5배 끌어올린 프런티어 모델.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0027-kimi-k3-open-frontier-intelligence/";
+          
+        },
+      },{id: "post-paper-review-autodata-an-agentic-data-scientist-to-create-high-quality-synthetic-data",
         
           title: "[Paper Review] Autodata: An agentic data scientist to create high quality synthetic data...",
         
