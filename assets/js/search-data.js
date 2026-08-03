@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-kimi-k3-open-frontier-intelligence",
+        },{id: "post-paper-review-frontis-ma1-training-an-ai4ai-model-towards-recursive-self-improvement-in-machine-learning-engineering",
+        
+          title: "[Paper Review] Frontis-MA1: Training an AI4AI Model towards Recursive Self-Improvement in Machine Learning...",
+        
+        description: "Four atomic operators — Draft, Improve, Debug, Crossover — shared between post-training and evolutionary search. A 35B model hits 71.21% on MLE-Bench Lite on a single RTX 4090 with a 12-hour per-task budget.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0028-frontis-ma1-training-an-ai4ai-model-towards-recursive-self-i/";
+          
+        },
+      },{id: "post-논문-리뷰-frontis-ma1-training-an-ai4ai-model-towards-recursive-self-improvement-in-machine-learning-engineering",
+        
+          title: "[논문 리뷰] Frontis-MA1: Training an AI4AI Model towards Recursive Self-Improvement in Machine Learning...",
+        
+        description: "Draft·Improve·Debug·Crossover 네 개의 원자 operator 를 post-training 과 진화 탐색이 공유하게 만든 오픈 풀스택. 35B 모델이 RTX 4090 한 장·12시간 예산에서 MLE-Bench Lite 71.21% 를 찍는다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0028-frontis-ma1-training-an-ai4ai-model-towards-recursive-self-i/";
+          
+        },
+      },{id: "post-paper-review-kimi-k3-open-frontier-intelligence",
         
           title: "[Paper Review] Kimi K3: Open Frontier Intelligence",
         
