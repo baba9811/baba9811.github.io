@@ -134,7 +134,7 @@ $$
 
 - **Supervised Fine-Tuning (SFT).** next-item 예측을 위해 정의된 템플릿으로 fine-tuning. 목표는 $-\log \pi\_\theta(y^+ \mid x)$. positive pair 만 학습해 명시적 negative 가 없어 ranking margin 학습이 어렵다는 게 약점이다 (P5, LGIR).
 - **Self-Supervised Learning (SSL).** 수작업 템플릿 의존을 줄이는 보조 신호 (FELLAS, HFAR). InfoNCE 형태의 contrastive 목표를 쓴다.
-- **Reinforcement Learning (RL).** ranked session 에 reward 기반 최적화로 비미분 metric 을 모델링. 목표는 $-\left[ r\_\phi(x, y^+) - \beta D\_{\text{KL}}(\pi\_\theta(y \mid x) \,\|\, \pi\_{\text{ref}}(y \mid x)) \right]$ (LEA, RPP). 대규모 피드백이 필요하고 불안정하다.
+- **Reinforcement Learning (RL).** ranked session 에 reward 기반 최적화로 비미분 metric 을 모델링. 목표는 $-\left[ r\_\phi(x, y^+) - \beta D\_{\text{KL}}(\pi\_\theta(y \mid x) \,\Vert \, \pi\_{\text{ref}}(y \mid x)) \right]$ (LEA, RPP). 대규모 피드백이 필요하고 불안정하다.
 - **Direct Preference Optimization (DPO).** reward model 없이 선호쌍을 직접 최적화 (LettinGo, RosePO, SPRec). 목표는 $-\log \sigma\!\left( \beta \log \frac{\pi\_\theta(y^+ \mid x)}{\pi\_{\text{ref}}(y^+ \mid x)} - \beta \log \frac{\pi\_\theta(y^- \mid x)}{\pi\_{\text{ref}}(y^- \mid x)} \right)$.
 
 추론 단계에서는 직접 생성이 가장 단순하지만 prompt-sensitive 하고 다양성 제어가 어렵다. 그래서 reranking (RecRanker 의 2단계 파이프라인, LLM4Rerank 의 multi-hop 추론, GFN4Rec 의 GFlowNet) 과 acceleration (FELLAS, Prompt Distillation, AtSpeed 의 speculative decoding 으로 2–2.5배 가속) 이 보완책으로 등장한다.
@@ -173,7 +173,7 @@ end-to-end 방향에서 Kuaishou 의 **OneRec** 은 전통적 retrieval-coarse-f
 
 이 서베이의 가장 중요한 수식적 기여는 Table 5 의 LLM 기반 추천 학습 목표 통합이다 (위 "방법" 절에 임베드). 네 가지 패러다임의 본질적 차이를 손실 함수로 풀면 다음과 같다.
 
-SFT 의 $-\log \pi\_\theta(y^+ \mid x)$ 는 사용자 컨텍스트 $x$ 가 주어졌을 때 선호 아이템 $y^+$ 의 우도를 최대화한다. 단순하지만 negative 가 없어 "무엇을 추천하지 말아야 하는가" 를 배우지 못한다. RL 목표 $-\left[ r\_\phi(x, y^+) - \beta D\_{\text{KL}}(\pi\_\theta \,\|\, \pi\_{\text{ref}}) \right]$ 는 reward $r\_\phi$ 를 최대화하되 KL 항으로 reference policy $\pi\_{\text{ref}}$ 에서 너무 멀어지지 않게 제약한다 ($\beta$ 가 penalty 강도). DPO 는 별도 reward model 없이, 선호 아이템 $y^+$ 와 거부 아이템 $y^-$ 의 로그 우도 비율 차이를 직접 최적화한다 — reward model 학습의 불안정성을 피하면서 선호 정렬을 달성하는 게 핵심이다. 여기서 $\pi\_\theta$ 는 policy model, $\pi\_{\text{ref}}$ 는 reference model, $\sigma$ 는 sigmoid 다.
+SFT 의 $-\log \pi\_\theta(y^+ \mid x)$ 는 사용자 컨텍스트 $x$ 가 주어졌을 때 선호 아이템 $y^+$ 의 우도를 최대화한다. 단순하지만 negative 가 없어 "무엇을 추천하지 말아야 하는가" 를 배우지 못한다. RL 목표 $-\left[ r\_\phi(x, y^+) - \beta D\_{\text{KL}}(\pi\_\theta \,\Vert \, \pi\_{\text{ref}}) \right]$ 는 reward $r\_\phi$ 를 최대화하되 KL 항으로 reference policy $\pi\_{\text{ref}}$ 에서 너무 멀어지지 않게 제약한다 ($\beta$ 가 penalty 강도). DPO 는 별도 reward model 없이, 선호 아이템 $y^+$ 와 거부 아이템 $y^-$ 의 로그 우도 비율 차이를 직접 최적화한다 — reward model 학습의 불안정성을 피하면서 선호 정렬을 달성하는 게 핵심이다. 여기서 $\pi\_\theta$ 는 policy model, $\pi\_{\text{ref}}$ 는 reference model, $\sigma$ 는 sigmoid 다.
 
 확산 기반 추천에서는 forward process $q(S\_t \mid S\_{t-1})$ 가 데이터에 점진적으로 노이즈를 더하고, reverse process $p\_\theta(S\_{t-1} \mid S\_t)$ 가 이를 복원하도록 학습한다. 추천에서는 이 reverse process 에 preference guidance 나 user intent guidance 같은 조건을 주입해 (Figure 8) 사용자 맞춤 결과를 생성한다.
 

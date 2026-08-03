@@ -144,7 +144,7 @@ $$
 \mathbf{h}_j = \text{squash}(\mathbf{s}_j) = \frac{\|\mathbf{s}_j\|^2}{1 + \|\mathbf{s}_j\|^2} \cdot \frac{\mathbf{s}_j}{\|\mathbf{s}_j\|}
 $$
 
-Here $\|\mathbf{s}\_j\|$ is the Euclidean ($L^2$) norm. squash acts as an activation that suppresses short vectors toward zero and compresses long vectors toward unit length. $\mathbf{s}\_j$ is computed as:
+Here $\Vert \mathbf{s}\_j\Vert $ is the Euclidean ($L^2$) norm. squash acts as an activation that suppresses short vectors toward zero and compresses long vectors toward unit length. $\mathbf{s}\_j$ is computed as:
 
 $$
 \begin{aligned}
@@ -303,7 +303,7 @@ $$
 \end{aligned}
 $$
 
-$\bar{\mathbf{C}}$ is the mean of $\mathbf{C}$ along the first axis, and $\|\cdot\|\_F$ is the Frobenius norm.
+$\bar{\mathbf{C}}$ is the mean of $\mathbf{C}$ along the first axis, and $\Vert \cdot\Vert \_F$ is the Frobenius norm.
 
 **Element-wise regularization.** More directly, compare two interests' attention distribution matrices element-wise.
 

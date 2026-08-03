@@ -174,7 +174,7 @@ $$
 \end{aligned}
 $$
 
-Kimi K3 uses $\beta\_1 = 4$ for the gate branch and $\beta\_2 = 25$ for the up branch. The scaled tanh is approximately linear near the origin and bounded at large magnitude, preserving SwiGLU's local response while suppressing both factors. The output is bounded by $\|\mathrm{SiTU\text{-}GLU}(\mathbf{x})\|\_\infty \le \beta\_1 \beta\_2 = 100$.
+Kimi K3 uses $\beta\_1 = 4$ for the gate branch and $\beta\_2 = 25$ for the up branch. The scaled tanh is approximately linear near the origin and bounded at large magnitude, preserving SwiGLU's local response while suppressing both factors. The output is bounded by $\Vert \mathrm{SiTU\text{-}GLU}(\mathbf{x})\Vert \_\infty \le \beta\_1 \beta\_2 = 100$.
 
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0027-kimi-k3-open-frontier-intelligence/tab1-architecture-comparison.png"

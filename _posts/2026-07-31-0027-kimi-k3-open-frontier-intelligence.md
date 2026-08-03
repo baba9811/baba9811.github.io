@@ -174,7 +174,7 @@ $$
 \end{aligned}
 $$
 
-Kimi K3 는 gate branch 에 $\beta\_1 = 4$, up branch 에 $\beta\_2 = 25$ 를 쓴다. scaled tanh 는 원점 근처에서 근사적으로 선형이고 큰 값에서 유계라, SwiGLU 의 국소 응답을 보존하면서 두 인자를 모두 억제한다. 출력은 $\|\mathrm{SiTU\text{-}GLU}(\mathbf{x})\|\_\infty \le \beta\_1 \beta\_2 = 100$ 으로 유계다.
+Kimi K3 는 gate branch 에 $\beta\_1 = 4$, up branch 에 $\beta\_2 = 25$ 를 쓴다. scaled tanh 는 원점 근처에서 근사적으로 선형이고 큰 값에서 유계라, SwiGLU 의 국소 응답을 보존하면서 두 인자를 모두 억제한다. 출력은 $\Vert \mathrm{SiTU\text{-}GLU}(\mathbf{x})\Vert \_\infty \le \beta\_1 \beta\_2 = 100$ 으로 유계다.
 
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0027-kimi-k3-open-frontier-intelligence/tab1-architecture-comparison.png"

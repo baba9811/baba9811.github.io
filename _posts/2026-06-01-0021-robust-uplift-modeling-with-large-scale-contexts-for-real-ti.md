@@ -102,7 +102,7 @@ UMLC는 두 모듈로 이뤄진다. 왼쪽의 <strong>response-guided context gr
 
 각 컨텍스트 $\mathbf{x}^c$ 에 그룹 변수 $g \in \{0, 1, \dots, K-1\}$ 를 대응시키고, $\mathbf{g}$ 를 one-hot으로 본다.
 
-**Assumption 1 (그룹 내 응답 유사성).** 응답은 $y = h(\mathbf{x}^u, \mathbf{x}^c, t) + \epsilon$ 형태이고 $\|h(\mathbf{x}^u, \mathbf{x}^c, t)\| \le B\_h$, $\epsilon$ 은 평균 0 잡음이라 가정한다. 같은 그룹으로 묶이는 임의의 컨텍스트 쌍 $(\mathbf{x}\_i^c, \mathbf{x}\_j^c)$ — 즉 $\mathbb{P}(\mathbf{g}\mid \mathbf{x}\_i^c) = \mathbb{P}(\mathbf{g}\mid \mathbf{x}\_j^c)$ — 에 대해
+**Assumption 1 (그룹 내 응답 유사성).** 응답은 $y = h(\mathbf{x}^u, \mathbf{x}^c, t) + \epsilon$ 형태이고 $\Vert h(\mathbf{x}^u, \mathbf{x}^c, t)\Vert  \le B\_h$, $\epsilon$ 은 평균 0 잡음이라 가정한다. 같은 그룹으로 묶이는 임의의 컨텍스트 쌍 $(\mathbf{x}\_i^c, \mathbf{x}\_j^c)$ — 즉 $\mathbb{P}(\mathbf{g}\mid \mathbf{x}\_i^c) = \mathbb{P}(\mathbf{g}\mid \mathbf{x}\_j^c)$ — 에 대해
 
 $$
 \left|\, \mathbb{E}[y \mid \mathbf{x}^u, \mathbf{x}_i^c, t] - \mathbb{E}[y \mid \mathbf{x}^u, \mathbf{x}_j^c, t] \,\right| \le \delta, \quad \forall\, \mathbf{x}^u, t,\ i \neq j
@@ -135,7 +135,7 @@ $$
 \mathcal{L}_{\text{pred}} = \mathcal{L}\big(f(\mathbf{x}^u, \xi_\theta(\mathbf{x}^c), t),\ y\big)
 $$
 
-**구현 — Lipschitz 정규화.** $f$ 가 입력 $z = (\mathbf{x}^u, \xi(\mathbf{x}^c), t)$ 에 대해 $c$-Lipschitz, 즉 $\|f(z\_i) - f(z\_j)\| \le c\,\lVert z\_i - z\_j \rVert\_2$ 이도록 한다. 각 레이어의 가중치 행렬로 레이어별 Lipschitz 상한 $c\_i$ 를 추정하고, 다음 정규화를 더한다.
+**구현 — Lipschitz 정규화.** $f$ 가 입력 $z = (\mathbf{x}^u, \xi(\mathbf{x}^c), t)$ 에 대해 $c$-Lipschitz, 즉 $\Vert f(z\_i) - f(z\_j)\Vert  \le c\,\lVert z\_i - z\_j \rVert\_2$ 이도록 한다. 각 레이어의 가중치 행렬로 레이어별 Lipschitz 상한 $c\_i$ 를 추정하고, 다음 정규화를 더한다.
 
 $$
 \mathcal{L}_{\text{Lip}} = \prod_{i=1}^{l} \text{softplus}(c_i)

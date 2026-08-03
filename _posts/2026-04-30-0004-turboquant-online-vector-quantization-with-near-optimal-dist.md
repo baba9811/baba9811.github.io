@@ -31,7 +31,7 @@ en_url: /en/papers/0004-turboquant-online-vector-quantization-with-near-optimal-
 
 - **무엇을** — 데이터 의존 학습 (codebook training, calibration set, hyperparameter tuning) 없이 작동하는 두 종류의 온라인 벡터 양자화기 TurboQuant_mse 와 TurboQuant_prod 를 제안한다. 단 한 번의 무작위 회전 후 좌표별로 미리 계산된 (precomputed) 스칼라 codebook 만 적용하면 끝.
 - **어떻게** — 단위 구면 위의 점에 직교 회전을 곱하면 좌표값이 베타 분포 $\text{Beta}(1/2, (d-1)/2)$ 의 변환을 따르고, 고차원에서 $\mathcal{N}(0, 1/d)$ 로 수렴한다. 이 베타 분포에 대해 1차원 $k$-means (Lloyd-Max) 를 풀어 codebook 을 미리 저장한다. 내적 보존 버전은 추가로 1-비트 QJL 을 잔차에 적용한다.
-- **결과** — Theorem 1: $D\_{\text{mse}} \le \frac{\sqrt{3\pi}}{2} \cdot 4^{-b}$, Theorem 2: $D\_{\text{prod}} \le \frac{\sqrt{3}\pi^2 \|y\|\_2^2}{d} \cdot 4^{-b}$. Theorem 3 의 Shannon-기반 하한 $D\_{\text{mse}} \ge 4^{-b}$ 와 비교해 약 $\sqrt{3\pi}/2 \approx 2.7$ 배 격차 (작은 비트폭에서는 더 좁아져 b=1 에서는 약 1.45 배). LongBench-E 에서 3.5비트 TurboQuant 가 Full Cache 평균 50.06 과 동률, ANN 검색에서도 동일 비트폭 PQ/RaBitQ 를 일관되게 상회. d=3072 임베딩 양자화 시간이 PQ 494초, RaBitQ 3957초인 데 반해 TurboQuant 은 0.0021초.
+- **결과** — Theorem 1: $D\_{\text{mse}} \le \frac{\sqrt{3\pi}}{2} \cdot 4^{-b}$, Theorem 2: $D\_{\text{prod}} \le \frac{\sqrt{3}\pi^2 \Vert y\Vert \_2^2}{d} \cdot 4^{-b}$. Theorem 3 의 Shannon-기반 하한 $D\_{\text{mse}} \ge 4^{-b}$ 와 비교해 약 $\sqrt{3\pi}/2 \approx 2.7$ 배 격차 (작은 비트폭에서는 더 좁아져 b=1 에서는 약 1.45 배). LongBench-E 에서 3.5비트 TurboQuant 가 Full Cache 평균 50.06 과 동률, ANN 검색에서도 동일 비트폭 PQ/RaBitQ 를 일관되게 상회. d=3072 임베딩 양자화 시간이 PQ 494초, RaBitQ 3957초인 데 반해 TurboQuant 은 0.0021초.
 
 ## 소개 (Introduction)
 
@@ -45,8 +45,8 @@ TurboQuant 의 답은 단순하다 — **무작위 직교 회전 한 번**. 단�
 
 ## 핵심 기여 (Key Contributions)
 
-- **두 종류의 online VQ 와 그 distortion 상한 정리.** TurboQuant_mse 의 MSE 상한 $D\_{\text{mse}} \le \frac{\sqrt{3\pi}}{2} \cdot 4^{-b}$ (Theorem 1), TurboQuant_prod 의 inner-product 분산 상한 $D\_{\text{prod}} \le \frac{\sqrt{3}\pi^2 \|y\|\_2^2}{d} \cdot 4^{-b}$ (Theorem 2). 두 결과 모두 **임의의 worst-case 입력 벡터** $\boldsymbol{x}, \boldsymbol{y} \in \mathbb{S}^{d-1}$ 에 대해 성립.
-- **정보이론 하한 증명.** Yao 의 minimax principle 과 Shannon Lower Bound (SLB) 를 결합해 어떤 randomized 양자화기도 $D\_{\text{mse}} \ge 4^{-b}$, $D\_{\text{prod}} \ge \|y\|^2/d \cdot 4^{-b}$ 를 피할 수 없음을 보였다 (Theorem 3). 상한과 하한을 같이 제시하므로 "near-optimal" 이 단순 표현이 아니라 정량 근거를 가진다.
+- **두 종류의 online VQ 와 그 distortion 상한 정리.** TurboQuant_mse 의 MSE 상한 $D\_{\text{mse}} \le \frac{\sqrt{3\pi}}{2} \cdot 4^{-b}$ (Theorem 1), TurboQuant_prod 의 inner-product 분산 상한 $D\_{\text{prod}} \le \frac{\sqrt{3}\pi^2 \Vert y\Vert \_2^2}{d} \cdot 4^{-b}$ (Theorem 2). 두 결과 모두 **임의의 worst-case 입력 벡터** $\boldsymbol{x}, \boldsymbol{y} \in \mathbb{S}^{d-1}$ 에 대해 성립.
+- **정보이론 하한 증명.** Yao 의 minimax principle 과 Shannon Lower Bound (SLB) 를 결합해 어떤 randomized 양자화기도 $D\_{\text{mse}} \ge 4^{-b}$, $D\_{\text{prod}} \ge \Vert y\Vert ^2/d \cdot 4^{-b}$ 를 피할 수 없음을 보였다 (Theorem 3). 상한과 하한을 같이 제시하므로 "near-optimal" 이 단순 표현이 아니라 정량 근거를 가진다.
 - **두 단계 분해의 일반성.** Inner-product 양자화기를 "$(b-1)$ 비트 MSE 양자화기 + 1-비트 QJL 잔차" 로 분해. MSE 양자화기 자체가 inner-product 에 대해 multiplicative bias ($b=1$ 의 경우 $2/\pi$) 를 갖는 사실을 정확히 보이고, QJL 의 unbiasedness 로 이 bias 를 상쇄.
 - **KV cache 압축 SOTA.** Llama-3.1-8B-Instruct 의 LongBench-E 에서 3.5비트 TurboQuant 가 Full Cache 평균 (50.06) 과 동률을 기록. Needle-In-A-Haystack 에서 4× 압축 (KV size 25%) 으로도 Full Cache 와 동일한 0.997 점수.
 - **ANN 검색에서 PQ/RaBitQ 보다 더 좋은 recall, 그러면서 양자화 시간이 사실상 0.** d=3072 OpenAI3 임베딩 100K 개 양자화 wall-clock — PQ 494.42초, RaBitQ 3957.19초, TurboQuant 0.0021초.
@@ -75,7 +75,7 @@ $$
 Q_{\text{qjl}}(\boldsymbol{x}) := \text{sign}(\boldsymbol{S} \boldsymbol{x}), \qquad Q_{\text{qjl}}^{-1}(\boldsymbol{z}) := \frac{\sqrt{\pi/2}}{d} \, \boldsymbol{S}^\top \boldsymbol{z}.
 $$
 
-핵심 성질 (Lemma 4): 한 쪽 벡터만 양자화하고 다른 쪽을 그대로 두는 비대칭 inner-product estimator 가 unbiased 이며 분산이 $\frac{\pi}{2d} \|y\|\_2^2$ 로 작다. TurboQuant_prod 의 잔차 단계가 정확히 이 QJL 을 사용.
+핵심 성질 (Lemma 4): 한 쪽 벡터만 양자화하고 다른 쪽을 그대로 두는 비대칭 inner-product estimator 가 unbiased 이며 분산이 $\frac{\pi}{2d} \Vert y\Vert \_2^2$ 로 작다. TurboQuant_prod 의 잔차 단계가 정확히 이 QJL 을 사용.
 
 ## 방법 / 아키텍처 상세
 
@@ -126,7 +126,7 @@ $$
 
 상수 $\sqrt{3\pi}/2 \approx 1.535$. 정보이론 하한 $1/4^b$ 와의 격차는 일반 영역에서 $\sqrt{3\pi}/2 \approx 2.7$ 배 (논문 abstract / Section 1.3 표기) — 본 문서의 상수 1.535 는 일반 비트폭에서의 $\sqrt{3\pi}/2$ 이고, 격차 ~2.7 은 같은 양을 다른 식으로 평가한 결과 (논문 본문 표기 일관). $b=1$ 에서는 1.45 배까지 좁혀진다.
 
-단위 노름 가정 $\|x\|\_2 = 1$ 은 표준이며 비제약적 — 만족하지 않는 데이터셋은 $L\_2$ norm 을 floating-point 로 따로 저장하고 dequant 후 곱하면 된다.
+단위 노름 가정 $\Vert x\Vert \_2 = 1$ 은 표준이며 비제약적 — 만족하지 않는 데이터셋은 $L\_2$ norm 을 floating-point 로 따로 저장하고 dequant 후 곱하면 된다.
 
 ### TurboQuant_mse 는 inner product 에 대해 biased
 
@@ -136,8 +136,8 @@ $$
 
 이 bias 를 없애는 두 단계 알고리즘:
 
-1. $(b-1)$ 비트 TurboQuant_mse 를 적용해 $\tilde{\boldsymbol{x}} = Q\_{\text{mse}}^{-1}(Q\_{\text{mse}}(\boldsymbol{x}))$ 를 얻고 잔차 $\boldsymbol{r} = \boldsymbol{x} - \tilde{\boldsymbol{x}}$ 를 계산. 잔차의 $L\_2$ norm 은 $\mathbb{E}\|\boldsymbol{r}\|\_2 = \sqrt{\mathcal{C}(f\_X, b-1)}$ 로 작다.
-2. 잔차에 QJL 을 적용 — 추가 무작위 행렬 $\boldsymbol{S} \in \mathbb{R}^{d \times d}$ (i.i.d. $\mathcal{N}(0, 1)$) 로 $\text{sign}(\boldsymbol{S} \boldsymbol{r})$ 만 저장. <strong>추가로 잔차 norm $\|\boldsymbol{r}\|\_2$ 를 floating-point 로 같이 저장</strong>한다 (이게 디코딩 시 스케일 회복에 결정적).
+1. $(b-1)$ 비트 TurboQuant_mse 를 적용해 $\tilde{\boldsymbol{x}} = Q\_{\text{mse}}^{-1}(Q\_{\text{mse}}(\boldsymbol{x}))$ 를 얻고 잔차 $\boldsymbol{r} = \boldsymbol{x} - \tilde{\boldsymbol{x}}$ 를 계산. 잔차의 $L\_2$ norm 은 $\mathbb{E}\Vert \boldsymbol{r}\Vert \_2 = \sqrt{\mathcal{C}(f\_X, b-1)}$ 로 작다.
+2. 잔차에 QJL 을 적용 — 추가 무작위 행렬 $\boldsymbol{S} \in \mathbb{R}^{d \times d}$ (i.i.d. $\mathcal{N}(0, 1)$) 로 $\text{sign}(\boldsymbol{S} \boldsymbol{r})$ 만 저장. <strong>추가로 잔차 norm $\Vert \boldsymbol{r}\Vert \_2$ 를 floating-point 로 같이 저장</strong>한다 (이게 디코딩 시 스케일 회복에 결정적).
 
 알고리즘 의사코드:
 
@@ -169,11 +169,11 @@ $$
 D_{\text{prod}} \;\le\; \frac{\pi}{2d} \|\boldsymbol{y}\|_2^2 \cdot D_{\text{mse}}\big|_{b-1} \;\le\; \frac{\sqrt{3}\pi^2 \|\boldsymbol{y}\|_2^2}{d} \cdot \frac{1}{4^b}.
 $$
 
-작은 비트폭 정밀값 — $b = 1, 2, 3, 4$ 에서 $D\_{\text{prod}} \approx 1.57/d, 0.56/d, 0.18/d, 0.047/d$ ($\|\boldsymbol{y}\|\_2^2$ 인수 별도). 정보이론 하한 $D\_{\text{prod}} \ge \|\boldsymbol{y}\|\_2^2 / d \cdot 4^{-b}$ (Theorem 3) 와 동일한 상수 $\sqrt{3}\pi^2 / 1 \approx 17$? — 잠깐 이 비교는 잘못. 정확히는 lower bound 가 $\|y\|^2/d \cdot 4^{-b}$ 이므로 격차 상수는 $\sqrt{3}\pi^2 \approx 17$ 처럼 보이지만, 실제 측정에서는 작은 비트폭에서 더 좁아진다 (그림 3 에서 확인) — 즉 정밀 정수치 0.047 은 lower bound 수준에 더 가깝게 나온다.
+작은 비트폭 정밀값 — $b = 1, 2, 3, 4$ 에서 $D\_{\text{prod}} \approx 1.57/d, 0.56/d, 0.18/d, 0.047/d$ ($\Vert \boldsymbol{y}\Vert \_2^2$ 인수 별도). 정보이론 하한 $D\_{\text{prod}} \ge \Vert \boldsymbol{y}\Vert \_2^2 / d \cdot 4^{-b}$ (Theorem 3) 와 동일한 상수 $\sqrt{3}\pi^2 / 1 \approx 17$? — 잠깐 이 비교는 잘못. 정확히는 lower bound 가 $\Vert y\Vert ^2/d \cdot 4^{-b}$ 이므로 격차 상수는 $\sqrt{3}\pi^2 \approx 17$ 처럼 보이지만, 실제 측정에서는 작은 비트폭에서 더 좁아진다 (그림 3 에서 확인) — 즉 정밀 정수치 0.047 은 lower bound 수준에 더 가깝게 나온다.
 
 ### Lower bound (Theorem 3)
 
-Yao 의 minimax principle 로 randomized 알고리즘의 worst-case 입력에 대한 distortion 을 deterministic 알고리즘의 hardest randomized input distribution 에 대한 distortion 과 동일시한다. Hardest distribution 으로 단위 구면 위 균일분포를 잡으면 SLB (Lemma 3) 에 의해 $D\_{\text{mse}} \ge 4^{-b}$. Inner product 의 경우 pigeon-hole 로 좌표별 평균에서 어떤 좌표는 $\|y\|^2/d \cdot 4^{-b}$ 이상 — 이로부터 $D\_{\text{prod}} \ge \|y\|^2/d \cdot 4^{-b}$.
+Yao 의 minimax principle 로 randomized 알고리즘의 worst-case 입력에 대한 distortion 을 deterministic 알고리즘의 hardest randomized input distribution 에 대한 distortion 과 동일시한다. Hardest distribution 으로 단위 구면 위 균일분포를 잡으면 SLB (Lemma 3) 에 의해 $D\_{\text{mse}} \ge 4^{-b}$. Inner product 의 경우 pigeon-hole 로 좌표별 평균에서 어떤 좌표는 $\Vert y\Vert ^2/d \cdot 4^{-b}$ 이상 — 이로부터 $D\_{\text{prod}} \ge \Vert y\Vert ^2/d \cdot 4^{-b}$.
 
 이 하한이 무작위화된 양자화기 전체 클래스에 대한 결과라는 점이 중요하다 — TurboQuant 만의 특수한 하한이 아니라 어떤 알고리즘도 피할 수 없는 본질적 장벽.
 

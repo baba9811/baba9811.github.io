@@ -102,7 +102,7 @@ UMLC has two modules. On the left, **response-guided context grouping** compress
 
 Each context $\mathbf{x}^c$ is mapped to a group variable $g \in \{0, 1, \dots, K-1\}$, with $\mathbf{g}$ treated as a one-hot vector.
 
-**Assumption 1 (within-group response similarity).** The response has the form $y = h(\mathbf{x}^u, \mathbf{x}^c, t) + \epsilon$ with $\|h(\mathbf{x}^u, \mathbf{x}^c, t)\| \le B\_h$ and zero-mean noise $\epsilon$. For any context pair $(\mathbf{x}\_i^c, \mathbf{x}\_j^c)$ grouped together — i.e. $\mathbb{P}(\mathbf{g}\mid \mathbf{x}\_i^c) = \mathbb{P}(\mathbf{g}\mid \mathbf{x}\_j^c)$ —
+**Assumption 1 (within-group response similarity).** The response has the form $y = h(\mathbf{x}^u, \mathbf{x}^c, t) + \epsilon$ with $\Vert h(\mathbf{x}^u, \mathbf{x}^c, t)\Vert  \le B\_h$ and zero-mean noise $\epsilon$. For any context pair $(\mathbf{x}\_i^c, \mathbf{x}\_j^c)$ grouped together — i.e. $\mathbb{P}(\mathbf{g}\mid \mathbf{x}\_i^c) = \mathbb{P}(\mathbf{g}\mid \mathbf{x}\_j^c)$ —
 
 $$
 \left|\, \mathbb{E}[y \mid \mathbf{x}^u, \mathbf{x}_i^c, t] - \mathbb{E}[y \mid \mathbf{x}^u, \mathbf{x}_j^c, t] \,\right| \le \delta, \quad \forall\, \mathbf{x}^u, t,\ i \neq j
@@ -135,7 +135,7 @@ $$
 \mathcal{L}_{\text{pred}} = \mathcal{L}\big(f(\mathbf{x}^u, \xi_\theta(\mathbf{x}^c), t),\ y\big)
 $$
 
-**Implementation — Lipschitz regularization.** We force $f$ to be $c$-Lipschitz in its input $z = (\mathbf{x}^u, \xi(\mathbf{x}^c), t)$, i.e. $\|f(z\_i) - f(z\_j)\| \le c\,\lVert z\_i - z\_j \rVert\_2$, by estimating a per-layer Lipschitz bound $c\_i$ from each layer's weight matrix and adding
+**Implementation — Lipschitz regularization.** We force $f$ to be $c$-Lipschitz in its input $z = (\mathbf{x}^u, \xi(\mathbf{x}^c), t)$, i.e. $\Vert f(z\_i) - f(z\_j)\Vert  \le c\,\lVert z\_i - z\_j \rVert\_2$, by estimating a per-layer Lipschitz bound $c\_i$ from each layer's weight matrix and adding
 
 $$
 \mathcal{L}_{\text{Lip}} = \prod_{i=1}^{l} \text{softplus}(c_i)

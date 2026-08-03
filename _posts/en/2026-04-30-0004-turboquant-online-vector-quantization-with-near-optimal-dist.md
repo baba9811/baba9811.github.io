@@ -31,7 +31,7 @@ ko_url: /papers/0004-turboquant-online-vector-quantization-with-near-optimal-dis
 
 - **What.** Two online vector quantizers — TurboQuant_mse and TurboQuant_prod — that need no training, no calibration set, no codebook learning. One random rotation, one precomputed scalar codebook per coordinate, done.
 - **How.** Multiplying a unit-sphere vector by a uniform random orthogonal matrix gives coordinates that follow a Beta distribution $\text{Beta}(1/2, (d-1)/2)$ on the squared magnitude, converging to $\mathcal{N}(0, 1/d)$ in high dimensions. The paper solves a 1-D $k$-means (Lloyd-Max) for that exact Beta distribution and stores the codebook ahead of time. The inner-product variant adds a 1-bit QJL pass on the residual.
-- **Result.** Theorem 1: $D\_{\text{mse}} \le \frac{\sqrt{3\pi}}{2} \cdot 4^{-b}$. Theorem 2: $D\_{\text{prod}} \le \frac{\sqrt{3}\pi^2 \|y\|\_2^2}{d} \cdot 4^{-b}$. Theorem 3 (Shannon-based lower bound): $D\_{\text{mse}} \ge 4^{-b}$ — so the gap is the constant $\sqrt{3\pi}/2 \approx 2.7$ asymptotically and tightens to ≈1.45 at $b=1$. On Llama-3.1-8B-Instruct's KV cache, 3.5-bit TurboQuant ties Full Cache exactly on LongBench-E (avg 50.06). On ANN search, it beats PQ and RaBitQ at the same bitwidth — and quantization wall-clock at d=3072 is 0.0021s vs 494s (PQ) and 3957s (RaBitQ).
+- **Result.** Theorem 1: $D\_{\text{mse}} \le \frac{\sqrt{3\pi}}{2} \cdot 4^{-b}$. Theorem 2: $D\_{\text{prod}} \le \frac{\sqrt{3}\pi^2 \Vert y\Vert \_2^2}{d} \cdot 4^{-b}$. Theorem 3 (Shannon-based lower bound): $D\_{\text{mse}} \ge 4^{-b}$ — so the gap is the constant $\sqrt{3\pi}/2 \approx 2.7$ asymptotically and tightens to ≈1.45 at $b=1$. On Llama-3.1-8B-Instruct's KV cache, 3.5-bit TurboQuant ties Full Cache exactly on LongBench-E (avg 50.06). On ANN search, it beats PQ and RaBitQ at the same bitwidth — and quantization wall-clock at d=3072 is 0.0021s vs 494s (PQ) and 3957s (RaBitQ).
 
 ## Introduction
 
@@ -45,8 +45,8 @@ What makes this paper worth reading right now is the combination of (1) a clean 
 
 ## Key contributions
 
-- **Two online quantizers with closed-form distortion bounds.** Theorem 1 gives the MSE bound $D\_{\text{mse}} \le \frac{\sqrt{3\pi}}{2} \cdot 4^{-b}$; Theorem 2 gives the inner-product bound $D\_{\text{prod}} \le \frac{\sqrt{3}\pi^2 \|y\|\_2^2}{d} \cdot 4^{-b}$. Both hold for **any worst-case** input vectors $\boldsymbol{x}, \boldsymbol{y} \in \mathbb{S}^{d-1}$, with no distributional assumption.
-- **Information-theoretic lower bound (Theorem 3).** Yao's minimax principle plus Shannon's lower bound shows that *any* randomized quantizer satisfies $D\_{\text{mse}} \ge 4^{-b}$ and $D\_{\text{prod}} \ge \|y\|^2/d \cdot 4^{-b}$. The paper gives both upper and lower bounds, so "near-optimal" is a quantifiable claim, not a vibe.
+- **Two online quantizers with closed-form distortion bounds.** Theorem 1 gives the MSE bound $D\_{\text{mse}} \le \frac{\sqrt{3\pi}}{2} \cdot 4^{-b}$; Theorem 2 gives the inner-product bound $D\_{\text{prod}} \le \frac{\sqrt{3}\pi^2 \Vert y\Vert \_2^2}{d} \cdot 4^{-b}$. Both hold for **any worst-case** input vectors $\boldsymbol{x}, \boldsymbol{y} \in \mathbb{S}^{d-1}$, with no distributional assumption.
+- **Information-theoretic lower bound (Theorem 3).** Yao's minimax principle plus Shannon's lower bound shows that *any* randomized quantizer satisfies $D\_{\text{mse}} \ge 4^{-b}$ and $D\_{\text{prod}} \ge \Vert y\Vert ^2/d \cdot 4^{-b}$. The paper gives both upper and lower bounds, so "near-optimal" is a quantifiable claim, not a vibe.
 - **The two-stage decomposition.** Show that an MSE-optimal quantizer is biased for inner products (multiplicative factor $2/\pi$ at $b=1$), and propose: $(b-1)$-bit MSE quantizer + 1-bit QJL on the residual. The two stages remove the bias and the residual norm is stored explicitly to recover the scale during decoding.
 - **SOTA KV cache compression.** On Llama-3.1-8B-Instruct's LongBench-E, 3.5-bit TurboQuant ties Full Cache average (50.06). On Needle-In-A-Haystack with 4× compression, TurboQuant matches Full Precision exactly at 0.997.
 - **Better ANN recall than PQ/RaBitQ at matched bitwidth, with effectively zero quantization time.** Quantizing 100K OpenAI3 vectors at d=3072 takes 0.0021s for TurboQuant vs 494.42s (PQ) and 3957.19s (RaBitQ).
@@ -75,7 +75,7 @@ $$
 Q_{\text{qjl}}(\boldsymbol{x}) := \text{sign}(\boldsymbol{S} \boldsymbol{x}), \qquad Q_{\text{qjl}}^{-1}(\boldsymbol{z}) := \frac{\sqrt{\pi/2}}{d} \, \boldsymbol{S}^\top \boldsymbol{z}.
 $$
 
-Lemma 4 says: an asymmetric estimator that quantizes one of two vectors and leaves the other in full precision is unbiased, and its variance is at most $\frac{\pi}{2d}\|\boldsymbol{y}\|\_2^2$. TurboQuant_prod's residual stage uses exactly this.
+Lemma 4 says: an asymmetric estimator that quantizes one of two vectors and leaves the other in full precision is unbiased, and its variance is at most $\frac{\pi}{2d}\Vert \boldsymbol{y}\Vert \_2^2$. TurboQuant_prod's residual stage uses exactly this.
 
 ## Method
 
@@ -124,7 +124,7 @@ $$
 
 The constant $\sqrt{3\pi}/2 \approx 1.535$. The gap to the Shannon lower bound $1/4^b$ is the same $\sqrt{3\pi}/2 \approx 2.7$ that the abstract advertises (the paper's two formulations of the same gap differ in algebraic surface form). At $b=1$ the gap tightens to ≈1.45.
 
-The unit-norm assumption $\|\boldsymbol{x}\|\_2 = 1$ is standard and not restrictive: for non-unit-norm inputs, store the $L\_2$ norm in floating point and rescale on dequant.
+The unit-norm assumption $\Vert \boldsymbol{x}\Vert \_2 = 1$ is standard and not restrictive: for non-unit-norm inputs, store the $L\_2$ norm in floating point and rescale on dequant.
 
 ### MSE-optimal is biased for inner products
 
@@ -135,7 +135,7 @@ For inner-product preservation, minimizing reconstruction MSE is suboptimal. Con
 Two-stage construction:
 
 1. Apply TurboQuant_mse with bit budget $b-1$ to get $\tilde{\boldsymbol{x}} = Q\_{\text{mse}}^{-1}(Q\_{\text{mse}}(\boldsymbol{x}))$ and the residual $\boldsymbol{r} = \boldsymbol{x} - \tilde{\boldsymbol{x}}$. The expected residual norm is $\sqrt{\mathcal{C}(f\_X, b-1)}$ — small.
-2. Apply QJL to the residual: sample $\boldsymbol{S} \in \mathbb{R}^{d \times d}$ i.i.d. $\mathcal{N}(0, 1)$ and store $\text{sign}(\boldsymbol{S} \boldsymbol{r})$. **Also store $\|\boldsymbol{r}\|\_2$ in floating point** — this scalar is needed at decode time to recover the residual scale.
+2. Apply QJL to the residual: sample $\boldsymbol{S} \in \mathbb{R}^{d \times d}$ i.i.d. $\mathcal{N}(0, 1)$ and store $\text{sign}(\boldsymbol{S} \boldsymbol{r})$. **Also store $\Vert \boldsymbol{r}\Vert \_2$ in floating point** — this scalar is needed at decode time to recover the residual scale.
 
 {% include figure.liquid loading="eager"
    path="assets/img/papers/0004-turboquant-online-vector-quantization-with-near-optimal-dist/alg2-prod.png"
@@ -159,17 +159,17 @@ $$
 \text{Var}(\widehat{\langle \boldsymbol{y}, \boldsymbol{x}\rangle} \mid \tilde{\boldsymbol{x}}_{\text{mse}}) \;\le\; \frac{\pi}{2d} \|\boldsymbol{r}\|_2^2 \|\boldsymbol{y}\|_2^2
 $$
 
-(QJL variance bound, Lemma 4 — note that the $\gamma = \|\boldsymbol{r}\|$ rescaling on line 11 of Algorithm 2 is exactly what makes this bound clean). Marginalizing $\|\boldsymbol{r}\|^2$ via the law of total expectation,
+(QJL variance bound, Lemma 4 — note that the $\gamma = \Vert \boldsymbol{r}\Vert $ rescaling on line 11 of Algorithm 2 is exactly what makes this bound clean). Marginalizing $\Vert \boldsymbol{r}\Vert ^2$ via the law of total expectation,
 
 $$
 D_{\text{prod}} \;\le\; \frac{\pi}{2d} \|\boldsymbol{y}\|_2^2 \cdot D_{\text{mse}}\big|_{b-1} \;\le\; \frac{\sqrt{3}\pi^2 \|\boldsymbol{y}\|_2^2}{d} \cdot \frac{1}{4^b}.
 $$
 
-Refined small-$b$ values: $D\_{\text{prod}} \approx 1.57/d, 0.56/d, 0.18/d, 0.047/d$ at $b = 1, 2, 3, 4$ (with the $\|\boldsymbol{y}\|\_2^2$ factor split out).
+Refined small-$b$ values: $D\_{\text{prod}} \approx 1.57/d, 0.56/d, 0.18/d, 0.047/d$ at $b = 1, 2, 3, 4$ (with the $\Vert \boldsymbol{y}\Vert \_2^2$ factor split out).
 
 ### Lower bound (Theorem 3)
 
-Yao's minimax principle reduces randomized algorithms on worst-case inputs to deterministic algorithms on the hardest randomized input distribution. Pick that distribution to be uniform on $\mathbb{S}^{d-1}$, and the SLB on the hypersphere (Lemma 3) gives $D\_{\text{mse}} \ge 4^{-b}$. For inner products, a pigeonhole argument over coordinates yields $D\_{\text{prod}} \ge \|y\|^2/d \cdot 4^{-b}$.
+Yao's minimax principle reduces randomized algorithms on worst-case inputs to deterministic algorithms on the hardest randomized input distribution. Pick that distribution to be uniform on $\mathbb{S}^{d-1}$, and the SLB on the hypersphere (Lemma 3) gives $D\_{\text{mse}} \ge 4^{-b}$. For inner products, a pigeonhole argument over coordinates yields $D\_{\text{prod}} \ge \Vert y\Vert ^2/d \cdot 4^{-b}$.
 
 These lower bounds apply to the *entire class* of randomized quantizers — not just TurboQuant — so the gap to TurboQuant's upper bound is the right thing to measure.
 

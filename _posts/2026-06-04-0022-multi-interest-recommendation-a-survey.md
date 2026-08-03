@@ -144,7 +144,7 @@ $$
 \mathbf{h}_j = \text{squash}(\mathbf{s}_j) = \frac{\|\mathbf{s}_j\|^2}{1 + \|\mathbf{s}_j\|^2} \cdot \frac{\mathbf{s}_j}{\|\mathbf{s}_j\|}
 $$
 
-여기서 $\|\mathbf{s}\_j\|$ 는 벡터 $\mathbf{s}\_j$ 의 유클리드 노름 ($L^2$ 노름) 이다. squash 함수는 활성화 함수 역할을 하는데, 짧은 벡터는 0 쪽으로 억누르고 긴 벡터는 1 가까이로 압축한다. $\mathbf{s}\_j$ 는 다음으로 계산된다.
+여기서 $\Vert \mathbf{s}\_j\Vert $ 는 벡터 $\mathbf{s}\_j$ 의 유클리드 노름 ($L^2$ 노름) 이다. squash 함수는 활성화 함수 역할을 하는데, 짧은 벡터는 0 쪽으로 억누르고 긴 벡터는 1 가까이로 압축한다. $\mathbf{s}\_j$ 는 다음으로 계산된다.
 
 $$
 \begin{aligned}
@@ -303,7 +303,7 @@ $$
 \end{aligned}
 $$
 
-$\bar{\mathbf{C}}$ 는 첫 축을 따른 $\mathbf{C}$ 의 평균이고, $\|\cdot\|\_F$ 는 프로베니우스 노름이다.
+$\bar{\mathbf{C}}$ 는 첫 축을 따른 $\mathbf{C}$ 의 평균이고, $\Vert \cdot\Vert \_F$ 는 프로베니우스 노름이다.
 
 **원소별 정규화.** 더 직접적으로, 두 관심사의 attention 분포 행렬을 원소별로 비교해 차이를 키운다.
 
