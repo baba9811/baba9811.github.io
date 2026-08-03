@@ -184,7 +184,7 @@ $$
 A^{\text{ent}}_i \approx \frac{\exp(\beta\, r_{\text{proc},i})}{\frac{1}{G-1} \sum_{j \neq i} \exp(\beta\, r_{\text{proc},j})} - 1
 $$
 
-집중도를 결정하는 $\beta$ 는 고정된 엔트로피/KL 예산 아래에서 선택된다. 구체적으로는 group 분포 $q\_i(\beta) \propto \exp(\beta c\_i)$ (여기서 $c\_i = r\_{\text{proc},i} - \max\_j r\_{\text{proc},j}$) 가 균등분포로부터 $\mathrm{KL}(q\_\beta \| \mathrm{Unif}(K)) \approx \log 2$ 만큼 떨어지도록 이분 탐색으로 정한다(최대 탐색값 $10^6$, 60회 이분). 이 advantage 가 GRPO 식 group-normalized 신호를 대체해 clipped policy objective 에 들어간다. 순서가 중요하다. adaptive bound 가 먼저 group 내부의 차이를 <em>보이게</em> 만들고, entropic weighting 이 그다음에 최상위 후보 쪽으로 학습 신호를 <em>몰아준다</em>.
+집중도를 결정하는 $\beta$ 는 고정된 엔트로피/KL 예산 아래에서 선택된다. 구체적으로는 group 분포 $q\_i(\beta) \propto \exp(\beta c\_i)$ (여기서 $c\_i = r\_{\text{proc},i} - \max\_j r\_{\text{proc},j}$) 가 균등분포로부터 $\mathrm{KL}(q\_\beta \Vert \mathrm{Unif}(K)) \approx \log 2$ 만큼 떨어지도록 이분 탐색으로 정한다(최대 탐색값 $10^6$, 60회 이분). 이 advantage 가 GRPO 식 group-normalized 신호를 대체해 clipped policy objective 에 들어간다. 순서가 중요하다. adaptive bound 가 먼저 group 내부의 차이를 <em>보이게</em> 만들고, entropic weighting 이 그다음에 최상위 후보 쪽으로 학습 신호를 <em>몰아준다</em>.
 
 **stragglers 제거.** MLE RL 의 지배적 지연은 토큰 생성이 아니라 후보 프로그램 실행에서 나오고, 런타임 편차가 크다. 동기 배치에서는 완료된 group 이 가장 느린 샌드박스 잡을 기다리며 놀게 된다. OpenMLE 는 생성-실행 group 을 독립적으로 띄우고 trainer 가 큐에서 완료된 group 을 바로 소비한다. Appendix B.4 의 실측으로 40개 matched step 에서 평균 step time 이 동기 97.0분 대 비동기 50.8분, 1.91배 차이였다. 비동기 수집이 빠른 task 나 즉시 실패하는 task 를 더 자주 소비할 수 있다는 우려에 대해서는, 대표 실행 두 건에서 task 별 step 수가 중앙값 ±2 이내이고 변동계수가 각각 1.56%, 2.06% 였다고 보고한다.
 
