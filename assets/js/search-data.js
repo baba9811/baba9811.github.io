@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-frontis-ma1-training-an-ai4ai-model-towards-recursive-self-improvement-in-machine-learning-engineering",
+        },{id: "post-paper-review-scientistone-towards-human-level-autonomous-research-via-chain-of-evidence",
+        
+          title: "[Paper Review] ScientistOne: Towards Human-Level Autonomous Research via Chain-of-Evidence",
+        
+        description: "Papers from autonomous research agents read well but their evidence chains are broken. An audit of 75 papers exposes a systematic failure in every baseline, and a system that keeps every claim tied to its evidence while writing.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0029-scientistone-towards-human-level-autonomous-research-via-cha/";
+          
+        },
+      },{id: "post-논문-리뷰-scientistone-towards-human-level-autonomous-research-via-chain-of-evidence",
+        
+          title: "[논문 리뷰] ScientistOne: Towards Human-Level Autonomous Research via Chain-of-Evidence",
+        
+        description: "자율 연구 에이전트의 논문은 잘 읽히지만 근거가 끊겨 있다. 논문 75편을 감사해 baseline 전원의 체계적 실패를 드러내고, 모든 claim 을 근거에 묶은 채로 논문을 쓰는 시스템을 제시한 Google Cloud AI Research 의 작업.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0029-scientistone-towards-human-level-autonomous-research-via-cha/";
+          
+        },
+      },{id: "post-paper-review-frontis-ma1-training-an-ai4ai-model-towards-recursive-self-improvement-in-machine-learning-engineering",
         
           title: "[Paper Review] Frontis-MA1: Training an AI4AI Model towards Recursive Self-Improvement in Machine Learning...",
         
