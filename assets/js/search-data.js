@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-scientistone-towards-human-level-autonomous-research-via-chain-of-evidence",
+        },{id: "post-paper-review-skaling-chinchilla-39-s-exponents-meet-kaplan-39-s-coupling",
+        
+          title: "[Paper Review] Skaling: Chinchilla&#39;s Exponents Meet Kaplan&#39;s Coupling",
+        
+        description: "Chinchilla&#39;s additive scaling law hard-codes the assumption that model size and data act independently. Measured mixed derivatives say otherwise, and one extra exponent cuts boundary extrapolation error by more than 10x.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0030-skaling-chinchilla-s-exponents-meet-kaplan-s-coupling/";
+          
+        },
+      },{id: "post-논문-리뷰-skaling-chinchilla-39-s-exponents-meet-kaplan-39-s-coupling",
+        
+          title: "[논문 리뷰] Skaling: Chinchilla&#39;s Exponents Meet Kaplan&#39;s Coupling",
+        
+        description: "Chinchilla 의 가법형 scaling law 가 강제하는 &#39;모델 크기와 데이터는 독립&#39;이라는 가정을 실측 혼합 편미분으로 반증하고, 외부 지수 하나로 두 축을 결합해 경계 외삽 오차를 10배 넘게 줄인 연구",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0030-skaling-chinchilla-s-exponents-meet-kaplan-s-coupling/";
+          
+        },
+      },{id: "post-paper-review-scientistone-towards-human-level-autonomous-research-via-chain-of-evidence",
         
           title: "[Paper Review] ScientistOne: Towards Human-Level Autonomous Research via Chain-of-Evidence",
         
