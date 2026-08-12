@@ -1,0 +1,465 @@
+---
+layout: post
+title: "[논문 리뷰] NVIDIA-labs OO Agents: Native Python Object-Oriented Agents"
+date: 2026-08-12 14:00:00 +0900
+description: "에이전트를 프롬프트 템플릿·툴 스키마·워크플로 그래프의 조합이 아니라 그냥 Python 객체로 만든다. 메서드가 행동, 필드가 상태, docstring 이 프롬프트, 타입 어노테이션이 계약이다."
+tags: [llm-agents, agent-framework, code-as-action, tool-use, python, memory, benchmarks]
+categories: paper-review
+giscus_comments: false
+thumbnail: assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/fig1-agent-class.png
+bibliography: papers.bib
+toc:
+  beginning: true
+lang: ko
+permalink: /papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/
+en_url: /en/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/
+---
+
+{% include lang_toggle.html %}
+
+## 메타정보
+
+| 항목 | 내용 |
+|------|------|
+| 저자 | Paul Furgale et al. (15명 공동 저자, NVIDIA) |
+| 학회 | arXiv preprint · 2026 |
+| arXiv 또는 DOI | [2607.20709](https://arxiv.org/abs/2607.20709) |
+| Code | [nvidia-nemo/labs-OO-Agents](https://github.com/nvidia-nemo/labs-OO-Agents) |
+| 데이터 | SWE-bench Verified (500 tasks) · Terminal-Bench 2.0 (89 tasks) · CyberGym L1 · ARC-AGI-3 (25 public games) · 자체 capability suite (88 tests × 10 models × 5 runs = 4,400 records) |
+| <span style="white-space: nowrap">리뷰 일자</span> | 2026-08-12 |
+
+## TL;DR
+
+- 에이전트 개발이 프롬프트 템플릿, 툴 스키마, 콜백 코드, 워크플로 그래프로 쪼개져 있다는 문제의식에서 출발해, NVIDIA 는 **에이전트를 그냥 Python 객체로 만드는** 프레임워크 NOOA (NVIDIA Object-Oriented Agents) 를 내놓았다. 메서드는 모델이 취할 수 있는 행동, 필드는 상태, docstring 은 프롬프트, 타입 어노테이션은 계약이다. 메서드 본문이 `...` 이면 런타임이 LLM 루프로 채우고, 본문이 있으면 그냥 결정론적 Python 으로 실행된다.
+- 저자들은 자기 설계를 6개 model-facing capability 로 정리한다 — typed I/O, pass-by-reference, code as action, programmable loop engineering, explicit object state, model-callable harness APIs. 14개 경쟁 프레임워크를 이 축으로 채점해 "여섯 개를 한 표면에 모두 올린 시스템은 아직 없다" 고 주장한다.
+- 성능은 실제로 나온다. SWE-bench Verified 에서 GPT-5.5 xhigh 82.2%, Terminal-Bench 2.0 에서 Opus 4.6 high 65.2%, CyberGym L1 에서 86.8% (open source 1위). ARC-AGI-3 에서는 6개 에이전트짜리 멀티에이전트 시스템 (DreamTeam) 을 **에이전트 1개 + 50줄 skill** 로 압축하고도 GPT-5.6-sol 기준 RHAE 85.1% 를 게임당 USD 20 미만에 달성했다.
+- 토큰 효율도 같이 좋아진다. SWE-bench GPT-5.5 xhigh 기준 NOOA 는 약 28 model call · 1.1M 토큰으로 82.2% 인데, PI 는 66 call · 2.2M 토큰으로 78.2% 다. 툴 출력이 transcript 로 계속 직렬화되지 않고 live Python 값으로 남기 때문이다.
+- 다만 6개 capability 축은 NOOA 설계 그 자체에서 도출된 rubric 이고, 6개 항목 각각이 벤치마크 점수에 얼마나 기여했는지에 대한 ablation 은 memory subsystem 하나뿐이다.
+
+## 소개 (Introduction)
+
+에이전트 프레임워크를 하나 새로 배울 때 실제로 배우는 게 무엇인지 생각해보면 좀 이상하다. 타입 인터페이스, 변수 스코프, 제어 흐름, 비동기 실행, 객체 상태 — 이 개념들은 전부 일반 프로그래밍 언어에 이미 성숙한 형태로 존재한다. 그런데 LangGraph 를 배우면 graph DSL 을, Google ADK 를 배우면 workflow DSL 을, OpenAI Agents SDK 를 배우면 handoff 를 새로 배워야 한다. 같은 개념을 프레임워크마다 다른 이름과 다른 문법으로 다시 배우는 것이다.
+
+NOOA 의 출발점은 이 관찰이다. 저자들은 PyTorch 를 명시적인 영감으로 든다. PyTorch 가 보여준 것은 "강력한 런타임이 그럼에도 사용자에게는 단순한 Python 프로그래밍 모델을 제시할 수 있다" 는 사실이었다. autograd, CUDA 커널 디스패치, 그래프 캡처가 뒤에서 돌아가지만 사용자가 쓰는 건 `nn.Module` 을 상속한 클래스와 `forward` 메서드다. NOOA 는 같은 것을 에이전트에 적용한다: 컨텍스트 렌더링, KV-cache 최적화, 이벤트 기록, 타입 검증, 재시도 루프가 런타임에 있지만 개발자가 쓰는 건 `Agent` 를 상속한 클래스와 몇 개의 메서드다.
+
+여기에 하나 더 있다. 개발자만 이득을 보는 게 아니라 **모델도** 이득을 본다는 것이다. LLM 은 Python 클래스와 메서드 호출을 이미 안다. 학습 데이터에 압도적으로 많이 들어 있다. 반면 특정 프레임워크의 graph DSL 은 모델 입장에서 처음 보는 문법이다. 에이전트를 Python 객체로 표현하면 모델이 별도 학습 없이도 그 인터페이스를 다룰 수 있어야 한다 — 저자들은 이걸 **agent readiness** 라고 부르고, 논문의 §4.1 은 이 가설을 직접 검증하는 실험이다.
+
+이 논문이 지금 읽을 가치가 있는 이유는, 프레임워크 홍보 논문 치고는 비교 파트가 이례적으로 성실하기 때문이다. 14개 프레임워크를 pinned commit 까지 명시해가며 소스 코드를 직접 읽고 채점한 부록이 20페이지 넘게 붙어 있다. 그 부록을 읽으면 2026년 중반 시점에 에이전트 하네스 생태계가 어디까지 왔는지가 한눈에 들어온다. NOOA 를 쓸 생각이 없더라도 그 지도는 유용하다.
+
+## 핵심 기여 (Key Contributions)
+
+- **agent-as-a-Python-object 프로그래밍 모델.** 에이전트 = 클래스, 능력 = 메서드, 타입 어노테이션 = 계약, 동시성 = `asyncio`, 오케스트레이션 = 평범한 Python 코드. 에이전트 고유 개념 (context, event, state rendering, long-term memory, validated LLM loop) 만 단순한 Pythonic API 로 노출한다.
+- **6개 model-facing interface capability 의 정식화.** typed input/output, pass-by-reference over live objects, code as action, programmable loop engineering, explicit object state, model-callable harness APIs. 이 6개는 NOOA 만의 발명이 아니라 여러 시스템에 흩어져 있는 아이디어인데, 논문의 기여는 이걸 하나의 축으로 명명하고 14개 시스템을 그 축으로 채점한 것이다.
+- **현행 모델이 이 인터페이스를 실제로 쓸 수 있다는 실증.** 10개 모델 × 88개 테스트 × 5회 = 4,400 record 에서 97.9% 통과. 인터페이스 자체가 모델에게 부담이 아니라는 것을 보인다.
+- **에이전틱 벤치마크 4종에서의 end-to-end 결과.** SWE-bench Verified, Terminal-Bench 2.0, CyberGym L1, ARC-AGI-3. 특히 ARC-AGI-3 에서는 멀티에이전트 시스템을 단일 에이전트로 압축하면서 score–cost Pareto frontier 를 밀어냈다.
+- **리뷰어 입장에서 가장 값진 것은 부록 A 와 B 다.** 부록 A 는 14개 프레임워크의 실제 소스 코드 수준 비교이고, 부록 B 는 stress test 하나에 대해 4개 모델의 전체 trace 를 그대로 실었다. 후자는 "왜 강한 모델이 쉬운 규율에서 실패하는가" 를 보여주는 드문 자료다.
+
+## 관련 연구 / 배경 지식
+
+### CodeAct: 행동 modality 로서의 코드
+
+이 논문을 읽으려면 CodeAct 계열 아이디어를 알아야 한다. 전통적인 tool calling 은 모델이 JSON 을 뱉으면 하네스가 파싱해서 함수를 부르는 구조다. CodeAct 는 그 대신 모델이 <strong>실행 가능한 Python 코드</strong>를 뱉게 한다. 툴은 그 코드 안에서 부를 수 있는 평범한 함수가 되고, 모델은 반복문·조건문·중간 변수를 자유롭게 쓸 수 있다.
+
+차이가 왜 중요한가. JSON tool call 은 호출 하나당 결과 하나가 컨텍스트 창에 통째로 들어온다. 100개 항목을 분류하려면 100번 왕복하거나 100개 결과를 한 번에 받아야 한다. 코드라면 `for` 문 한 줄이고, 중간 결과는 변수에 남으며, 컨텍스트에는 모델이 `print` 한 것만 들어온다. NOOA 의 CodeActStrategy 는 이 패러다임을 그대로 계승하되, 여기에 타입 검증된 반환과 live object 참조를 얹는다.
+
+### pass-by-reference: 직렬화하지 않는 인자 전달
+
+대부분의 에이전트 프레임워크는 모든 경계에서 copy-as-text 를 한다. 입력을 텍스트로 직렬화하고, 툴 호출 인자를 LLM 이 텍스트로 만들고, 출력을 텍스트로 돌려받고, 그 텍스트를 다시 호스트 언어로 파싱한다. 파일을 쓰는 프레임워크들 (Claude Agent SDK 의 workspace file, Codex 의 `AGENTS.md`) 은 이것의 변종인데, 파일 경로를 넘겨주면 모델이 툴로 탐색하게 하는 방식이다. 강력하지만 타입 정보가 전부 사라진다.
+
+NOOA 는 인자를 <strong>살아 있는 Python 객체</strong>로 넘긴다. 모델이 컨텍스트에서 보는 것은 변수 이름 + 제한된 미리보기 (concrete type, 실제 길이, head/tail 샘플) 뿐이다. 예를 들어 정수 100개짜리 리스트는 이렇게 렌더된다:
+
+```text
+records = list(len=100, [:5]=[42, 17, 89, 33, 8], [-5:]=[56, 71, 12, 45, 28])
+```
+
+`records` 변수 자체는 잘리지 않았다. 실행 환경에 100개 원소가 전부 살아 있고, 모델은 `for r in records:` 로 전부 순회할 수 있다. 컨텍스트에는 10개만 등장했는데도. 저자들은 이 미리보기 형식이 Rich 의 `pprint()` 에서 이름과 API 표면을 빌려왔지만, 여러 open/closed 모델에 걸친 실험을 근거로 출력 포맷은 바꿨다고 밝힌다.
+
+### MemGPT 계열: 컨텍스트를 OS 처럼 다루기
+
+NOOA 의 long-term memory 는 MemGPT 의 문제의식 — LLM 을 운영체제로 보고 in-context 와 external memory tier 사이에 정보를 페이징한다 — 을 이어받되, 두 가지를 바꾼다. 첫째, memory 를 쓰는 것이 백그라운드 추출 파이프라인의 산출물이 아니라 <strong>모델의 의도적 행동</strong>이다. 둘째, 검색이 순수 유사도가 아니라 인지 과학에서 온 ACT-R activation (relevance, recency, importance) 을 쓴다.
+
+## 방법 / 아키텍처 상세
+
+### 에이전트는 클래스 하나다
+
+논문의 Figure 1 이 전부라고 해도 과언이 아니다. 고객 지원 에이전트 하나가 클래스 하나에 들어 있다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/fig1-agent-class.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 1: NOOA 에서 간단한 Agent 를 구현한 모습. 같은 클래스 안에 결정론적 메서드 (is_refund_eligible) 와 agentic method 두 종류 (classify, triage) 가 공존한다."
+   zoomable=true %}
+
+여기서 읽어야 할 것들:
+
+- `order_db: OrderDB` — 객체 상태다. 모델에게 보이고, 참조로 전달된다.
+- `is_refund_eligible(self, order: Order) -> bool` — 본문이 있는 평범한 Python 메서드. 결정론적이고, 테스트 가능하고, **모델이 코드 안에서 호출할 수 있다**.
+- `classify(self, message: str) -> TicketKind` — 본문이 `...` 이고 `@strategy(PredictStrategy())` 가 붙었다. 단발 LLM 호출로 분류하고 반환값을 `TicketKind` 로 검증한다.
+- `triage(self, message: str, photo: Image | None, order: Order | None) -> Ticket` — `@strategy(CodeActStrategy())`. 모델이 Python 을 쓰는 루프를 돌린다. `order` 는 직렬화된 텍스트가 아니라 살아 있는 객체로 들어오고, `photo` 는 native multimodal content block 으로 렌더된다.
+
+핵심은 <strong>경계가 코드에 보인다</strong>는 것이다. 본문이 있으면 결정론적 코드, `...` 이면 agentic loop. 프롬프트 엔지니어링이 다시 소프트웨어 엔지니어링 안으로 들어온다 — 동작을 테스트하고, 추적하고, 리팩터링하고, 버전 관리할 수 있다.
+
+### 다섯 가지 설계 원칙
+
+논문은 다섯 원칙을 명시하고, 각 원칙이 어떤 interface capability 로 구체화되는지 짝지어 놓았다.
+
+| 원칙 | 내용 | 대응 capability |
+|------|------|------|
+| P1 | 성숙한 Python 추상화가 이미 있으면 DSL 을 만들지 말고 그것을 채택 | Loop engineering, Object state |
+| P2 | agentic loop 를 비정형 텍스트 교환이 아니라 <strong>타입이 있는 메서드 호출</strong>로 재구성 | Typed I/O, Pass by reference |
+| P3 | 결정론적 작업 (규칙, 산술, 파싱, 상태 전이) 은 agentic loop 밖으로 | — |
+| P4 | 모델이 이미 가진 Python 지식을 활용 | Code as action |
+| P5 | 하네스를 명시적 API 로 노출 (context, event history) | Harness APIs |
+
+P3 이 조용하지만 중요하다. LLM 은 의미 판단, 종합, 열린 과제에 쓸모가 있고 정확한 규칙과 산술은 결정론적 메서드에 속한다. NOOA 에서 그 경계는 문법 하나로 표현된다 — 본문이 있느냐 `...` 이냐.
+
+### strategy: 메서드마다 다른 실행 모드
+
+agentic method 의 실행 방식은 **strategy** 라는 데코레이터가 결정한다. strategy 는 메서드의 시그니처와 타입 경계는 그대로 두고, 어떤 컨텍스트를 렌더할지 / 턴을 어떻게 실행할지 / 후보 출력을 어떻게 검증할지만 제어한다. 메서드 단위이므로, 작고 빠른 모델을 분류 메서드에 붙이고 에이전트 기본 모델은 열린 과제에 쓰는 식의 구성이 가능하다.
+
+내장 strategy 는 둘이다.
+
+1. **`PredictStrategy`** — 분류나 추출용 단발 전략. 컨텍스트를 렌더하고, 모델에게 값을 요청하고, Python 반환 타입으로 검증한다. 검증 실패 시 로컬 재시도 루프를 돈다.
+2. **`CodeActStrategy`** — 같은 계약을 반복적인 Python REPL 로 일반화한다. 모델은 `execute_python(...)` 으로 계산하거나 내부 상태를 조회하거나 다른 generation method 를 호출하고, 하네스는 관측 결과를 기록하고 갱신된 상태를 다시 렌더하고, 모델이 `return_result(...)` 로 타입 검증을 통과하는 값을 낼 때까지 반복한다.
+
+동시성 규칙도 명확하다. 한 에이전트 안에서 외부에서 시작된 agentic method 호출들은 직렬화되어 서로 턴이 섞이지 않는다. 같은 에이전트에 대한 중첩 호출은 스택 규율을 따라 호출자가 중단되고 피호출자가 반환할 때까지 기다리며, 두 실행은 같은 event history 에 append 된다. 다른 메서드와 다른 에이전트는 Python 표준 async/await 로 병렬 실행된다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/fig2-codeact-loop.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 2: agentic method 안의 CodeAct 루프. 렌더 → LLM 호출 → Python 실행 → event·state 갱신을 반복하고, 타입 검증을 통과한 값만 호출자에게 돌아간다."
+   zoomable=true %}
+
+### 컨텍스트: 세 영역과 KV-cache
+
+NOOA 는 컨텍스트를 세 영역으로 나눈다.
+
+- **static context blocks** — 한 번 계산해서 턴마다 재사용. 시스템 프롬프트 같은 것.
+- **event history** — 하네스가 만들어내는 append-only 타입 이벤트 시퀀스. model tool call, Python 출력, 반환값. 각 이벤트는 고유 태그를 가진 typed Python object 라서, 에이전트 코드가 flat transcript 를 스캔하는 대신 이전 이벤트를 <strong>질의</strong>할 수 있다.
+- **dynamic context blocks** — 매 model call 전에 재평가. `TODO` 리스트나 `self` 의 특정 필드처럼 값이 변하는 정보.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/fig3-context-rendering.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 3: ContextManager 와 EventManager 가 매 LLM 턴 전에 세 영역을 채운다. static 은 system, event 는 user/assistant/tool_call, dynamic 은 마지막 user 메시지로 렌더된다."
+   zoomable=true %}
+
+이 3영역 배치는 <strong>KV-cache 재사용을 최대화하도록 설계</strong>됐다. static prefix 는 변하지 않고, event history 는 새 메시지 append 로만 자라고, 휘발성 dynamic block 은 꼬리에 놓인다. 그래서 live state 가 갱신돼도 캐시된 prefix 가 무효화되지 않고, 매 턴이 직전 계산의 대부분을 재사용한다. 실용적으로 중요한 설계다 — dynamic block 을 앞에 두면 매 턴 전체 prefill 을 다시 해야 한다.
+
+기본값도 구체적으로 밝혀져 있다. 기본 static prefix 는 작은 NOOA 시스템 프롬프트 (약 1k characters), 활성 strategy 지시문 (CodeAct 는 약 2.5k characters), 임포트된 타입과 라이브러리를 보여주는 execution-context block, 그리고 에이전트 API 의 간결한 `doc(self)` 렌더링으로 구성된다. dynamic suffix 에는 live agent state 의 압축 뷰 (`pprint(self)`) 가 들어간다.
+
+그리고 이 모든 게 개발자와 모델 **양쪽** 이 쓸 수 있는 Python API 다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/fig4-context-api.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 4: context block 과 event history 의 Python API. set_dynamic 은 매 턴 재평가할 표현식을 등록하고, events.collapse 는 실행 이력을 요약 이벤트로 접는다."
+   zoomable=true %}
+
+### Python 실행과 반환 검증
+
+모델이 코드 행동을 고르면 NOOA 는 제한된 Jupyter 유사 세션에서 셀을 실행한다. 메서드 인자, live agent (`self`), 에이전트의 환경 (에이전트 소스 파일에 정의된 임포트·메서드·상수) 이 지역 변수로 주입되고 `await` 를 바로 쓸 수 있다.
+
+안전 장치는 명시적이다. `eval`, `exec`, `compile`, `input` 과 블로킹 event-loop 호출은 구체적인 에러로 거부된다. stdout, stderr, 이미지, 반환값, 지역 변수, 예외는 구조화된 결과로 캡처된다. 문법 오류와 traceback 은 IPython 형식으로 — 소스 위치와 caret/source-line 컨텍스트를 포함해 — 전달되므로, 다음 LLM 턴이 사람이 노트북 셀을 고치듯 코드를 고칠 수 있다.
+
+셀 안에는 반복문, 조건문, 라이브러리 호출, helper 호출, subagent 호출이 들어갈 수 있다. 즉 **모델이 개발자와 같은 오케스트레이션 도구를 가진다.** 셀 안에서 `@strategy` 데코레이터가 붙은 새 함수를 정의하고 `asyncio.gather` 로 배치에 fan-out 하면, 평범한 Python 으로 병렬 subagent 호출이 만들어진다.
+
+상태 갱신은 표준 Python 스코프 규칙을 따른다. REPL 지역 변수는 메서드 스코프라서 하나의 CodeAct 호출 안에서는 셀 간에 유지되다가 메서드가 반환하면 사라진다. 중간값이 태스크 밖으로 새지 않는다. 반면 `self` 나 라이브러리 호출을 통해 닿은 것은 메서드보다 오래 사는 부작용을 가질 수 있다 — 평범한 Python 프로그램과 정확히 같다.
+
+마지막으로 반환 검증이 있다. 모델이 결과를 반환하면 하네스가 반환 어노테이션에 맞는지 검증하고, 유효하지 않으면 실패를 설명하는 에러 메시지를 모델에게 보내고 루프를 계속한다. 유효하면 호출자에게 반환하고 평범한 Python 실행이 재개된다.
+
+### long-term memory: 에이전트가 자기 상태를 큐레이션한다
+
+여기까지의 메커니즘은 메서드 호출이나 세션 범위다. §3.7 은 그 경계를 넘는다.
+
+`MemoryManager.install(agent)` 가 손대지 않은 에이전트에 메모리 서브시스템을 붙이고, 제거하면 에이전트가 정확히 원상복구된다. 설계 원칙 P5 를 따라, 메모리를 쓰는 것은 백그라운드 추출 파이프라인의 산출물이 아니라 <strong>모델의 의도적 행동</strong>이다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/fig5-memory-system.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 5: NOOA memory 시스템. 에이전트는 7개 툴로 자기 저장소를 관리하고, BeforeTurn 훅이 연관 메모리를 dynamic context block 에 주입한다. 모든 상태는 하나의 SQLite 파일에 산다."
+   zoomable=true %}
+
+구성 요소를 정리하면:
+
+- **7개 model-callable tool**: `remember`, `recall`, `search`, `update_memory`, `forget`, `associate`, `deref`. 이 툴들은 순서가 있는 언어적 서술자 (CRITICAL … TRIVIAL) 를 받고 내부적으로만 숫자 점수로 매핑한다. 모델이 보는 어휘를 분포 안에 유지하려는 선택이다.
+- **두 개의 회상 채널**: (1) 에이전트가 툴로 저장소를 직접 질의하는 deliberate recall, (2) `BeforeTurn` 훅이 최근 이벤트에서 질의를 도출해 연관 메모리를 dynamic context block 에 주입하는 spontaneous recall. 주입된 메모리는 강화되지 않는다 (`touch=False`) — 하네스가 보여준 것이 사용 신호를 왜곡하지 않게 하려는 것이다.
+- **검색**: embedding 후보와 keyword 후보를 union 하고 ACT-R activation — relevance, recency, importance — 으로 랭킹한 뒤, typed memory graph 위로 activation 을 전파한다. decay 기반 망각이 저장소 크기를 제한한다.
+- **비동기 reflection**: 태스크 완료 후 또는 에이전트가 유휴일 때 루프 밖에서 돌아간다. 근접 중복 병합, 충돌 값을 하나의 current record 로 조정하고 대체된 것은 보관, 관련 메모리 연결, importance 재점수화, episode 를 상위 레코드로 증류, activation 이 decay 한 메모리 pruning. **최근 메모리, 보호된 타입, 열린 todo 는 절대 pruning 하지 않는다.**
+- **하나의 검사 가능한 파일**: 전체 저장소가 SQLite 파일 하나다. vector index 는 거기서 파생되고 교체 가능하다. 메모리는 `kind:key` 형태의 typed reference 를 가질 수 있는데, 이것은 recall 시점에 live agent state 로 해소된다 — pass by reference 를 영속성까지 확장한 것이고, 회상이 stale copy 에서 답하지 않게 만든다.
+
+효과는 §4.4 에서 측정된다: 메모리 대신 file-based note 를 쓴 동일 에이전트 대비 **+11.8 RHAE points**.
+
+## 학습 목표 / 손실 함수
+
+이 논문에는 학습 목표도 손실 함수도 없다. NOOA 는 model-agnostic 프레임워크이고 어떤 모델도 학습시키지 않는다. 그 대신 이 자리에 해당하는 것이 있다면 <strong>반환 검증 계약</strong>이다.
+
+CodeAct 턴에서 모델이 할 수 있는 행동은 두 가지뿐이다:
+
+```text
+execute_python(code)  →  계산을 계속한다
+return_result(v)      →  메서드를 종료한다
+```
+
+두 번째 경우 하네스는 $v$ 가 메서드의 반환 어노테이션 $T$ 를 만족하는지 검사한다. $v \notin T$ 이면 실패를 설명하는 에러 메시지가 모델에게 돌아가고 루프가 계속된다. $v \in T$ 이면 호출자에게 반환된다.
+
+이게 왜 중요한지는 §4.2 의 trace 분석이 보여준다. OpenCode 는 모델이 tool call 없이 응답하는 순간 종료한다. Terminal-Bench 에서 실패한 GPT-5.5 시행의 77% 가 열 스텝 안에 종료됐다. 즉 모델이 "다 했다" 고 말하면 그걸로 끝인 것이다. NOOA 에서는 모델이 근거와 검증 명령을 담은 타입 검증된 `TaskResult` 를 반환해야 한다. 종료 자체가 프로그램적으로 검증되는 행동이 되고, 프롬프트에만 적힌 비공식 관행이 아니게 된다. 저자들의 표현으로는 **"타입 어노테이션을 실행 가능한 계약으로 취급"** 하는 것이다.
+
+## 학습 데이터와 파이프라인
+
+학습이 없으므로 이 절은 평가 설정으로 대체한다.
+
+| 평가 | 설정 |
+|------|------|
+| Capability suite | 36개 family, 88개 test instance. 10개 모델 × 5회 = 4,400 record. 대부분 1–5턴 상호작용 |
+| Stress subset | capability suite 중 6개 family. 행마다 50 record (10 모델 × 5회), 총 300 record |
+| SWE-bench Verified | 실제 GitHub 이슈 기반 500개 소프트웨어 엔지니어링 태스크 |
+| Terminal-Bench 2.0 | 커맨드라인 환경에서 수행하는 89개 태스크 (설치, 설정, 디버깅, 서비스 운영) |
+| CyberGym L1 | 코드베이스에서 보안 버그를 찾고 이를 재현하는 PoC 로 검증 |
+| ARC-AGI-3 | 미지의 그리드 게임에서 순수하게 행동만으로 메커니즘·목표·조작을 발견하는 interactive reasoning |
+
+평가에 쓰인 에이전트도 밝혀져 있다. SWE-bench 와 Terminal-Bench 는 둘 다 같은 벤치마크 불가지론적 에이전트 `BenchAgent` 를 쓰는데, <strong>평범한 Python 253줄</strong>이다. todo 리스트, 셸 툴, tree-sitter 기반 저장소 탐색 툴을 갖고, dynamic context 에 태스크 설명·todo 상태·컨텍스트 창 통계·셸/저장소 툴의 현재 작업 상태를 담는다. 종료는 식별된 root cause, 근거, 검증 명령을 담은 타입 `TaskResult` 로 이뤄진다.
+
+비교 대상 하네스는 OpenCode 1.14.33 과 PI v0.72.1 이고, 셋 다 같은 GPT-5.5 / Claude Opus 4.6 백엔드에 가능한 reasoning-effort 설정으로 평가됐다.
+
+Table 7 의 프레임워크 채점은 2026년 7월 7–9일에 가져온 pinned snapshot (저장소, 커밋, 패키지 버전) 을 대상으로 문서와 소스 코드를 직접 읽어 이뤄졌다. Green (Supported) 은 그 capability 가 <strong>모델이 보는 것의 일급 구성 요소</strong>임을, Yellow (Partial) 은 존재하지만 주로 개발자용이거나 툴/파일 뒤에 있음을, Red (Limited) 는 증거를 찾지 못했음을 뜻한다. Experimental, flag-gated, opt-in 인 경우는 capability 자체로 채점하고 강등 대신 † 로 표시했다.
+
+## 실험 결과
+
+### capability test: 모델은 이 인터페이스를 이해하는가
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/tab1-2-capability-stress.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Table 1 · Table 2: capability test 는 4,309/4,400 (97.9%) 통과하지만, 6개 stress family 로 좁히면 254/300 (84.7%) 로 떨어진다."
+   zoomable=true %}
+
+전체 통과율은 4,309/4,400 = 97.9%. 규모별로 나누면 small/efficient 4종 (Claude Haiku 4.5, Gemini 3.5 Flash, Nemotron 3 Nano 30B, GPT-5.4 Mini) 이 96.0%, large/frontier 6종 (Claude Opus 4.8, Gemini 3.1 Pro, GLM-5.2, Kimi K2.6, Nemotron 3 Ultra, GPT-5.5) 이 99.2% 다. **모든 모델이 91% 를 넘고, 10개 중 6개가 98% 를 넘는다.** GPT-5.5 는 이 suite 에서 완벽 (440/440) 하고, Gemini 3.5 Flash 와 GLM-5.2 는 각각 테스트 하나씩만 놓쳤다 (439/440).
+
+reasoning mode 별 결과도 흥미롭다. frontier 모델은 모드와 무관하게 포화한다 (Opus 100.0/99.5, GPT-5.5 99.5/98.6, off/on 순). 반면 reasoning 의 가치는 모델 능력이 낮아질수록 단조 증가한다 — Ultra 93.4 → 94.1, Super-v3 83.7 → 96.4, Nano 52.5 → 84.8. 작은 Nemotron 모델에게 inference-time reasoning 이 능력 평준화 장치로 작동하는 셈이다.
+
+여기서 저자들이 끌어내는 함의는 **"인터페이스 자체가 현행 LLM 에게 부담이 아니다"** 이다. 모델은 Python 을 알고, 객체 문서를 읽고, 타입 있는 인자로 메서드를 부르고, 반환값을 쓰고, 객체 상태를 변경하고, 타입 계약을 만족하는 값을 반환한다 — 이 프레임워크로 학습된 적이 없는데도.
+
+### stress test: 남은 프론티어는 어디인가
+
+잔여 실패는 6개 stress family 에 집중된다. stress subset 은 300개 중 254개 통과 (84.7%) 로, 전체 97.9% 와 대비된다. large/frontier 는 180개 중 169개 (93.9%), small/efficient 는 120개 중 85개 (70.8%). **규모 격차가 전체 3.2 포인트에서 stress subset 23 포인트로 벌어진다.**
+
+가장 어려운 것은 `sentiment_batch` (31/50, 62%) 다. 개별 항목을 큰 배치에 걸쳐 장부 관리하는 능력을 요구한다.
+
+일관성 측정도 있다. 880개 (test, model) 쌍 중 94% 가 5회 모두 통과하고, 5회 모두 실패하는 것은 셋뿐이며, 나머지는 간헐적이다. 두 실패 모드가 규모별로 갈린다: **large 모델은 0/5 가 하나도 없다** — 모든 실패가 간헐적이고, 이미 시연된 능력에서의 신뢰성 miss 다. small 모델은 둘 다 보인다 — stress 쌍의 12.5% 가 0/5, 42% 가 간헐적.
+
+이건 `self` 를 이해하지 못하거나 메서드를 못 부르는 실패가 아니다. <strong>규율 있는 multi-step 하네스 사용의 실패</strong>다. 부록 B 가 이 지점을 아주 잘 보여준다 — 뒤의 "결과 분석" 절에서 다룬다.
+
+### SWE-bench Verified 와 Terminal-Bench 2.0
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/tab3-4-swebench-terminalbench.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Table 3 · Table 4: 같은 백엔드·같은 reasoning effort 에서 NOOA · OpenCode · PI 비교. NOOA 는 SWE-bench 의 모든 설정에서 open harness 중 1위다."
+   zoomable=true %}
+
+SWE-bench Verified 에서 NOOA 는 평가된 모든 모델·reasoning 설정에서 open harness 중 최고 통과율을 얻는다. GPT-5.5 기준 off / high / xhigh 에서 각각 67.2%, 78.8%, 82.2%. xhigh 에서 OpenCode 는 78.6%, PI 는 78.2% 다. Opus 4.6 에서는 NOOA 79.8% (OpenCode 75.2, PI 75.8).
+
+더 의미 있는 비교는 CodeAct 원조와의 대조다. OpenHands v3 는 Opus 4.6 에서 68.4% 로 보고되는데, NOOA 는 <strong>같은 모델로 11.4 포인트 개선</strong>한 79.8% 를 낸다. 참고로 제출 시점 공개 리더보드 SOTA 는 specialized agent + Opus 4.5 조합의 79.2% 였다.
+
+Terminal-Bench 2.0 에서 격차는 더 크다. reasoning 을 끈 상태에서 NOOA 46.1% 대 OpenCode 34.8%, PI 37.1%. high effort 에서 73.0% 로, OpenCode 를 12.3 포인트, PI 를 4.5 포인트 앞선다. 다만 GPT-5.5 xhigh 최고 결과는 PI 의 75.3% 로, NOOA 73.0% 보다 높다. Opus 4.6 high 에서는 NOOA 65.2% 대 OpenCode 43.8%, PI 58.4%.
+
+<strong>reasoning effort 와의 상호작용</strong>이 이 논문에서 가장 통찰력 있는 관찰 중 하나다. reasoning 을 끄면 NOOA 는 SWE-bench 에서 OpenCode 와 PI 를 각각 8.0, 6.4 포인트, Terminal-Bench 에서 11.3, 9.0 포인트 앞선다. 그런데 effort 를 올리면 이 마진이 좁아진다. 저자들의 해석: NOOA 가 노출하는 명시적 객체 상태, 타입 있는 행동, 프로그래머블 루프가 <strong>강한 reasoning 모델이 스스로 수행하게 되는 행동을 부분적으로 대체</strong>한다는 것이다. 하네스 설계의 가치가 모델이 약할수록 크다는 뜻이고, 이건 실무적으로 중요한 함의다.
+
+### 토큰 효율: score–cost frontier
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/fig6-pareto.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 6: SWE-bench Verified 점수 대 task 당 토큰 비용 (log scale). 색은 하네스, 마커 모양은 백엔드, 크기는 reasoning effort. 점선이 Pareto frontier."
+   zoomable=true %}
+
+높은 통과율이 더 긴 trajectory 에서 나온 게 아니라는 점이 중요하다. GPT-5.5 xhigh SWE-bench 에서 NOOA 는 약 28 model call · task 당 1.1M 토큰으로 82.2% 를 낸다. OpenCode 는 비슷한 call 수에 약 1.3M 토큰으로 78.6%, PI 는 66 call · 2.2M 토큰으로 78.2% 다. **NOOA 는 PI 의 절반 토큰과 절반 이하 call 로 4 포인트 높은 점수를 낸다.**
+
+이유는 구조적이다. 툴 출력이 transcript 로 반복 직렬화되지 않고 live Python 값으로 남는다. bounded prompt preview 가 컨텍스트 한계 아래를 유지시켜, OpenCode 와 PI 가 쓰는 손실 있는 transcript compaction 을 피하면서 prefix-cache 재사용을 보존한다. code as action 과 pass-by-reference 를 결합했을 때의 이득이 정확히 여기서 드러난다.
+
+closed system 과의 비교도 있다. SWE-bench Verified 에서 Codex 88.7%, Claude Code 80.8% 대 NOOA 82.2% (GPT-5.5) / 79.8% (Opus 4.6). Terminal-Bench 2.0 에서는 NOOA 의 Opus 4.6 65.2% 가 Claude Code 와 Terminus-2 의 62.9–65.4% 와 비슷하다. 즉 작은 벤치마크 불가지론적 에이전트가 specialized 시스템과 경쟁 가능하면서 비교된 open general-purpose 하네스는 일관되게 앞선다.
+
+### CyberGym L1
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/tab5-cybergym.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Table 5: CyberGym L1 취약점 탐색. NOOA 86.8% 는 open source 1위이고, 다수의 closed 시스템을 앞선다."
+   zoomable=true %}
+
+CyberGym 에이전트는 trial container 안에서 셸과 todo manager 툴을 가진 CodeAct 에이전트로 돌아간다. 태스크 설명을 읽고, 마운트된 소스를 조사하고, PoC 를 작성하고, CyberGym 제출 인터페이스로 제출한다. 모델 주변의 결정론적 레이어가 중요한 채점 메커니즘을 프롬프트 루프 밖에 둔다 — 제출 메서드가 작성된 PoC 를 보내고 벤치마크 응답을 처리하고, 가벼운 judge 가 모델의 요약이 서술된 취약점과 여전히 일치하는지 확인한 뒤 수락하고, 수락된 제출은 비결정론적 크래시를 걸러내기 위해 몇 차례 재제출된다. **도메인 지식은 이것 외에 전혀 넣지 않았다** — 성능이 사이버보안 steering 이 아니라 에이전트 아키텍처에서 나온다는 주장이다.
+
+NOOA 는 86.8% 로 Microsoft MDASHv2 (95.6%) 와 Crystalline (89.6%) 에 이은 3위이며, <strong>open source 에이전트 중에서는 1위</strong>다. OpenAI Codex + submission skill 이 83.5%, 소박한 Codex 가 64.9% 인 것과 비교된다.
+
+네트워크 접근이 성능에 영향을 준다는 점을 저자들이 짚는데, 규칙 기반 trajectory 분석으로 엄격한 "cheat check" 를 구현해 NOOA 결과가 온라인에서 취약점 정보나 벤치마크 자체를 조회한 게 아니라 문제 설정에서 직접 유도한 정보에만 기반함을 확인했다고 밝힌다. 참고로 NOOA 는 `blocked` 조건이고 상위 두 시스템은 `unknown` / `blocked` 다.
+
+### ARC-AGI-3: 멀티에이전트를 단일 에이전트로 압축하기
+
+이 절이 논문에서 가장 흥미롭다. 저자들의 companion 작업인 DreamTeam 은 공유 executable world model 을 중심으로 협업하는 6개 특화 에이전트 시스템으로 ARC-AGI-3 이전 최고 공개 점수를 세웠다. 이번 실험은 그 방법론이 <strong>급진적 단순화에서 살아남는가</strong>를 테스트한다.
+
+압축의 규모가 인상적이다. 6개 role prompt (1,821줄) 와 4,690줄짜리 하네스측 retrodiction 엔진이 프레임워크 원시 요소로 흡수됐다 — CodeAct REPL 이 시뮬레이터, context block 이 공유 상태, memory 가 팀의 carry-forward ledger 역할을 한다. 결과는 **에이전트 1개 + 50줄 skill**. 논문 시스템이 약 150k 줄이었던 것에 비해 예제는 약 6.1k 줄이다.
+
+skill 이 지시하는 것은 실행 가능한 모델을 workspace module 로 영속화하는 것이다: `encode(grid) → z` (게임을 움직이는 몇 개 필드의 latent), `predict(z, action) → z'` (동역학), 매 턴의 *retrodiction* (예측 대 관측의 불일치가 유일한 정제 신호), 신뢰가 생기면 자기 `predict` 위에서의 search, 그리고 레벨 간 memory 규율. 매 턴은 `submit_actions(..., rationale="predict: ...")` 으로 끝난다 — 각 행동 배치가 검증된 실험이 되는 것이다.
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/fig7-arc-agi3.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Figure 7: 2시간 fleet cap 하의 fleet-mean RHAE 대 wall-clock. 곡선 위 점은 게임당 누적 지출 USD 4 단위. 점선은 ARC Prize 의 raw GPT-5.6-sol 평가 (13.3%)."
+   zoomable=true %}
+
+네 개의 25게임 fleet 을 게임당 에이전트 1개로, 대회의 2시간 제한 아래 돌렸다. cap 시점에서 world-model + memory fleet 은 GPT-5.5 에서 **RHAE 50.2%** (118 레벨) 로, 베이스라인 41.7% 와 markdown-file ablation 38.4% 를 넘는다 — **베이스라인 대비 +8.5 포인트, memory subsystem 없는 같은 skill 대비 +11.8 포인트**. GPT-5.6-sol 에서는 같은 에이전트가 170 레벨에서 **85.1%** 를 게임당 USD 20 미만에 낸다. guarded, cache-aware fleet 의 비용은 gpt-5.5 pricing 기준 게임당 USD 17.85 (GPT-5.5) 와 USD 13.28 (GPT-5.6-sol) 이다.
+
+가장 눈에 띄는 숫자는 하네스 효과다. ARC Prize 자체 평가에서 raw GPT-5.6-sol 은 같은 25개 공개 게임에서 최대 reasoning effort 로 평균 **13.3%** 인데, NOOA 하네스 안의 같은 모델은 85.1% 에 도달한다 — **6.4배 하네스 효과**. 다만 저자들 스스로 평가 예산이 다르므로 이 비교는 indicative 라고 각주에서 밝히고 있다.
+
+## 결과 분석 / Ablation
+
+### 왜 강한 모델이 쉬운 규율에서 실패하는가
+
+부록 B 는 가장 어려운 stress test 인 `sentiment_batch` (전체 31/50) 에 대해 네 개 모델의 전체 trace 를 실었다. 50개 텍스트를 감성 분류하는 과제인데, 채점기는 50개 참조 라벨과의 정확한 일치를 요구한다. 네 실행 모두 byte-identical 컨텍스트를 받았고, 모델은 미리보기로 50개 중 25개만 보지만 `texts` 변수에는 50개가 다 들어 있다.
+
+- **Nemotron 3 Ultra — 통과.** 의도된 해법을 한 셀에 담았다. 모델이 정의한 subagent 를 live 변수 위로 fan-out 하고, live 결과를 셀 안에서 반환. 9.6초 만에 끝났다.
+- **Claude Opus 4.8 — 실패.** 첫 셀은 같은 fan-out 을 정확히 실행했고, 50개 분류 전부 맞았다. 그런데 다음 턴에서 `return_result(results)` 대신 **출력된 결과를 별도 `return_result` 툴 호출의 리터럴로 옮겨 적었다** — strategy 지시문이 하지 말라고 명시한 바로 그것. 옮겨 적는 과정에서 43번 항목 (`neutral`, "Typical response time.") 이 누락됐다. 판정: 길이 불일치, 50 기대 49 수신. live `results` 변수에는 50개가 다 있었는데.
+- **GPT-5.5 — 통과.** subagent 없이. 첫 셀에서 미리보기를 의도적으로 무력화해 모든 항목을 인덱스와 함께 출력하고, 둘째 셀에서 손으로 라벨링하되 항목별 주석으로 명시적 장부를 만들었다. 옮겨 적기이긴 하지만 항목별 대응이 명시적이다.
+- **GPT-5.4 Mini — 실패.** 유일한 셀이 keyword 규칙 분류기였다. 미리보기에 보인 25개 텍스트에 맞춰 키워드 목록을 만들고 50개 전체에 맹목 적용. live 변수 순회 자체는 맞게 했지만 의미 판단을 키워드 규칙으로 대체했다 — strategy 지시문에 반하는 것이고, 보지 못한 25개에서 라벨이 틀렸다.
+
+저자들의 정리가 정확하다: **정교함과 성공은 직교한다.** 가장 진보된 하네스 사용 (Opus 의 fan-out) 이 가장 값싼 규율 — 변수를 반환하라, 다시 타이핑하지 마라 — 에서 실패했고, 가장 덜 에이전틱한 접근 (GPT-5.5 의 수작업 라벨링) 이 조심스러운 장부 관리로 통과했다. **두 실패 모두 인터페이스 이해의 결함이 아니라, 인터페이스가 이미 제공한 안전한 경로를 무시한 규율의 결함이다.** 이것이 §7 에서 저자들이 trajectory-level reinforcement learning 을 미래 방향으로 지목하는 근거다.
+
+### memory subsystem 은 무엇을 했는가
+
+ARC-AGI-3 fleet (25게임) 에서 메모리 서브시스템의 세 인터페이스가 모두 활용됐다: 3,262개 memory 작성, 12,654회 spontaneous 주입, 27,115회 deliberate tool read (hit rate 99%).
+
+읽기가 편향되는 방향이 흥미롭다. 평균 importance 가 written → injected → deliberate 로 올라간다 (6.1 → 7.2 → 7.5). HIGH 언어 등급이 write 의 61% 를 차지하는데 injected 의 87%, deliberate 의 91% 를 차지한다 — ACT-R importance 항이 **두 읽기 채널 모두를 에이전트가 직접 중요하다고 표시한 것 쪽으로 기울인다.**
+
+주입은 선택적이고 제한된다. 3,262개 중 632개 (19%) 만 자발적으로 표면화됐고, 턴당 4.1개 ≈ 1.9k characters 다. character-budget 이 memory 에 의한 컨텍스트 범람을 막는다.
+
+타입별 역할 분화도 뚜렷하다. <strong>episode 는 recency 채널</strong>이다 — write 의 10% 인데 injected occurrence 의 24% (deliberate 는 13%). base-level recency 항이 최근 레벨 시도를 요청 없이 표면화한다. **skill 은 적고 비싸고 의도적으로 가져온다** — write 의 3% 인데 모든 타입 중 importance 최고 (8.3) 이고 deliberate read 에 과대표집된다. 에이전트가 검증된 절차를 다시 찾으러 간 것이다. **reflection 은 저장소를 키우는 게 아니라 압축한다** — 레코드의 22% 인데 두 읽기 채널 모두 약 1% (importance 3.9), 전체 레코드의 45% 가 decay 기반 망각으로 archive 됐다.
+
+성능과의 관계는 결정당 메모리 사용으로 봐야 한다 (한 decision = `submit_actions` 로 끝나는 에이전트 턴 하나). 이 척도에서 관계가 뚜렷하게 양의 방향이다: **decision 당 deliberate recall 이 완료 레벨 수와 Spearman ρ = +0.52** 로 상관하고, decision 당 write 는 ρ = +0.36. 이긴 게임은 decision 당 1.63회 메모리를 확인하고 1.87개를 쓴다 (중앙값, 나머지 게임은 1.21 / 1.46). **모든 이긴 게임이 decision 당 최소 한 번의 deliberate recall 을 한다** — skill 의 recall-before-deciding 규율이 실제로 작동한 것이다.
+
+단 저자들 스스로 $n = 25$ 이고 16개 결과가 operator kill 로 right-censored 됐으므로 이건 association 이라고 명시한다. 정직한 태도다.
+
+### world model 은 어떻게 쓰였는가
+
+25게임 중 22게임이 실행 가능한 모델 코드를 영속화했다 (37개 모듈, 약 4.4k 줄). 여섯 게임은 메커니즘이 쌓이면서 레벨별 새 모듈을 만들었다 (hazard → token → door → pressure plate).
+
+깊이별로 보면: 5게임이 전체 루프 (predict + search + retrodiction) 를 돌렸고, 7게임이 자기 모델로 계획하거나 예측했고, 10게임은 지각/인코딩에만 썼다. 대표적인 닫힌 루프 사례로 `m0r0` 은 42-action plan 을 저장하고 실제 프레임 스무 개를 `encode` 로 되돌려 실행 중간에 검사한 뒤 다음 배치를 방출하고, 마지막 레벨의 완료 행동을 미리 선언했다 — per-level score cap 근처에서 6/6 레벨 완료. `ar25` 는 단일 탐색 행동으로부터 첫 턴에 모델을 작성한 뒤, "마지막 `DOWN` 에서 레벨 완료 예상" 이라는 rationale 로 끝나는 16-action plan 을 제출했다 — 24턴에 8/8 레벨.
+
+실패 모드가 교훈적이다. 멈춘 두 게임은 **자기가 영속화한 planner 가 가지고 있던 경계 (`max_depth`, visited set, node budget) 를 결여한 ad-hoc in-cell search** 를 했다. 하나는 예산 없이 노드당 3,456개 클릭 타깃 전부로 분기했고, 그 사이 영속화된 `predict` 는 호출되지 않았다. **지속되고 큐레이션된 artifact 가 즉흥적인 셀 코드보다 일관되게 더 잘 설계돼 있었다** — §3.7 의 memory-and-workspace 규율에 대한 논거다.
+
+### containment: 보안 감사
+
+ARC-AGI-3 fleet 은 계층화된 sandbox 안에서 돌았다. 각 CodeAct 셀이 잠긴 worker 에서 실행되고, 셀 바이트코드가 돌기 전에 네 개의 커널 강제 guard 가 설치된다 — Landlock 파일시스템 default-deny, `socket(AF_INET/AF_INET6)` 에 대한 seccomp 차단, `RLIMIT_AS`/`RLIMIT_CPU` 메모리·CPU 상한, 하드 `SIGTERM→SIGKILL` 셀 타임아웃. 그 위에 in-process cell guard, per-run OS privilege drop, 게임 정체성의 end-to-end 익명화 (에이전트는 `game-<hex>` alias 만 본다) 가 있다.
+
+30분마다 live 25게임 fleet 을 재스캔하는 red-team 루프를 18회 돌린 결과 **어떤 규칙에서도 누출 없음**. 네트워크 호출 0, 게임 소스 바이트 반환 0, cross-game read 는 `EACCES` 로 실패, 13,335개 에이전트 로그에서 실제 게임 식별자 0회. 유일한 탈출 시도 하나 — 한 에이전트가 자기 저장소 alias 를 찾는 파일시스템 정찰 셸 명령 (`find`/`grep`) 을 실행 — 은 cell guard 가 실행 전에 셀을 교체해 0 바이트를 반환했다.
+
+이 정도로 상세한 containment 보고는 에이전트 논문에서 드물다. 실제로 프로덕션 배치를 고민한 흔적이다.
+
+### 14개 프레임워크 비교
+
+{% include figure.liquid loading="eager"
+   path="assets/img/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/tab7-harness-comparison.png"
+   class="img-fluid rounded z-depth-1"
+   caption="Table 7: 14개 하네스를 6개 interface capability 로 채점. † 는 extension, flag-gated, opt-in — 기본 활성이 아님을 뜻한다."
+   zoomable=true %}
+
+이 표를 읽는 방법은 "누가 이겼나" 가 아니라 **"녹색이 어디에 몰려 있나"** 다. 몰려 있는 곳이 필드가 실제로 수렴하고 있는 지점이다.
+
+- **code as action** 이 가장 녹색이 짙다. LangChain Deep Agents 의 JS REPL, Microsoft 의 Monty/Hyperlight CodeAct provider, PydanticAI 의 CodeMode, Codex 의 code mode, OpenClaw 의 Code Mode cell — 대부분 † 가 붙어 있다. 즉 <strong>평가 기간 중에 출하된, 아직 experimental 이거나 flag-gated 인 기능들</strong>이다. 필드가 지금 이쪽으로 움직이고 있다는 강한 신호다.
+- **typed I/O** 는 거의 전부 "typed output only" 다. Google ADK 만 agent-as-tool 경로에서 input schema 도 받는다. 출력 타입은 이미 산업 표준이 됐지만 입력 타입은 아직 아니다.
+- **pass by reference** 는 거의 전부 파일 아니면 직렬화된 복사본이다. smolagents 가 예외적으로 live object 를 executor namespace 에 주입하는데, shaped preview 메커니즘이 없어 모델은 인자의 잘리지 않은 `str()` 을 본다.
+- **harness APIs** 는 대부분 "skill/tool-search loading" 이다. 즉 컨텍스트를 *불러오는* 것은 model-callable 인데, 컨텍스트 block 을 *읽고 쓰는* 것과 event 를 조회하는 것은 여전히 개발자 영역이다. NOOA 가 가장 차별화되는 축이 여기다.
+
+저자들의 결론 — "어떤 시스템도 여섯을 다 결합하지 않았지만 대부분이 일부를 채택하고 있다" — 는 표에서 그대로 읽힌다. 그리고 † 마크의 밀도가 말해주는 것은, 이 비교가 아주 빠르게 낡을 것이라는 사실이다.
+
+## 한계와 비판적 평가
+
+### 저자가 인정한 한계
+
+**보안 모델이 가장 크다.** NOOA 는 모델이 작성한 코드를 에이전트 자신의 프로세스에서 실행한다. §3.4 의 validator 는 **에이전트 루프를 보호하지 호스트를 보호하지 않는다.** 이 점에서 NOOA 는 셸 툴을 가진 어떤 하네스와도 같다 — sandboxing (컨테이너, VM, 권한 시스템) 은 에이전트 프로세스를 감싸는 방식으로 가야 하고, 셸 툴이 in-process Python 보다 안전하지 않다는 것도 사실이다. 저자들은 in-process 실행이 pass by reference 를 보존하는 조건이고, sandboxed code mode 는 sandbox 경계에서 직렬화된 복사본을 받으므로 그것을 포기하는 것이라고 명확히 밝힌다. 선호 배치는 OpenShell 이다.
+
+### 리뷰어로서 추가로 보이는 한계
+
+**6개 capability 축이 NOOA 설계에서 역산된 rubric 이다.** typed I/O, pass-by-reference, code as action, loop engineering, object state, harness APIs — 이건 NOOA 가 하는 여섯 가지다. 다르게 설계된 프레임워크는 구조적으로 Partial 을 받을 수밖에 없다. 예컨대 LangGraph 의 graph state 는 "model-visible durable state" 축에서는 Partial 이지만, "여러 노드 간 상태 전이의 정적 검증 가능성" 같은 축을 세우면 NOOA 가 Partial 을 받을 것이다. 부록 A 의 증거 수준이 높아서 각 셀의 판정 자체는 반박하기 어렵지만, **축의 선택 자체가 중립적이지 않다.** 저자들이 "to the best of our knowledge" 를 붙인 건 적절한 태도지만, 독자는 이 표를 "NOOA 가 1등" 이 아니라 "필드가 이 여섯 축으로 수렴 중" 으로 읽는 게 맞다.
+
+**여섯 capability 개별 ablation 이 없다.** 논문 전체에서 통제된 ablation 은 memory subsystem 하나뿐이다 (+11.8 RHAE). SWE-bench 에서 NOOA 가 OpenHands v3 를 11.4 포인트 앞선 것이 typed return validation 때문인지, pass-by-reference 때문인지, bounded preview 때문인지, 아니면 `BenchAgent` 의 tree-sitter 저장소 툴 때문인지 알 수 없다. validated termination 에 대한 trace 분석 (§4.2) 이 정성적 논거를 제시하지만 정량적 기여도 분해는 없다. 프레임워크 논문에서 이건 큰 공백이다 — "이 여섯 개가 핵심" 이라고 주장하려면 하나씩 꺼봐야 한다.
+
+**capability suite 가 self-authored 다.** 88개 테스트를 인터페이스를 설계한 팀이 직접 만들었다. 97.9% 통과는 "이 인터페이스가 학습 가능하다" 를 보이지 "다른 인터페이스보다 낫다" 를 보이지 않는다. 같은 능력을 요구하는 테스트를 다른 하네스로 옮겨서 비교한 결과가 없어서, agent readiness 주장은 절대값으로만 지지되고 상대값으로는 지지되지 않는다.
+
+**하네스 비교의 baseline 선택이 좁다.** SWE-bench / Terminal-Bench 에서 실제로 재실행한 open harness 는 OpenCode 와 PI 둘뿐이다. Table 7 에서 채점한 나머지 12개는 벤치마크에 올리지 않았다. smolagents 처럼 code as action 과 pass by reference 둘 다 Strong 을 받은 시스템이 실제 벤치마크에서 어떤지가 특히 궁금한데, 비교가 없다. closed system 수치는 재실행이 아니라 보고값 인용이다.
+
+**stress test 실패 분석이 4개 trace 다.** 부록 B 는 훌륭한 정성 자료지만 `sentiment_batch` 하나에 대한 네 실행이다. "정교함과 성공은 직교한다" 는 결론이 6개 stress family 전반에서 성립하는지는 이 증거만으로 알 수 없다. 실패 유형을 코딩해서 집계한 표가 있었으면 훨씬 강했을 것이다.
+
+**ARC-AGI-3 의 6.4배 하네스 효과는 조건이 다르다.** 저자들도 각주에서 인정하듯, 비교 대상인 ARC Prize 의 raw GPT-5.6-sol 평가 (13.3%) 는 예산이 다르다. 2시간 fleet cap 안에서 게임당 USD 13–18 정도를 쓴 에이전트와, 예산이 명시되지 않은 raw model evaluation 을 나란히 두는 건 상한선을 보여줄 뿐이다. 또 $n = 25$ 에 16개가 right-censored 라 메모리 상관 결과도 약하다.
+
+**memory subsystem 의 비용이 계상되지 않았다.** embedding 계산, ACT-R activation 전파, 비동기 reflection pass 는 모델 토큰 비용 밖에서 자원을 쓴다. 게임당 USD 17.85 같은 숫자는 gpt-5.5 pricing 기준 model spend 인 것으로 보이는데, 메모리 인프라 비용이 포함됐는지 명시가 없다. +11.8 RHAE 의 대가가 얼마인지 알 수 없다.
+
+**단일 언어 베팅이다.** 모든 설계가 "모델이 Python 을 잘 안다" 에 걸려 있다. 이건 현재로선 강한 가정이지만, TypeScript / Go / JVM 기반 스택에서 에이전트를 운영하는 조직에게 NOOA 의 논거가 얼마나 이전 가능한지에 대한 논의가 없다. Table 7 에서 JS REPL 을 채택한 시스템들 (LangChain Deep Agents, Codex code mode, OpenClaw) 이 있는 걸 보면 이건 실제 질문이다.
+
+## 시사점 / Takeaways
+
+- **하네스 설계의 가치는 모델이 약할수록 크다.** reasoning-off 에서 NOOA 가 경쟁 하네스를 8–11 포인트 앞서다가 xhigh 에서 마진이 좁아지는 패턴은, 명시적 객체 상태·타입 있는 행동·프로그래머블 루프가 강한 reasoning 모델이 스스로 하게 되는 일을 대신해준다는 뜻이다. 실무적으로: 프론티어 모델을 쓸 여유가 없는 환경일수록 하네스에 투자할 이유가 크다.
+- **종료를 타입 계약으로 만드는 것이 생각보다 큰 차이를 만든다.** "모델이 tool call 없이 응답하면 끝" 이라는 관행을 쓰는 OpenCode 는 Terminal-Bench 에서 실패한 GPT-5.5 시행의 77% 가 열 스텝 안에 종료됐다. 근거와 검증 명령을 담은 타입 검증된 값을 반환하도록 강제하는 것만으로 중간 상태가 그럴듯해 보이는 태스크에서 조기 종료가 막힌다. 어떤 하네스를 쓰든 훔쳐올 만한 설계다.
+- **stress test 의 실패는 이해가 아니라 규율의 실패다.** Opus 4.8 이 50개 분류를 전부 맞히고도 변수를 반환하는 대신 옮겨 적다가 하나를 빠뜨렸다는 사례는, 현재 프론티어 모델의 병목이 어디인지를 정확히 보여준다. 능력을 시연할 수 있는 것과 매번 신뢰성 있게 하는 것은 다른 문제이고, 후자는 프롬프트가 아니라 trajectory-level 학습이 필요한 영역일 수 있다.
+- **pass-by-reference + bounded preview 는 컨텍스트 창을 우회하는 방법이다.** 에이전트가 처리할 수 있는 데이터 양이 프롬프트가 아니라 실행 환경에 의해 제한된다는 발상은, transcript compaction 을 계속 개선하는 것보다 근본적인 해법에 가깝다. 100개 리스트 미리보기를 열 개 원소로 렌더하면서 실제로는 전부 순회 가능하게 두는 것 — 단순하지만 효과가 크다.
+- **에이전트 개수를 줄이는 것도 아키텍처 개선이다.** 6개 에이전트 + 1,821줄 role prompt + 4,690줄 retrodiction 엔진이 에이전트 1개 + 50줄 skill 로 압축되고도 점수가 올랐다는 결과는, 멀티에이전트 오케스트레이션의 상당 부분이 하네스가 원시 요소로 제공했어야 할 것을 애플리케이션 레벨에서 재구현한 것이었을 가능성을 시사한다.
+
+## 설치 및 사용법
+
+코드는 [nvidia-nemo/labs-OO-Agents](https://github.com/nvidia-nemo/labs-OO-Agents) 에 공개되어 있다. 논문 Figure 1 에 나온 최소 형태는 다음과 같다.
+
+```python
+from nooa import Agent
+
+class SupportAgent(Agent):
+    """You are a support agent for a customer service system."""
+
+    # 객체 상태 — 모델에 보이고 참조로 전달됨
+    order_db: OrderDB
+
+    # 본문이 있는 메서드는 그냥 Python. 모델이 코드 안에서 호출 가능
+    def is_refund_eligible(self, order: Order) -> bool:
+        """Return whether an order is eligible for a refund."""
+        return order.delivered and order.days_since_delivery <= 30
+
+    # 본문이 "..." 이면 agentic method. Predict 는 단발 LLM 호출
+    @strategy(PredictStrategy())
+    async def classify(self, message: str) -> TicketKind:
+        """Classify the customer message into the best ticket kind."""
+        ...
+
+    # 기본 strategy CodeAct 는 모델이 Python 을 쓰는 루프를 돌림
+    @strategy(CodeActStrategy())
+    async def triage(self, message: str, photo: Image | None, order: Order | None) -> Ticket:
+        """Triage a customer message and create a support ticket."""
+        ...
+```
+
+메모리를 붙이려면 에이전트를 수정할 필요 없이 install 하면 된다.
+
+```python
+MemoryManager.install(agent)   # 제거하면 에이전트가 정확히 원상복구
+```
+
+context block 과 event history 도 그냥 API 다.
+
+```python
+self.context["notes"] = "The user wants concise responses."
+self.context.set_dynamic("todo", "self.todo.status()")   # 매 턴 재평가
+recent_python = self.events.query(type="PythonOutput", limit=3)
+```
+
+## 참고 자료
+
+- 논문: <https://arxiv.org/abs/2607.20709>
+- Code: <https://github.com/nvidia-nemo/labs-OO-Agents>
+- OpenShell (저자들이 선호하는 배치 런타임): <https://github.com/NVIDIA/OpenShell>
+- ARC-AGI-3 벤치마크: <https://arcprize.org/arc-agi/3/>
+
+## 더 읽어보기
+
+- **[Executable Code Actions Elicit Better LLM Agents](https://arxiv.org/abs/2402.01030)** (Wang et al., ICML 2024) — NOOA 의 CodeActStrategy 가 직접 계승하는 원조 논문. 실행 가능한 코드를 행동 modality 로 쓰는 것이 JSON·텍스트 행동보다 낫다는 논거를 정리했다.
+- **[Workspace Optimization: How to Train Your Agent](https://arxiv.org/abs/2605.09650)** (Sarafian et al., 2026) — 같은 저자들의 companion 작업. ARC-AGI-3 에서 NOOA 예제가 압축 대상으로 삼은 DreamTeam 시스템이 여기서 나왔고, 미해결 문제로 지목한 transfer 를 NOOA 의 memory subsystem 이 다룬다.
+- **[MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560)** (Packer et al., 2023) — NOOA 의 event history collapse 와 memory tier 설계가 참조하는 계보. LLM 을 운영체제로 보고 컨텍스트를 페이징한다는 발상의 출발점.
+- **[Code as Agent Harness](https://arxiv.org/abs/2605.18747)** (Ning et al., 2026) — 코드가 추론·행동·환경 모델링·검증·계획·메모리·멀티에이전트 조정의 substrate 가 되는 흐름을 서베이한다. NOOA 를 이 흐름의 객체지향 Python 런타임 구현으로 읽으면 위치가 잡힌다.
+- **[Recursive Language Models](https://arxiv.org/abs/2512.24601)** (Zhang et al., 2025) — 프롬프트 자체를 REPL 의 변수로 만들어 모델이 조회·슬라이스·재귀 질의하게 하는 접근. NOOA 의 pass-by-reference 를 논리적 극단까지 밀면 나오는 그림이다.
