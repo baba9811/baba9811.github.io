@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-skaling-chinchilla-39-s-exponents-meet-kaplan-39-s-coupling",
+        },{id: "post-paper-review-nvidia-labs-oo-agents-native-python-object-oriented-agents",
+        
+          title: "[Paper Review] NVIDIA-labs OO Agents: Native Python Object-Oriented Agents",
+        
+        description: "An agent is not a bundle of prompt templates, tool schemas, and workflow graphs. It is a Python object: methods are actions, fields are state, docstrings are prompts, type annotations are contracts.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/";
+          
+        },
+      },{id: "post-논문-리뷰-nvidia-labs-oo-agents-native-python-object-oriented-agents",
+        
+          title: "[논문 리뷰] NVIDIA-labs OO Agents: Native Python Object-Oriented Agents",
+        
+        description: "에이전트를 프롬프트 템플릿·툴 스키마·워크플로 그래프의 조합이 아니라 그냥 Python 객체로 만든다. 메서드가 행동, 필드가 상태, docstring 이 프롬프트, 타입 어노테이션이 계약이다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0031-nvidia-labs-oo-agents-native-python-object-oriented-agents/";
+          
+        },
+      },{id: "post-paper-review-skaling-chinchilla-39-s-exponents-meet-kaplan-39-s-coupling",
         
           title: "[Paper Review] Skaling: Chinchilla&#39;s Exponents Meet Kaplan&#39;s Coupling",
         
