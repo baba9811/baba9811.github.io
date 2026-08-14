@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-nvidia-labs-oo-agents-native-python-object-oriented-agents",
+        },{id: "post-paper-review-hierarchical-self-improvement-a-framework-for-task-specific-evolvable-agent-harnesses",
+        
+          title: "[Paper Review] Hierarchical Self-Improvement: A Framework for Task-Specific Evolvable Agent Harnesses",
+        
+        description: "Freeze the model, evolve only the harness across three nested scopes — +39.3 on BabyAI and +33.0 on Crafter, plus an honest account of exactly where the gains stop",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0032-hierarchical-self-improvement-a-framework-for-task-specific/";
+          
+        },
+      },{id: "post-논문-리뷰-hierarchical-self-improvement-a-framework-for-task-specific-evolvable-agent-harnesses",
+        
+          title: "[논문 리뷰] Hierarchical Self-Improvement: A Framework for Task-Specific Evolvable Agent Harnesses",
+        
+        description: "모델을 얼려둔 채 에이전트 하네스만 3계층으로 진화시켜 BALROG 에서 BabyAI +39.3, Crafter +33.0 을 얻고, 그 개선이 어디서 멈추는지까지 실증한 프레임워크",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0032-hierarchical-self-improvement-a-framework-for-task-specific/";
+          
+        },
+      },{id: "post-paper-review-nvidia-labs-oo-agents-native-python-object-oriented-agents",
         
           title: "[Paper Review] NVIDIA-labs OO Agents: Native Python Object-Oriented Agents",
         
