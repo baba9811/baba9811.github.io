@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-hierarchical-self-improvement-a-framework-for-task-specific-evolvable-agent-harnesses",
+        },{id: "post-paper-review-ragu-a-multi-step-graphrag-engine-with-a-compact-domain-adapted-llm",
+        
+          title: "[Paper Review] RAGU: A Multi-Step GraphRAG Engine with a Compact Domain-Adapted LLM",
+        
+        description: "A GraphRAG engine that separates extraction from consolidation, and a scaling hypothesis that justifies running the whole indexing pipeline on a 7B model",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0033-ragu-a-multi-step-graphrag-engine-with-a-compact-domain-adap/";
+          
+        },
+      },{id: "post-논문-리뷰-ragu-a-multi-step-graphrag-engine-with-a-compact-domain-adapted-llm",
+        
+          title: "[논문 리뷰] RAGU: A Multi-Step GraphRAG Engine with a Compact Domain-Adapted LLM",
+        
+        description: "단일 패스 추출 대신 추출과 통합을 분리한 GraphRAG 엔진, 그리고 RAG 파이프라인 안의 LLM 에는 세계 지식이 아니라 언어 능력이 필요하다는 가설로 7B 추출기를 정당화한 시스템 논문",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0033-ragu-a-multi-step-graphrag-engine-with-a-compact-domain-adap/";
+          
+        },
+      },{id: "post-paper-review-hierarchical-self-improvement-a-framework-for-task-specific-evolvable-agent-harnesses",
         
           title: "[Paper Review] Hierarchical Self-Improvement: A Framework for Task-Specific Evolvable Agent Harnesses",
         
