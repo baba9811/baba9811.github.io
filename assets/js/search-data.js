@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-ragu-a-multi-step-graphrag-engine-with-a-compact-domain-adapted-llm",
+        },{id: "post-paper-review-agentic-method-for-deterministic-validation-of-legacy-code-migration",
+        
+          title: "[Paper Review] Agentic Method for Deterministic Validation of Legacy Code Migration",
+        
+        description: "American Express&#39;s Locksmith Loop: when input search stalls during COBOL-to-Java migration validation, mutate the harness itself to open new execution regions, apply the mutation symmetrically to both languages, and let a deterministic parity oracle decide what survives",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0034-agentic-method-for-deterministic-validation-of-legacy-code/";
+          
+        },
+      },{id: "post-논문-리뷰-agentic-method-for-deterministic-validation-of-legacy-code-migration",
+        
+          title: "[논문 리뷰] Agentic Method for Deterministic Validation of Legacy Code Migration",
+        
+        description: "COBOL→Java 마이그레이션 검증에서 입력 탐색이 막히면 하네스 자체를 변형해 새 실행 영역을 열고, 그 변형을 두 언어에 대칭 적용한 뒤 결정론적 parity 오라클로 판정하는 American Express 의 Locksmith Loop",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0034-agentic-method-for-deterministic-validation-of-legacy-code/";
+          
+        },
+      },{id: "post-paper-review-ragu-a-multi-step-graphrag-engine-with-a-compact-domain-adapted-llm",
         
           title: "[Paper Review] RAGU: A Multi-Step GraphRAG Engine with a Compact Domain-Adapted LLM",
         
