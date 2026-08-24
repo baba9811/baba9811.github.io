@@ -16,6 +16,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
+        },{id: "nav-blog-en",
+          title: "blog (en)",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/blog/";
+          },
         },{id: "post-paper-review-accurate-decoding-of-natural-sentences-from-non-invasive-brain-recordings",
         
           title: "[Paper Review] Accurate Decoding of Natural Sentences from Non-Invasive Brain Recordings",
