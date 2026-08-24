@@ -253,7 +253,7 @@ jekyll-minifier:
   # sitemap.xml 제외는 임시 — GSC "사이트맵을 읽을 수 없음" 조사용. minify 된
   # 25KB 한 줄 XML 은 눈으로도 diff 로도 못 봄. SEO 이득은 없음
   # GSC 가 정상으로 돌아오면 "sitemap.xml" 만 지우면 됨
-  exclude: ["robots.txt", "sitemap.xml", "assets/js/search/*.js"]
+  exclude: ["robots.txt", "sitemap.xml", "sitemap_index.xml", "assets/js/search/*.js"]
 
 # -----------------------------------------------------------------------------
 # Terser
