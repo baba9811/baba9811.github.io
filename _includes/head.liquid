@@ -76,6 +76,24 @@
 {% endif %}
 <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url | bust_css_cache }}">
 <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+{%- comment -%}
+  hreflang — 한/영 번역 쌍의 상호 참조. 자기 자신도 반드시 포함해야 하고, 두 페이지가
+  서로를 가리키지 않으면 Google 은 태그 셋 전체를 무시함. en_url · ko_url 이 없는
+  페이지는 쌍이 없으므로 아무것도 출력 안 함
+{%- endcomment -%}
+{%- assign ko_alt = nil -%}
+{%- if page.lang == 'ko' and page.en_url -%}
+  {%- assign ko_alt = page.url | replace: 'index.html', '' | absolute_url -%}
+  {%- assign en_alt = page.en_url | absolute_url -%}
+{%- elsif page.lang == 'en' and page.ko_url -%}
+  {%- assign ko_alt = page.ko_url | absolute_url -%}
+  {%- assign en_alt = page.url | replace: 'index.html', '' | absolute_url -%}
+{%- endif -%}
+{%- if ko_alt -%}
+  <link rel="alternate" hreflang="ko" href="{{ ko_alt }}">
+  <link rel="alternate" hreflang="en" href="{{ en_alt }}">
+  <link rel="alternate" hreflang="x-default" href="{{ ko_alt }}">
+{%- endif -%}
 
 {% if site.enable_darkmode %}
   <!-- Dark Mode -->

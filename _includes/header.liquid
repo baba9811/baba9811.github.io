@@ -99,17 +99,29 @@
                 </li>
               {% else %}
                 {% assign parent_link = p.permalink | remove: 'index.html' %}
-                <li class="nav-item {% if page.url contains parent_link %}active{% endif %}">
+                {%- comment -%}
+                  ⚠ contains 가 아니라 접두어 일치 — '/en/blog/' 는 '/blog/' 를 포함해
+                  영어 페이지에서 한국어 blog 항목까지 current 로 표시됨 (current 2개)
+                {%- endcomment -%}
+                {%- assign url_head = page.url | slice: 0, parent_link.size -%}
+                {%- assign is_current = false -%}
+                {%- if url_head == parent_link -%}
+                  {%- assign is_current = true -%}
+                {%- endif -%}
+                <li class="nav-item {% if is_current %}active{% endif %}">
                   {%- if p.permalink contains '://' -%}
                     {%- assign url = p.permalink -%}
-                  {%- elsif p.permalink contains '/blog/' -%}
-                    {%- assign url = '/blog/' -%}
                   {%- else -%}
-                    {%- assign url = p.url -%}
+                    {%- comment -%}
+                      ⚠ index.html 제거 필수 — paginate-v2 가 만든 인덱스의 p.url 은
+                      '/blog/index.html' 형태. '/blog/' 로 하드코딩하면 '/en/blog/' 까지
+                      한국어 blog 로 덮어씀
+                    {%- endcomment -%}
+                    {%- assign url = p.url | remove: 'index.html' -%}
                   {%- endif %}
                   <a class="nav-link" href="{{ url | relative_url }}">
                     {{- p.title }}
-                    {% if page.url contains p.url %}
+                    {% if is_current %}
                       <span class="sr-only">(current)</span>
                     {% endif %}
                   </a>

@@ -2,13 +2,16 @@
 layout: default
 permalink: /en/blog/
 title: blog (en)
-nav: false
+nav: true
+nav_order: 2
 lang: en
 pagination:
   enabled: true
   collection: posts
   permalink: /page/:num/
-  per_page: 5
+  # 전 글을 한 페이지에 — per_page 5 + trail 5칸이면 7페이지가 되어
+  # 가장 오래된 글까지 nav 에서 5클릭. 한 페이지면 2클릭. 100 초과 시 값만 올림
+  per_page: 100
   sort_field: date
   sort_reverse: true
   locale: en
