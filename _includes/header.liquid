@@ -61,9 +61,14 @@
           {% for p in sorted_pages %}
             {% if p.nav and p.autogen == null %}
               {% if p.dropdown %}
+                {%- comment -%}
+                  ⚠ title 비교가 아니라 permalink 접두어 비교 — 자식 라벨(한국어 · English)은
+                  대상 페이지의 title 과 다르므로 title 로는 절대 일치하지 않음
+                {%- endcomment -%}
                 {% assign has_active_child = false %}
                 {% for child in p.children %}
-                  {% if page.title == child.title %}
+                  {%- assign child_head = page.url | slice: 0, child.permalink.size -%}
+                  {% if child.permalink and child_head == child.permalink %}
                     {% assign has_active_child = true %}
                   {% endif %}
                 {% endfor %}
@@ -88,7 +93,7 @@
                         <div class="dropdown-divider"></div>
                       {% else %}
                         <a
-                          class="dropdown-item {% if page.title == child.title %}active{% endif %}"
+                          class="dropdown-item {% assign ch = page.url | slice: 0, child.permalink.size %}{% if ch == child.permalink %}active{% endif %}"
                           href="{% if child.permalink contains '://' %}{{ child.permalink }}{% else %}{{ child.permalink | relative_url }}{% endif %}"
                         >
                           {{- child.title -}}

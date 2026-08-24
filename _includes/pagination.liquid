@@ -1,6 +1,13 @@
 {% if paginator.total_pages > 1 %}
   <nav aria-label="Blog page navigation">
     <ul class="pagination pagination-lg justify-content-center">
+      {%- comment -%}
+        ⚠ trail 은 현재 페이지 주변 창만 렌더 — 처음·마지막 링크가 없으면 페이지 수가
+        창보다 많아진 순간 끝쪽 페이지가 어디서도 링크되지 않음
+      {%- endcomment -%}
+      <li class="page-item {% if paginator.page == 1 %}disabled{% endif %}">
+        <a class="page-link" href="{{ paginator.first_page_path | relative_url | remove: 'index.html' }}" aria-label="First page">&laquo;</a>
+      </li>
       <li class="page-item {% unless paginator.previous_page %}disabled{% endunless %}">
         <a class="page-link" href="{{ paginator.previous_page_path | relative_url }}" tabindex="-1" aria-disabled="{{ paginator.previous_page }}"
           >&lt;</a
@@ -15,6 +22,9 @@
       {% endif %}
       <li class="page-item {% unless paginator.next_page %}disabled{% endunless %}">
         <a class="page-link" href="{{ paginator.next_page_path | relative_url }}">&gt;</a>
+      </li>
+      <li class="page-item {% if paginator.page == paginator.total_pages %}disabled{% endif %}">
+        <a class="page-link" href="{{ paginator.last_page_path | relative_url | remove: 'index.html' }}" aria-label="Last page">&raquo;</a>
       </li>
     </ul>
   </nav>
