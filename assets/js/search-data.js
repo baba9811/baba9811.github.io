@@ -9,21 +9,21 @@ ninja.data = [{
     handler: () => {
       window.location.href = "/";
     },
-  },{id: "nav-blog",
-          title: "blog",
-          description: "",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/blog/";
-          },
-        },{id: "nav-blog-en",
-          title: "blog (en)",
-          description: "",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/blog/";
-          },
-        },{id: "post-paper-review-accurate-decoding-of-natural-sentences-from-non-invasive-brain-recordings",
+  },{id: "dropdown-한국어",
+              title: "한국어",
+              description: "",
+              section: "Dropdown",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "dropdown-english",
+              title: "English",
+              description: "",
+              section: "Dropdown",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "post-paper-review-accurate-decoding-of-natural-sentences-from-non-invasive-brain-recordings",
         
           title: "[Paper Review] Accurate Decoding of Natural Sentences from Non-Invasive Brain Recordings",
         
