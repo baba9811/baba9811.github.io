@@ -16,7 +16,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-paper-review-agentic-method-for-deterministic-validation-of-legacy-code-migration",
+        },{id: "post-paper-review-accurate-decoding-of-natural-sentences-from-non-invasive-brain-recordings",
+        
+          title: "[Paper Review] Accurate Decoding of Natural Sentences from Non-Invasive Brain Recordings",
+        
+        description: "Meta AI&#39;s Brain2Qwerty v2 collects 90 hours and 2,724 unique sentences of MEG from nine people, then chains a CTC encoder, a word aligner, and a LoRA-tuned LLM to decode natural sentences from non-invasive brain signals at 39% WER",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0035-accurate-decoding-of-natural-sentences-from-non-invasive-bra/";
+          
+        },
+      },{id: "post-논문-리뷰-accurate-decoding-of-natural-sentences-from-non-invasive-brain-recordings",
+        
+          title: "[논문 리뷰] Accurate Decoding of Natural Sentences from Non-Invasive Brain Recordings",
+        
+        description: "9명에게서 90시간·2,724 문장의 MEG 를 모으고, CTC 인코더 · 단어 정렬기 · LoRA LLM 을 한 파이프라인으로 묶어 비침습 뇌 신호에서 자연 문장을 WER 39% 로 디코딩한 Meta AI 의 Brain2Qwerty v2",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0035-accurate-decoding-of-natural-sentences-from-non-invasive-bra/";
+          
+        },
+      },{id: "post-paper-review-agentic-method-for-deterministic-validation-of-legacy-code-migration",
         
           title: "[Paper Review] Agentic Method for Deterministic Validation of Legacy Code Migration",
         
