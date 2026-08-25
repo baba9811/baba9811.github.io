@@ -1,6 +1,13 @@
 <!-- Metadata, OpenGraph and Schema.org -->
 {% include metadata.liquid %}
 
+<!-- Google AdSense -->
+{%- comment -%}
+  자동 광고 — 게재 위치는 AdSense 가 정함. client 값은 게시자 ID 라 공개되어도 무방함.
+  CSP script-src 의 https: 로 pagead2 허용됨 — CSP 를 조이면 이 스크립트부터 깨짐
+{%- endcomment -%}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6607856542346270" crossorigin="anonymous"></script>
+
 <!-- Security: Content Security Policy -->
 <!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
 <!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
