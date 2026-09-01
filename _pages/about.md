@@ -6,7 +6,7 @@ subtitle:
 
 profile:
   align: right
-  image:
+  image: prof_pic.jpg
   image_circular: true
   more_info:
 
