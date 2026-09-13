@@ -36,7 +36,7 @@ en_url: /en/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/
 - BRIGHT에서는 embedding 검색 뒤 LLM 재순위화가 도움이 됐지만, BEIR에서는 가장 강한 embedding 단독 구성이 더 좋았다. 추론 축소도 모델마다 효과가 달랐다.
 - 실무적으로 유용한 메시지는 작업별 역할 분담이다. 다만 집계 가중치, pair classification 지표, few-shot 기준값의 불일치는 원문과 공개 코드를 함께 읽어야 드러난다.
 
-## 소개
+## 소개 (Introduction)
 
 검색 파이프라인을 만들 때 embedding 모델은 오랫동안 자연스러운 출발점이었다. 문서를 벡터로 바꾸어 저장하고, 사용자가 질문하면 가까운 벡터를 찾는다. 분류에서는 이미 라벨이 붙은 예문과 비교하고, 군집화에서는 비슷한 벡터를 묶는다. 결과가 나오는 과정은 단순하지만, 문서가 많고 요청이 반복될수록 이 단순함이 강력한 장점이 된다. 문서의 계산 결과를 저장해 다음 질문에서도 다시 쓸 수 있기 때문이다.
 
@@ -46,7 +46,7 @@ El Assadi et al.의 [The Embedder’s Dilemma](https://arxiv.org/abs/2608.12875)
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig1-cost-performance.png" class="img-fluid rounded z-depth-1" caption="Figure 1. 전체 모델의 비용–성능 관계. 가로축은 벤치마크 1회 비용의 로그 척도다. 원 논문의 그림을 여백 조정하여 발췌했다." zoomable=true %}
 
-## 핵심 기여
+## 핵심 기여 (Key Contributions)
 
 - **동일한 평가 부분집합을 공유하는 비교 틀:** MTEB에서 가져온 37개 과제를 다섯 범주로 구성하고, embedding과 생성형 LLM이 같은 held-out 데이터를 풀도록 했다.
 - **품질과 추론 비용을 함께 공개:** LLM의 입력·캐시·출력·추론 토큰과 embedding의 GPU 처리량을 연결해 비용–성능 관계를 제시했다.
@@ -55,23 +55,23 @@ El Assadi et al.의 [The Embedder’s Dilemma](https://arxiv.org/abs/2608.12875)
 
 첫 기여의 “동일함”은 평가 샘플을 뜻한다. 두 방식이 학습 정보, 입력 형식, 계산 예산까지 같다는 뜻은 아니다. 이 구별을 유지해야 이후의 성능 차이를 정확하게 해석할 수 있다.
 
-## 관련 연구와 배경 지식
+## 관련 연구 / 배경 지식
 
-### Embedding은 모델의 출신보다 출력 방식으로 구분한다
+### Text embedding과 생성형 LLM
 
 텍스트 embedding은 문장의 의미를 고정 길이 벡터로 표현한다. 검색에서는 질문과 문서를 각각 인코딩한 뒤 코사인 유사도로 순위를 정한다. 여기서 두 입력을 독립적으로 처리한다는 특징 때문에 bi-encoder라고 부른다. 문서 벡터를 미리 계산할 수 있으므로, 질문이 올 때마다 모든 문서를 언어 모델에 다시 읽힐 필요가 없다.
 
 이 논문의 embedding 그룹에는 작은 encoder뿐 아니라 LLM을 기반으로 만든 모델도 들어간다. E5-Mistral이나 GritLM이 예다. 따라서 비교 축은 “작은 BERT 대 큰 Transformer”가 아니다. <strong>추론 시 벡터를 출력해 비교하는가, 텍스트·점수·문서 ID를 생성하는가</strong>가 구분 기준이다. [GritLM](https://arxiv.org/abs/2402.09906)처럼 생성과 표현 학습을 함께 다루는 모델도 벡터를 사용하는 평가에서는 embedding 쪽으로 분류된다.
 
-### 유사성과 관련성은 다른 목표다
+### STS와 Retrieval
 
 의미적 텍스트 유사도, 즉 STS는 두 문장이 얼마나 비슷한 의미인지 묻는다. 검색은 어떤 문서가 질문 해결에 도움이 되는지 묻는다. 둘은 자주 겹치지만 동일하지 않다. 예를 들어 질문의 표현을 반복하는 문서보다, 다른 용어로 쓰였더라도 필요한 규칙이나 근거를 제공하는 문서가 더 유용할 수 있다. 질의와 후보 문서를 함께 읽는 모델은 이런 관계를 판단할 여지가 있다.
 
 [MTEB](https://arxiv.org/abs/2210.07316)는 embedding 평가를 다양한 작업으로 확장한 기반이다. [BRIGHT](https://arxiv.org/abs/2407.12883)는 표면적인 유사성만으로 풀기 어려운 검색을 강조한다. [LOFT 연구](https://arxiv.org/abs/2406.13121)는 긴 context에 corpus 전체를 넣어 검색을 수행하는 접근을 다룬다. 이번 논문은 이 흐름들을 품질과 비용이라는 같은 좌표에서 비교한다. 이 배경 때문에 검색 결과를 STS 점수의 연장선으로만 읽지 않는 것이 중요하다.
 
-## 방법과 파이프라인 상세
+## 방법 / 아키텍처 상세
 
-### 1. MTEB(LLM)은 별도의 평가 부분집합이다
+### 1. MTEB(LLM) 평가 구성
 
 저자들은 원래 MTEB 과제에서 seed 42로 고정한 평가 부분집합을 만들었다. 일부 과제는 다국어이며, 데이터셋 revision도 고정해 공개한다. 비용이 큰 생성형 평가를 가능하게 하고, 짧은 context를 가진 모델도 같은 검색 corpus를 읽게 하려는 설계다. 따라서 여기의 77.6점이나 77.2점을 일반 MTEB leaderboard 점수와 직접 비교하면 안 된다. 과제 이름이 비슷하더라도 샘플과 평가 구성이 다르기 때문이다.
 
@@ -87,13 +87,13 @@ El Assadi et al.의 [The Embedder’s Dilemma](https://arxiv.org/abs/2608.12875)
 
 LLM 결과는 JSON과 Pydantic schema로 검증한다. 허용되지 않은 라벨이나 잘못된 JSON이면 수정 지시를 붙여 샘플당 최대 두 번 재시도한다. 최종 검증 실패율은 0.3% 미만으로 보고하며, 끝내 실패한 샘플은 오답으로 처리한다. 이 절차도 배포 파이프라인의 일부다. 생성형 모델은 답의 의미뿐 아니라 출력 형식을 지키는 능력도 요구받는다.
 
-### 2. 분류에서는 참조 라벨이 만드는 차이가 있다
+### 2. kNN과 zero-shot 분류
 
 Embedding 모델은 학습 분할의 텍스트를 벡터로 만들고 정답 라벨과 함께 보관한다. 새 문장이 들어오면 가까운 예문의 라벨을 이용해 분류한다. 반면 기본 LLM 설정은 예문 없이 라벨 이름과 과제 설명을 받는다. 두 방식의 차이는 자연어 이해력만으로 설명할 수 없다. 한쪽은 해당 데이터셋의 라벨 경계를 실제 예문으로 관찰하고, 다른 쪽은 라벨의 언어적 의미로 경계를 추정한다.
 
 이 차이는 Banking77처럼 세부 의도가 많은 과제에서 특히 중요하다. “카드가 어디 있는지 알고 싶다”는 표현이 분실 문의인지 배송 문의인지 결정하려면, 일반 상식뿐 아니라 그 서비스의 분류 관례가 필요하다. kNN이 유리하다는 결과는 그 관례를 참조할 수 있는 시스템이 강하다는 증거다. 라벨 데이터를 똑같이 제공하고 충분히 학습시킨 LLM의 성능 상한까지 보여주는 실험은 아니다.
 
-### 3. 검색 구조를 가르는 것은 함께 읽는 범위다
+### 3. Bi-encoder · Cross-encoder · LLM 검색
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig5-architectures.png" class="img-fluid rounded z-depth-1" caption="Figure 5. Bi-encoder, cross-encoder, LLM listwise reranker, corpus-in-context의 비교. 빨간 영역은 질의와 문서 사이의 상호작용을 나타낸다. 원 논문에서 발췌." zoomable=true %}
 
@@ -103,13 +103,13 @@ Bi-encoder는 질문과 문서를 독립적으로 인코딩한다. Cross-encoder
 
 이 구조는 후보 생성과 최종 선택을 나누는 이유도 설명한다. 비싼 모델이 읽을 범위를 $N$에서 $k$로 줄이면 비용을 조절할 수 있다. 그러나 첫 단계가 정답 문서를 후보 안에 넣지 못하면 reranker도 복구할 수 없다. 따라서 후보 수를 줄이는 것은 무료 최적화가 아니다. 후보 recall과 재순위화 품질을 함께 평가해야 한다는 것이 이 구조에서 얻는 실무적 해석이다.
 
-### 4. 비용과 처리량은 서로 다른 실험이다
+### 4. 비용·처리량 측정 조건
 
 LLM 비용은 실제 API 사용 기록과 논문이 채택한 요금으로 계산한다. Embedding 비용은 H100에서 얻은 처리량에 GPU 시간당 가격을 적용한 추정이다. 따라서 전체 비용 표가 양쪽을 같은 GPU에서 돌린 영수증은 아니다. 같은 H100을 쓰는 통제 실험은 별도의 처리량 비교이며, 그때 평가한 생성형 모델은 Qwen3.6-27B와 Qwen3.6-35B-A3B 두 개다.
 
 이 분리는 장점과 한계를 동시에 가진다. 실제 구매 방식에 가까운 API 대 로컬 실행 비교는 사용자가 지출할 비용을 생각하는 데 도움이 된다. 하지만 API 사업자의 가격 정책, GPU 이용률, 운영 오버헤드까지 모델 구조의 순수한 효율 차이로 해석해서는 안 된다. 리뷰에서 비용 배수와 처리량 배수를 따로 적는 이유도 여기에 있다.
 
-## 학습 목표와 비용 계산식
+## 평가 목표 / 비용 계산
 
 이 논문은 새로운 학습 손실을 제안하거나 비교 모델을 공통 데이터로 재학습하지 않는다. 이미 학습된 모델들을 각자의 사용 방식으로 평가한다. 아래 첫 식은 embedding 검색을 이해하기 위한 표준 코사인 유사도이고, 뒤의 비용식은 논문 Equation 1을 줄바꿈해 옮긴 것이다.
 
@@ -137,7 +137,7 @@ $$
 
 논문의 H100 가정은 시간당 2.49 USD다. 위 식은 토큰 수를 처리량으로 나누어 초를 얻고, 시간으로 바꾼 뒤 임대료를 곱한다. 부록 H.4의 인쇄된 식은 처리량을 tokens/hour라고 정의하면서 백만 단위 환산을 추가해 단위가 모호하다. 여기서는 §3.3의 취지와 공개 처리량 코드에 맞게 차원적으로 일관된 형태로 설명했다. 현재 서비스 가격을 안내하는 식이 아니라, 논문의 비용 추정을 이해하는 식이다.
 
-## 학습 데이터와 평가 파이프라인
+## 평가 데이터와 파이프라인
 
 새로운 학습 파이프라인은 없지만, 평가 데이터의 범위와 추론 설정은 결과를 결정한다. 분류의 train 데이터는 embedding kNN의 참조 집합이며, 모든 모델이 그 데이터로 fine-tuning됐다는 뜻은 아니다. Clustering에서는 LLM에 정답 군집 수를 주므로, 군집 수까지 발견해야 하는 완전한 비지도 문제와도 구별해야 한다.
 
@@ -156,7 +156,7 @@ $$
 
 ## 실험 결과
 
-### 전체 점수는 비슷하지만 범주별 강점은 다르다
+### MTEB(LLM) — 전체 성능
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/tab1-main-results.png" class="img-fluid rounded z-depth-1" caption="Table 1. 10개 LLM과 상위 10개 embedding 모델의 결과. 점수는 0–100 척도이며 비용은 논문의 벤치마크 1회 기준이다. 원 논문에서 발췌." zoomable=true %}
 
@@ -166,7 +166,7 @@ Gemini 3.1 Pro의 Overall은 77.6, Octen-8B는 77.2, Qwen3-Embedding-8B는 77.0�
 
 여기서 유의하지 않다는 말은 두 모델의 능력이 완전히 같다는 증명이 아니다. 선택한 과제 집합과 검정에서는 안정적으로 구분할 만큼 큰 평균 차이를 관찰하지 못했다는 뜻이다. 이 논문의 강한 관찰은 소수점 순위 자체보다 비슷한 점수를 얻는 비용이 크게 다르다는 사실이다.
 
-### 분류, STS, 군집화, 쌍 분류
+### Classification · STS · Clustering · Pair Classification
 
 분류의 최고 embedding인 SFR-2는 90.8, Pro는 85.2다. 표시 점수로 5.6점 차이다. STS에서는 Qwen3-Embedding-4B가 88.8, Pro가 88.5다. 군집화에서는 SFR-2 66.7과 Pro 66.6이 가깝다. Pair classification에서는 KaLM-12B가 87.1, Pro가 83.2이며, 이 범주의 LLM 최고 모델은 86.3의 Gemini 3 Flash다. Pro가 전체 최고 LLM이라고 해서 모든 범주의 최고 LLM인 것은 아니다.
 
@@ -174,7 +174,7 @@ Gemini 3.1 Pro의 Overall은 77.6, Octen-8B는 77.2, Qwen3-Embedding-8B는 77.0�
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig2-category-frontiers.png" class="img-fluid rounded z-depth-1" caption="Figure 2. 범주별 비용–성능 분포. 같은 전체 점수 뒤에도 분류와 검색의 성능 양상이 다르다. 원 논문에서 발췌." zoomable=true %}
 
-### 검색 우위의 크기는 과제에 따라 달라진다
+### Retrieval — 6개 검색 과제
 
 검색 평균은 Pro 64.5, Octen-8B 56.0으로 8.5점 차이다. 아래 표의 best embedding은 각 과제에서 최고인 모델을 따로 선택한 값이므로, 그 열을 평균해 Octen-8B의 56.0을 재현하려 해서는 안 된다. 서로 다른 모델의 최고 성능을 모은 비교와 한 모델의 전체 성능은 다른 질문에 답한다.
 
@@ -193,7 +193,7 @@ Gemini 3.1 Pro의 Overall은 77.6, Octen-8B는 77.2, Qwen3-Embedding-8B는 77.0�
 
 검색의 bootstrap 신뢰구간은 [+0.2, +16.8]이며 보정 전 p<0.05다. 그러나 다섯 범주 비교에 Bonferroni 기준 0.01을 적용하면 검색은 그 기준을 넘지 못한다. 분류는 보정 후에도 유의하다. 따라서 검색에서 관찰된 개선은 유망하지만, 모든 종류의 검색에서 확립된 보편적 우위라고 확대하기에는 근거의 범위가 좁다.
 
-### 비용: 작은 점수 차이에 큰 가격 차이
+### 추론 비용
 
 전체 벤치마크 비용은 Pro 154.14 USD, Octen-8B 약 0.108 USD로 보고된다. 1,431배는 저자들이 반올림 전 비용으로 산정해 제시한 비율이다. 이는 한 질의의 가격도, 단순히 모델 파라미터 수의 비율도 아니다. 이 벤치마크 구성 전체를 각 파이프라인으로 처리한 비용의 비교다.
 
@@ -201,7 +201,7 @@ Gemini 3.1 Pro의 Overall은 77.6, Octen-8B는 77.2, Qwen3-Embedding-8B는 77.0�
 
 작은 모델도 주목할 만하다. Table 3의 Jina-v5-Nano는 73.9점과 0.010 USD, EmbeddingGemma-300M은 72.2점과 0.008 USD다. 최고 점수에 조금 못 미쳐도 처리해야 할 요청량이 크다면 의미 있는 후보가 된다. 물론 이 표만으로 어떤 모델이 자신의 한국어 데이터에 가장 좋은지 결정할 수는 없다. 자체 평가에서 필요한 품질을 충족하는 모델 중 비용이 낮은 것을 고르는 근거로 활용해야 한다.
 
-### 처리량: 같은 GPU라는 통제와 남는 차이
+### H100 처리량
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig7-throughput.png" class="img-fluid rounded z-depth-1" caption="Figure 7. H100 한 장에서의 처리량 비교. 생성형 측정 대상은 두 Qwen 모델이며, 모든 API 모델의 속도를 측정한 그림은 아니다. 원 논문에서 발췌." zoomable=true %}
 
@@ -209,9 +209,9 @@ Gemini 3.1 Pro의 Overall은 77.6, Octen-8B는 77.2, Qwen3-Embedding-8B는 77.0�
 
 또한 tokens/s는 사용자 요청의 응답시간과 다르다. 동시 요청 256개를 처리하는 생성형 설정과 큰 배치의 embedding 실행에서 얻은 총 처리량을, 짧은 질문 하나의 지연시간으로 바꿀 수 없다. 입력과 출력 길이, 배치 크기, 문서 길이가 바뀌면 값도 달라진다. 그럼에도 문서를 반복적으로 받아 벡터화하는 작업에서는 이 처리량 차이가 운영 가능성을 좌우할 수 있다는 것이 결과의 실용적 의미다.
 
-## 결과 분석과 Ablation
+## 결과 분석 / Ablation
 
-### 재순위화는 BRIGHT에서 유용하고 BEIR에서는 항상 유용하지 않다
+### BRIGHT·BEIR — 재순위화
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig3-4-reranking-thinking.png" class="img-fluid rounded z-depth-1" caption="Figures 3–4. 위: BRIGHT와 BEIR의 재순위화 결과. 아래: 토큰별 비용과 추론 축소의 모델별 효과. 인접한 두 원본 그림을 함께 발췌했다." zoomable=true %}
 
@@ -221,7 +221,7 @@ BRIGHT에서 Qwen3-Embedding-8B 단독은 22.3 nDCG@10이다. Qwen3.6-27B listwi
 
 논문은 top-100 후보를 재순위화하는 비용을 벤치마크당 약 10–30 USD로 설명한다. 이는 후보 제한이 비용을 줄일 수 있음을 보여주지만, 앞의 154 USD와 서로 다른 과제 집합·모델을 섞어 동일 workload의 정확한 절감률을 계산하면 안 된다. 여기서 얻을 결론은 “후보를 좁혀 계산을 집중할 수 있다”는 설계 원리다. 어느 후보 수가 최적인지는 서비스의 recall, 지연시간, 비용 목표로 다시 측정해야 한다.
 
-### Thinking-token tax와 모델별 예외
+### Reasoning budget ablation
 
 저자들은 추론 토큰이 reasoning 모델의 비용에서 28–81%를 차지한다고 보고한다. Table 17에서 Qwen3.6-27B는 일반 출력 약 2.7M 토큰 외에 약 26.1M reasoning 토큰을 생성한다. 사용자에게 보이는 답변이 짧아도 내부 계산은 길 수 있다는 뜻이다. 이 비용이 정당한지는 같은 모델에서 추론 예산을 바꾸어 보아야 알 수 있다.
 
@@ -233,13 +233,13 @@ Gemini 3 Flash의 `reasoning_effort=low` 실험에서는 여섯 검색 과제의
 
 이 결과는 “reasoning이 불필요하다”는 주장보다 “기본 reasoning 예산을 그대로 쓰는 것이 최적이라고 가정하지 말라”는 주장을 뒷받침한다. 함께 읽는 능력과 오래 생각하는 능력은 분리해서 볼 수 있다. 문서와 질문을 같이 본다는 구조적 이점이 이미 충분한 과제에서는 긴 추가 추론의 이익이 작을 수 있다. 다만 이 설명은 ablation과 양립하는 해석이며, 내부 메커니즘을 직접 입증한 것은 아니다.
 
-### Five-shot 실패는 더 많은 감독 정보의 무용성을 증명하지 않는다
+### Five-shot classification
 
 Table 15는 Flash에 과제당 예시 다섯 개를 제공한다. IMDB는 0.976→0.974로 거의 같고, Banking77은 0.831→0.165로 크게 하락한다. 77개 라벨을 가진 과제에 예시 다섯 개만 넣은 결과이므로, 예시가 모든 라벨 경계를 대표하지 못한다. 이 한 설정으로 더 많은 예시, 검색 기반 예시 선택, 학습 기반 적응도 효과가 없을 것이라고 결론 내릴 수는 없다.
 
 이 표에는 재현 시 확인할 문제도 있다. TweetSentiment의 zero-shot은 Table 15에서 0.700인데 Table 7의 Flash는 63.0이다. “Best Emb.” 열 역시 일부 과제에서 본 실험 표와 다르다. 따라서 해당 표를 본 결과에 그대로 이어 붙여 같은 설정의 정확한 비교라고 읽기 어렵다. 이 리뷰는 Table 15 자체의 관찰을 설명하되, few-shot 일반화의 근거로 과대평가하지 않는다.
 
-### 오류 사례는 라벨 관례와 자연스러운 해석의 충돌을 보여준다
+### Banking77·STS 오류 사례
 
 부록 E의 Banking77 사례에서 카드 위치를 묻는 짧은 입력에 Pro는 분실·도난을, Flash는 배송 상태를 선택한다. 데이터셋 정답은 배송 상태다. 더 깊은 설명이 가능한 모델이라도, 그 설명이 데이터셋의 라벨 기준과 다르면 점수를 잃는다. Embedding kNN은 비슷한 실제 라벨 예문을 참조해 이 경계에 맞출 수 있다.
 
@@ -257,7 +257,7 @@ STS에서도 저자들은 모델이 세부 의미 차이를 더 민감하게 보
 
 마지막으로 <strong>검색 도메인과 모델의 범위</strong>가 제한된다. 작은 corpus의 여섯 검색 과제는 context 안에서 정답을 찾는 능력에 초점을 둔다. 보완 reranking 실험은 이 한계를 줄이지만 전체 검색 서비스의 변화를 모두 다루지는 않는다. 새로운 모델, 한국어 중심 데이터, 긴 문서, 다른 후보 수로 결과가 유지되는지도 별도 검증 대상이다. 낮은 추론 예산의 이점 역시 여섯 모델 중 네 모델에서 나온 관찰이라는 범위를 유지해야 한다.
 
-## 시사점
+## 시사점 / Takeaways
 
 - **먼저 작업별 기준선을 만든다.** 분류·STS·군집화에서는 간단한 embedding 파이프라인을 기준으로 두고, LLM이 필요한 실패 유형이 무엇인지 확인할 수 있다.
 - **검색은 후보 생성과 정밀 판단을 따로 평가한다.** 첫 단계 recall과 reranker의 순위 개선을 함께 보면, 어떤 질의에 추가 계산을 쓸 가치가 있는지 판단하기 쉽다.

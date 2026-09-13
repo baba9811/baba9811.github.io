@@ -17,7 +17,7 @@ ko_url: /papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/
 
 {% include lang_toggle.html %}
 
-## Paper information
+## Metadata
 
 | Field | Value |
 |-------|-------|
@@ -46,7 +46,7 @@ El Assadi et al.’s [The Embedder’s Dilemma](https://arxiv.org/abs/2608.12875
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig1-cost-performance.png" class="img-fluid rounded z-depth-1" caption="Figure 1. Cost versus performance across the evaluated models. The horizontal axis is benchmark-pass cost on a logarithmic scale. Cropped from the original paper." zoomable=true %}
 
-## Key contributions
+## Key Contributions
 
 - **A shared evaluation subset:** 37 tasks across five categories let embedding pipelines and generative models answer the same held-out examples.
 - **Explicit inference accounting:** API token usage and embedding GPU throughput connect quality to a stated cost model.
@@ -55,23 +55,23 @@ El Assadi et al.’s [The Embedder’s Dilemma](https://arxiv.org/abs/2608.12875
 
 “Shared” describes the evaluation samples. It does not mean the pipelines receive identical supervision or perform identical computation.
 
-## Background and related work
+## Background and Related Work
 
-### The distinction is the inference interface
+### Text embeddings and generative LLMs
 
 A bi-encoder embeds queries and documents independently and compares their vectors, usually with cosine similarity. A document representation can be computed offline and reused. A cross-encoder instead reads a query and document together, allowing their tokens to interact before producing a relevance score.
 
 The embedding group here includes models built on LLM backbones. E5-Mistral and GritLM still count as embedding models when they produce vectors for similarity calculations. Consequently, this is not simply a small-encoder versus large-Transformer comparison. The dividing line is whether inference produces a reusable representation or generates a task-specific answer. [GritLM](https://arxiv.org/abs/2402.09906) is useful background precisely because it combines representation and generation in one model.
 
-### Similarity and relevance need different evidence
+### STS and retrieval
 
 Semantic textual similarity asks whether two sentences express similar meanings. Retrieval asks whether a document helps answer a question. A relevant document may use different terminology or supply a rule whose application requires interpretation. Reading a query jointly with its candidates creates opportunities that independent vector comparisons lack.
 
 [MTEB](https://arxiv.org/abs/2210.07316) supplies the broader evaluation framework. [BRIGHT](https://arxiv.org/abs/2407.12883) emphasizes reasoning-intensive retrieval, while the [LOFT study](https://arxiv.org/abs/2406.13121) explores putting entire corpora inside a long-context model. The present paper brings these deployment approaches into a quality–cost comparison.
 
-## Method and architecture
+## Method / Architecture
 
-### A separate benchmark, with task-specific pipelines
+### 1. MTEB(LLM) evaluation setup
 
 MTEB(LLM) uses fixed subsets derived from MTEB and MMTEB tasks with seed 42. Dataset revisions are pinned. The subsets make generative evaluation affordable and keep retrieval corpora within the models’ context limits. Its scores therefore should not be compared directly with the ordinary MTEB leaderboard, even when task names look familiar.
 
@@ -87,13 +87,13 @@ Pair classification needs care: the paper alternates between AP and accuracy ter
 
 LLM outputs use JSON and Pydantic schemas. Invalid outputs trigger a corrective instruction and up to two retries per sample. The paper reports a final validation failure rate below 0.3%; remaining failures count as incorrect. Format compliance is part of the evaluated pipeline.
 
-### Classification includes unequal supervision
+### 2. kNN and zero-shot classification
 
 Embedding kNN has access to the full labeled training reference set. The default LLM receives task instructions and label names without examples. The former observes the dataset’s annotation boundaries through actual references; the latter infers those boundaries from language.
 
 This matters for fine-grained intent recognition. A question about finding a bank card might concern either delivery or loss. A reference classifier can follow the service’s labeling convention even when several natural-language interpretations are plausible. The comparison is useful for these particular deployment choices, but it does not establish the intrinsic ceiling of an LLM given equivalent supervision.
 
-### Joint reading controls where query-time work occurs
+### 3. Bi-encoder, cross-encoder, and LLM retrieval
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig5-architectures.png" class="img-fluid rounded z-depth-1" caption="Figure 5. Four retrieval architectures, distinguished by how much document content interacts with the query. Cropped from the original paper." zoomable=true %}
 
@@ -103,13 +103,13 @@ Let $k$ denote shortlist size and $N$ corpus size. Restricting expensive joint p
 
 A shortlist also imposes a ceiling: a reranker cannot recover a relevant document excluded by the first stage. Candidate recall and ranking quality must therefore be evaluated together. That is a practical implication of the architecture, not an additional measured result of this paper.
 
-### Cost and throughput are separate comparisons
+### 4. Cost and throughput measurement
 
 LLM costs come from API usage and the paper’s chosen tariffs. Embedding costs are estimated from GPU throughput and hourly rental prices. The cost table is therefore not an invoice from running both sides on the same hardware.
 
 The separate throughput experiment does control hardware. It serves Qwen3.6-27B and Qwen3.6-35B-A3B alongside embedding models on an H100. This removes GPU choice and API rate limits as explanations for that measurement, while leaving the different inference procedures intact.
 
-## Training objective and cost equations
+## Evaluation Objective / Cost Accounting
 
 No new loss is proposed, and the evaluated models are not retrained under a shared recipe. The following standard cosine expression explains the embedding baseline:
 
@@ -139,7 +139,7 @@ $$
 
 where $v$ is tokens per second and the paper assumes an hourly GPU rate of 2.49 USD. The printed Appendix H.4 expression mixes a million-token conversion with throughput defined in tokens/hour. The expression above follows the intended accounting and the released throughput code with explicit units. These are the study’s pricing assumptions, not current purchasing advice.
 
-## Data and evaluation pipeline
+## Evaluation Data and Pipeline
 
 Training data here primarily refers to the kNN reference split, not a new fine-tuning run. Clustering also gives the LLM the true number of clusters, so it does not test discovering an unknown cluster count.
 
@@ -155,9 +155,9 @@ Training data here primarily refers to the kNN reference split, not a new fine-t
 
 The retrieval sets are small: AILAStatutes has 50 queries/82 documents; FQuAD 100/269; HC3-Finance 100/415; Consumer Contracts QA 100/154; PublicHealthQA 100/172; and TwitterHjerne 77/262. These Table 12 settings test reading within a bounded candidate collection. They do not reproduce searching millions of documents.
 
-## Experimental results
+## Results
 
-### Aggregate parity requires an aggregation footnote
+### MTEB(LLM) — overall performance
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/tab1-main-results.png" class="img-fluid rounded z-depth-1" caption="Table 1. Category scores and estimated benchmark-pass costs for all ten LLMs and the ten highest-scoring embedding models. Cropped from the original paper." zoomable=true %}
 
@@ -167,7 +167,7 @@ Appendix A reports a task-level paired bootstrap with 10,000 resamples: Pro minu
 
 Failure to detect a difference is not proof of equivalence. Nevertheless, the tiny leaderboard separation is a weak reason to accept the much larger cost difference.
 
-### Classification and the other non-retrieval categories
+### Classification, STS, clustering, and pair classification
 
 SFR-2 leads classification at 90.8 versus Pro’s 85.2. For STS, Qwen3-Embedding-4B scores 88.8 versus 88.5; for clustering, SFR-2 scores 66.7 versus 66.6. Pair classification gives KaLM-12B 87.1 versus Pro’s 83.2, although Gemini 3 Flash is the best LLM in that category at 86.3.
 
@@ -175,7 +175,7 @@ The statistical comparisons consistently use Pro. They detect a classification d
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig2-category-frontiers.png" class="img-fluid rounded z-depth-1" caption="Figure 2. Category-specific cost–performance distributions reveal differences hidden by the overall score. Cropped from the original paper." zoomable=true %}
 
-### Retrieval gains depend on the task
+### Retrieval — six tasks
 
 Pro’s retrieval mean is 64.5 versus Octen-8B’s 56.0. The best embedding column below selects a potentially different model for each task; averaging it would not recover Octen-8B’s aggregate score.
 
@@ -194,19 +194,21 @@ Even “legal retrieval” contains different problems. Pro is strong on interpr
 
 The retrieval interval is [+0.2, +16.8], with unadjusted p<0.05. Under the appendix’s Bonferroni threshold of 0.01 for five category comparisons, retrieval no longer clears the threshold; classification still does. The measured retrieval improvement is promising, but its statistical scope should accompany the headline.
 
-### Cost and throughput
+### Inference cost
 
 The paper reports 154.14 USD for Pro and approximately 0.108 USD for Octen-8B per benchmark pass. Its 1,431× ratio uses costs before display rounding. It is neither the price of one query nor a parameter-count ratio.
 
 Sensitivity scenarios retain a large gap: 893× with H100 on-demand pricing and 338× with an embedding API priced at 0.10 USD per million tokens. A100 and L4 scenarios assume throughput slowdowns rather than measuring those GPUs directly. Small models also provide useful tradeoffs: Table 3 gives Jina-v5-Nano 73.9 points at 0.010 USD and EmbeddingGemma-300M 72.2 at 0.008 USD. These benchmark results identify candidates, not guaranteed winners for another dataset.
 
+### H100 throughput
+
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig7-throughput.png" class="img-fluid rounded z-depth-1" caption="Figure 7. Throughput on one H100. Only the two Qwen generative models are measured here; this is not an API latency comparison. Cropped from the original paper." zoomable=true %}
 
 The Qwen LLMs sustain roughly 5,400–5,900 tokens/s. Table 18 ranges from 14,665 for F2LLM-14B to 4,314,796 for mE5-small, summarized as a 2.5–736× embedding advantage. The largest factor involves the fastest small embedding, not uniformly equal-quality systems. Batched throughput is also different from single-request latency: concurrency, sequence length, and generated output all matter.
 
-## Analysis and ablations
+## Analysis and Ablation
 
-### Reranking helps where the first stage needs it
+### BRIGHT and BEIR — reranking
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig3-4-reranking-thinking.png" class="img-fluid rounded z-depth-1" caption="Figures 3–4. Top: reranking on BRIGHT and BEIR. Bottom: token costs and reduced-reasoning results. The two adjacent original figures are reproduced together." zoomable=true %}
 
@@ -214,7 +216,7 @@ Table 16 covers seven BRIGHT and five BEIR tasks. On BRIGHT, Qwen3-Embedding-8B 
 
 Top-100 reranking is described as costing about 10–30 USD per benchmark. Comparing that directly with the 154 USD full-suite figure would mix workloads and models. The transferable result is that restricting joint processing controls expenditure, while adding a reranker does not automatically improve quality.
 
-### Reasoning reduction has exceptions
+### Reasoning budget ablation
 
 Reasoning contributes 28–81% of inference cost among the reasoning models. Table 17 reports approximately 26.1M reasoning tokens alongside 2.7M ordinary output tokens for Qwen3.6-27B. A short visible answer can therefore conceal considerable generated-token expenditure.
 
@@ -226,15 +228,17 @@ Across families, four of six models preserve or improve retrieval with 54–96% 
 
 The lesson is to tune reasoning expenditure, not assume reasoning is universally unnecessary. Joint reading may supply much of the benefit even without a long additional reasoning trace; this is an interpretation consistent with the ablation, not a demonstrated internal mechanism.
 
-### Five examples do not settle the supervision question
+### Five-shot classification
 
 Table 15 gives Flash five examples per task. IMDB changes from 0.976 to 0.974, while Banking77 falls from 0.831 to 0.165. Five examples cannot represent all 77 labels. This does not establish that more examples, retrieved demonstrations, or supervised adaptation would be ineffective.
 
 The table also needs reconciliation with the main results. Its TweetSentiment zero-shot value is 0.700, whereas Table 7 lists Flash at 63.0; some best-embedding cells differ too. These are experimental baseline inconsistencies, so the ablation should not be spliced into the main results as a perfectly matched comparison.
 
+### Banking77 and STS error cases
+
 Appendix E provides another perspective: Pro interprets a short card-location question as loss, while the dataset and Flash treat it as delivery. Similarly, STS judgments can differ because a model notices distinctions or infers connections outside an annotation convention. Selected examples illuminate possible failure modes, but establish neither their prevalence nor that the model or annotation must be right.
 
-## Limitations and critical assessment
+## Limitations and Critical Assessment
 
 **Deployment comparisons do not isolate intrinsic capability.** Classification supervision differs, and corpus-in-context grants joint access to every candidate. These are legitimate systems to compare, but the experiments do not isolate architectural superiority under matched training and information.
 
@@ -254,7 +258,7 @@ Appendix E provides another perspective: Pro interprets a short card-location qu
 - Distinguish benchmark cost, per-query cost, throughput, and latency, and record cache and batch assumptions.
 - Prefer a decision supported by your workload and metric definitions to a tiny aggregate leaderboard lead.
 
-## Installation and usage
+## Getting Started
 
 The [official README](https://github.com/embeddings-benchmark/embedders-dilemma#reproducing-the-paper) provides a path from released result files to tables. These documented commands analyze existing results without new model API calls; they were inspected, not executed for this review.
 
@@ -278,7 +282,7 @@ For a new LLM, configure the endpoint, model, and credentials using `.env.exampl
 
 Figures and tables are cropped from El Assadi et al.’s paper, released under CC BY 4.0. Their labels and numerical contents have not been modified.
 
-## Further reading
+## Further Reading
 
 - **[MTEB: Massive Text Embedding Benchmark](https://arxiv.org/abs/2210.07316)** (Muennighoff et al., EACL 2023) — the foundation for evaluating embeddings across task categories.
 - **[BRIGHT: A Realistic and Challenging Benchmark for Reasoning-Intensive Retrieval](https://arxiv.org/abs/2407.12883)** (Su et al., 2024) — retrieval problems that demand more than semantic resemblance.
