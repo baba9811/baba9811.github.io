@@ -23,7 +23,29 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-paper-review-accurate-decoding-of-natural-sentences-from-non-invasive-brain-recordings",
+            },{id: "post-paper-review-the-embedder-39-s-dilemma-llms-are-better-but-at-what-cost",
+        
+          title: "[Paper Review] The Embedder&#39;s Dilemma: LLMs Are Better, but at What Cost?",
+        
+        description: "A close reading of MTEB(LLM): embedding versus generative pipelines, inference costs, reranking, and the limits of the comparison.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/";
+          
+        },
+      },{id: "post-논문-리뷰-the-embedder-39-s-dilemma-llms-are-better-but-at-what-cost",
+        
+          title: "[논문 리뷰] The Embedder&#39;s Dilemma: LLMs Are Better, but at What Cost?",
+        
+        description: "MTEB(LLM)의 품질·비용 비교와 재순위화 실험을 읽고, 감독 정보·추론 예산·집계 지표의 한계를 짚는다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/";
+          
+        },
+      },{id: "post-paper-review-accurate-decoding-of-natural-sentences-from-non-invasive-brain-recordings",
         
           title: "[Paper Review] Accurate Decoding of Natural Sentences from Non-Invasive Brain Recordings",
         
