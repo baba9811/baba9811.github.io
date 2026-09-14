@@ -157,7 +157,7 @@ The retrieval sets are small: AILAStatutes has 50 queries/82 documents; FQuAD 10
 
 ## Results
 
-### MTEB(LLM) — overall performance
+### MTEB(LLM): overall performance
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/tab1-main-results.png" class="img-fluid rounded z-depth-1" caption="Table 1. Category scores and estimated benchmark-pass costs for all ten LLMs and the ten highest-scoring embedding models. Cropped from the original paper." zoomable=true %}
 
@@ -175,7 +175,7 @@ The statistical comparisons consistently use Pro. They detect a classification d
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig2-category-frontiers.png" class="img-fluid rounded z-depth-1" caption="Figure 2. Category-specific cost–performance distributions reveal differences hidden by the overall score. Cropped from the original paper." zoomable=true %}
 
-### Retrieval — six tasks
+### Retrieval: six tasks
 
 Pro’s retrieval mean is 64.5 versus Octen-8B’s 56.0. The best embedding column below selects a potentially different model for each task; averaging it would not recover Octen-8B’s aggregate score.
 
@@ -208,7 +208,7 @@ The Qwen LLMs sustain roughly 5,400–5,900 tokens/s. Table 18 ranges from 14,66
 
 ## Analysis and Ablation
 
-### BRIGHT and BEIR — reranking
+### BRIGHT and BEIR: reranking
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig3-4-reranking-thinking.png" class="img-fluid rounded z-depth-1" caption="Figures 3–4. Top: reranking on BRIGHT and BEIR. Bottom: token costs and reduced-reasoning results. The two adjacent original figures are reproduced together." zoomable=true %}
 
@@ -284,7 +284,7 @@ Figures and tables are cropped from El Assadi et al.’s paper, released under C
 
 ## Further Reading
 
-- **[MTEB: Massive Text Embedding Benchmark](https://arxiv.org/abs/2210.07316)** (Muennighoff et al., EACL 2023) — the foundation for evaluating embeddings across task categories.
-- **[BRIGHT: A Realistic and Challenging Benchmark for Reasoning-Intensive Retrieval](https://arxiv.org/abs/2407.12883)** (Su et al., 2024) — retrieval problems that demand more than semantic resemblance.
-- **[Can Long-Context Language Models Subsume Retrieval, RAG, SQL, and More?](https://arxiv.org/abs/2406.13121)** (Lee et al., 2024) — background on corpus-in-context retrieval.
-- **[Generative Representational Instruction Tuning](https://arxiv.org/abs/2402.09906)** (Muennighoff et al., 2024) — why generation and embedding are not disjoint model families.
+- **[MTEB: Massive Text Embedding Benchmark](https://arxiv.org/abs/2210.07316)** (Muennighoff et al., EACL 2023). The foundation for evaluating embeddings across task categories.
+- **[BRIGHT: A Realistic and Challenging Benchmark for Reasoning-Intensive Retrieval](https://arxiv.org/abs/2407.12883)** (Su et al., 2024). Retrieval problems that demand more than semantic resemblance.
+- **[Can Long-Context Language Models Subsume Retrieval, RAG, SQL, and More?](https://arxiv.org/abs/2406.13121)** (Lee et al., 2024). Background on corpus-in-context retrieval.
+- **[Generative Representational Instruction Tuning](https://arxiv.org/abs/2402.09906)** (Muennighoff et al., 2024). Why generation and embedding are not disjoint model families.

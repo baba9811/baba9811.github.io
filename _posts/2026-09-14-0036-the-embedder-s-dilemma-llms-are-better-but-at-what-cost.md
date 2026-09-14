@@ -156,7 +156,7 @@ $$
 
 ## 실험 결과
 
-### MTEB(LLM) — 전체 성능
+### MTEB(LLM): 전체 성능
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/tab1-main-results.png" class="img-fluid rounded z-depth-1" caption="Table 1. 10개 LLM과 상위 10개 embedding 모델의 결과. 점수는 0–100 척도이며 비용은 논문의 벤치마크 1회 기준이다. 원 논문에서 발췌." zoomable=true %}
 
@@ -174,7 +174,7 @@ Gemini 3.1 Pro의 Overall은 77.6, Octen-8B는 77.2, Qwen3-Embedding-8B는 77.0�
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig2-category-frontiers.png" class="img-fluid rounded z-depth-1" caption="Figure 2. 범주별 비용–성능 분포. 같은 전체 점수 뒤에도 분류와 검색의 성능 양상이 다르다. 원 논문에서 발췌." zoomable=true %}
 
-### Retrieval — 6개 검색 과제
+### Retrieval: 6개 검색 과제
 
 검색 평균은 Pro 64.5, Octen-8B 56.0으로 8.5점 차이다. 아래 표의 best embedding은 각 과제에서 최고인 모델을 따로 선택한 값이므로, 그 열을 평균해 Octen-8B의 56.0을 재현하려 해서는 안 된다. 서로 다른 모델의 최고 성능을 모은 비교와 한 모델의 전체 성능은 다른 질문에 답한다.
 
@@ -211,7 +211,7 @@ Gemini 3.1 Pro의 Overall은 77.6, Octen-8B는 77.2, Qwen3-Embedding-8B는 77.0�
 
 ## 결과 분석 / Ablation
 
-### BRIGHT·BEIR — 재순위화
+### BRIGHT·BEIR: 재순위화
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig3-4-reranking-thinking.png" class="img-fluid rounded z-depth-1" caption="Figures 3–4. 위: BRIGHT와 BEIR의 재순위화 결과. 아래: 토큰별 비용과 추론 축소의 모델별 효과. 인접한 두 원본 그림을 함께 발췌했다." zoomable=true %}
 
@@ -284,16 +284,16 @@ uv run python scripts/verify_numbers.py
 
 ## 참고 자료
 
-- [원 논문, arXiv:2608.12875v1](https://arxiv.org/abs/2608.12875v1) — 본문 및 부록 A–I. 이 리뷰의 실험 수치는 별도 표시가 없으면 이 버전 기준이다.
-- [공식 코드·데이터·결과](https://github.com/embeddings-benchmark/embedders-dilemma) — 검토한 commit: `1a94652e2c069ce840f85fcc87eb5e15bb42aecb`.
-- [점수 집계 코드](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/aggregate_scores.py), [범주 평균 코드](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/plotting/registry.py), [통계 표 생성 코드](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/generate_tables.py) — 지표와 집계 방식 대조에 사용했다.
-- [Embedding 처리량 코드](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/embedding_costs.py) — 처리량·비용 계산의 단위와 측정 조건 확인에 사용했다.
+- [원 논문, arXiv:2608.12875v1](https://arxiv.org/abs/2608.12875v1). 본문 및 부록 A–I. 이 리뷰의 실험 수치는 별도 표시가 없으면 이 버전 기준이다.
+- [공식 코드·데이터·결과](https://github.com/embeddings-benchmark/embedders-dilemma). 검토한 commit: `1a94652e2c069ce840f85fcc87eb5e15bb42aecb`.
+- [점수 집계 코드](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/aggregate_scores.py), [범주 평균 코드](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/plotting/registry.py), [통계 표 생성 코드](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/generate_tables.py). 지표와 집계 방식 대조에 사용했다.
+- [Embedding 처리량 코드](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/embedding_costs.py). 처리량·비용 계산의 단위와 측정 조건 확인에 사용했다.
 
 그림과 표는 El Assadi et al.의 원 논문에서 잘라 사용했으며, 원본의 수치와 라벨은 변경하지 않았다. 논문은 CC BY 4.0으로 공개되어 있다.
 
 ## 더 읽어보기
 
-- **[MTEB: Massive Text Embedding Benchmark](https://arxiv.org/abs/2210.07316)** (Muennighoff et al., EACL 2023) — embedding의 성능을 여러 과제 범주에서 평가하는 출발점이다.
-- **[BRIGHT: A Realistic and Challenging Benchmark for Reasoning-Intensive Retrieval](https://arxiv.org/abs/2407.12883)** (Su et al., 2024) — 의미 유사성만으로 해결하기 어려운 검색 문제를 이해하는 데 도움이 된다.
-- **[Can Long-Context Language Models Subsume Retrieval, RAG, SQL, and More?](https://arxiv.org/abs/2406.13121)** (Lee et al., 2024) — corpus-in-context 접근과 긴 문맥을 이용한 검색의 배경이다.
-- **[Generative Representational Instruction Tuning](https://arxiv.org/abs/2402.09906)** (Muennighoff et al., 2024) — 생성 모델과 embedding 모델의 경계가 단순하지 않다는 점을 보여준다.
+- **[MTEB: Massive Text Embedding Benchmark](https://arxiv.org/abs/2210.07316)** (Muennighoff et al., EACL 2023). embedding의 성능을 여러 과제 범주에서 평가하는 출발점이다.
+- **[BRIGHT: A Realistic and Challenging Benchmark for Reasoning-Intensive Retrieval](https://arxiv.org/abs/2407.12883)** (Su et al., 2024). 의미 유사성만으로 해결하기 어려운 검색 문제를 이해하는 데 도움이 된다.
+- **[Can Long-Context Language Models Subsume Retrieval, RAG, SQL, and More?](https://arxiv.org/abs/2406.13121)** (Lee et al., 2024). corpus-in-context 접근과 긴 문맥을 이용한 검색의 배경이다.
+- **[Generative Representational Instruction Tuning](https://arxiv.org/abs/2402.09906)** (Muennighoff et al., 2024). 생성 모델과 embedding 모델의 경계가 단순하지 않다는 점을 보여준다.
