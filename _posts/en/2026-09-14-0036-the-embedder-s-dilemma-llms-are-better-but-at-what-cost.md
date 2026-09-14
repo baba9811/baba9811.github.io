@@ -216,7 +216,7 @@ Table 16 covers seven BRIGHT and five BEIR tasks. On BRIGHT, Qwen3-Embedding-8B 
 
 Top-100 reranking is described as costing about 10–30 USD per benchmark. Comparing that directly with the 154 USD full-suite figure would mix workloads and models. The transferable result is that restricting joint processing controls expenditure, while adding a reranker does not automatically improve quality.
 
-### Reasoning budget ablation
+### Reasoning budget: how much thinking is necessary?
 
 Reasoning contributes 28–81% of inference cost among the reasoning models. Table 17 reports approximately 26.1M reasoning tokens alongside 2.7M ordinary output tokens for Qwen3.6-27B. A short visible answer can therefore conceal considerable generated-token expenditure.
 
@@ -228,7 +228,7 @@ Across families, four of six models preserve or improve retrieval with 54–96% 
 
 The lesson is to tune reasoning expenditure, not assume reasoning is universally unnecessary. Joint reading may supply much of the benefit even without a long additional reasoning trace; this is an interpretation consistent with the ablation, not a demonstrated internal mechanism.
 
-### Five-shot classification
+### Five-shot classification: the limits of five examples
 
 Table 15 gives Flash five examples per task. IMDB changes from 0.976 to 0.974, while Banking77 falls from 0.831 to 0.165. Five examples cannot represent all 77 labels. This does not establish that more examples, retrieved demonstrations, or supervised adaptation would be ineffective.
 
