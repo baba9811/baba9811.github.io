@@ -23,7 +23,7 @@ en_url: /en/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/
 |------|------|
 | 저자 | Adnan El Assadi, Niklas Muennighoff, Jinhyuk Lee (Harvard University · Stanford University · Independent Researcher) |
 | 학회 | COLM · 2026 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
-| arXiv | [2608.12875](https://arxiv.org/abs/2608.12875) |
+| arXiv 또는 DOI | [2608.12875](https://arxiv.org/abs/2608.12875) |
 | Code | [embeddings-benchmark/embedders-dilemma](https://github.com/embeddings-benchmark/embedders-dilemma) |
 | 데이터 | MTEB(LLM) 37개 과제; 추가 재순위화 실험은 BRIGHT 7개·BEIR 5개 과제 |
 | <span style="white-space: nowrap">리뷰 일자</span> | 2026-09-14 |
