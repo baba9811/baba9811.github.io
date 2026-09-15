@@ -38,7 +38,7 @@ ninja.data = [{
         
           title: "[논문 리뷰] Sampling via Decision-Flow: Training-Free Extraction of Improved Latent Reasoning Paths in...",
         
-        description: "DF-Sample의 추론 트리, 말단 평가와 효용 역전파를 설명하고 GPT-4o 평가기 의존성, 벤치마크 예외, 탐색 비용을 짚는다.",
+        description: "DF-Sample의 추론 트리·말단 평가·효용 역전파의 작동 원리와 GPT-4o 의존성, 벤치마크별 예외, 탐색 비용 분석.",
         section: "Posts",
         handler: () => {
           
@@ -60,7 +60,7 @@ ninja.data = [{
         
           title: "[논문 리뷰] The Embedder&#39;s Dilemma: LLMs Are Better, but at What Cost?",
         
-        description: "MTEB(LLM)의 품질·비용 비교와 재순위화 실험을 읽고, 감독 정보·추론 예산·집계 지표의 한계를 짚는다.",
+        description: "MTEB(LLM)의 품질·비용 및 재순위화 결과 비교. 감독 정보·추론 예산·집계 지표의 한계 분석.",
         section: "Posts",
         handler: () => {
           
