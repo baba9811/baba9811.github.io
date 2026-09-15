@@ -23,7 +23,29 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-paper-review-the-embedder-39-s-dilemma-llms-are-better-but-at-what-cost",
+            },{id: "post-paper-review-sampling-via-decision-flow-training-free-extraction-of-improved-latent-reasoning-paths-in-large-language-models",
+        
+          title: "[Paper Review] Sampling via Decision-Flow: Training-Free Extraction of Improved Latent Reasoning Paths in...",
+        
+        description: "How DF-Sample combines reasoning trees, terminal energy, and backward utilities, and what its GPT-4o evaluator, benchmark exceptions, and search costs imply.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/";
+          
+        },
+      },{id: "post-논문-리뷰-sampling-via-decision-flow-training-free-extraction-of-improved-latent-reasoning-paths-in-large-language-models",
+        
+          title: "[논문 리뷰] Sampling via Decision-Flow: Training-Free Extraction of Improved Latent Reasoning Paths in...",
+        
+        description: "DF-Sample의 추론 트리, 말단 평가와 효용 역전파를 설명하고 GPT-4o 평가기 의존성, 벤치마크 예외, 탐색 비용을 짚는다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/";
+          
+        },
+      },{id: "post-paper-review-the-embedder-39-s-dilemma-llms-are-better-but-at-what-cost",
         
           title: "[Paper Review] The Embedder&#39;s Dilemma: LLMs Are Better, but at What Cost?",
         
