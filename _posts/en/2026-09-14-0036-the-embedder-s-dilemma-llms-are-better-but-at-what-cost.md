@@ -44,7 +44,7 @@ A generative LLM offers a different interface. Give it two sentences and ask for
 
 El Assadi et al.’s [The Embedder’s Dilemma](https://arxiv.org/abs/2608.12875) evaluates that replacement decision. It introduces an evaluation protocol rather than a new architecture or training loss. Quality, inference cost, and throughput appear together. Despite the title, the results do not show that LLMs are better at every embedding task. They show why similarly scored systems can be very different deployment choices.
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig1-cost-performance.png" class="img-fluid rounded z-depth-1" caption="Figure 1. Cost versus performance across the evaluated models. The horizontal axis is benchmark-pass cost on a logarithmic scale. Cropped from the original paper." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig1-cost-performance.png" class="img-fluid rounded z-depth-1" caption="Figure 1: Cost–performance comparison across models. Horizontal axis: cost per benchmark pass on a logarithmic scale." zoomable=true %}
 
 ## Key Contributions
 
@@ -95,7 +95,7 @@ This matters for fine-grained intent recognition. A question about finding a ban
 
 ### 3. Bi-encoder, cross-encoder, and LLM retrieval
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig5-architectures.png" class="img-fluid rounded z-depth-1" caption="Figure 5. Four retrieval architectures, distinguished by how much document content interacts with the query. Cropped from the original paper." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig5-architectures.png" class="img-fluid rounded z-depth-1" caption="Figure 5: Bi-encoder, cross-encoder, listwise LLM reranker, and corpus-in-context comparison. Red regions: query–document interactions." zoomable=true %}
 
 The architectures form a progression. A bi-encoder processes the query independently. A cross-encoder reads it with one candidate at a time. A listwise LLM compares a shortlist jointly. Corpus-in-context extends that shortlist to the entire corpus.
 
@@ -159,7 +159,7 @@ The retrieval sets are small: AILAStatutes has 50 queries/82 documents; FQuAD 10
 
 ### MTEB(LLM): overall performance
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/tab1-main-results.png" class="img-fluid rounded z-depth-1" caption="Table 1. Category scores and estimated benchmark-pass costs for all ten LLMs and the ten highest-scoring embedding models. Cropped from the original paper." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/tab1-main-results.png" class="img-fluid rounded z-depth-1" caption="Table 1: Category scores and costs for ten LLMs and the ten highest-scoring embedding models. Scores: 0–100 scale. Costs: one complete benchmark pass." zoomable=true %}
 
 The headline scores are Gemini 3.1 Pro 77.6, Octen-8B 77.2, and Qwen3-Embedding-8B 77.0. Overall is the mean of five category means, as confirmed by `registry.category_scores`. It is not accuracy pooled across every sample or an estimate weighted by a production request mix.
 
@@ -173,7 +173,7 @@ SFR-2 leads classification at 90.8 versus Pro’s 85.2. For STS, Qwen3-Embedding
 
 The statistical comparisons consistently use Pro. They detect a classification difference but not differences in STS, clustering, or pair classification. A 3.9-point pair-classification gap can coexist with a non-significant test because there are only four tasks and their differences vary. This is also not a best-LLM-per-category test.
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig2-category-frontiers.png" class="img-fluid rounded z-depth-1" caption="Figure 2. Category-specific cost–performance distributions reveal differences hidden by the overall score. Cropped from the original paper." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig2-category-frontiers.png" class="img-fluid rounded z-depth-1" caption="Figure 2: Cost–performance distributions by task category. Contrasting model-group patterns in classification and retrieval." zoomable=true %}
 
 ### Retrieval: six tasks
 
@@ -202,7 +202,7 @@ Sensitivity scenarios retain a large gap: 893× with H100 on-demand pricing and 
 
 ### H100 throughput
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig7-throughput.png" class="img-fluid rounded z-depth-1" caption="Figure 7. Throughput on one H100. Only the two Qwen generative models are measured here; this is not an API latency comparison. Cropped from the original paper." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig7-throughput.png" class="img-fluid rounded z-depth-1" caption="Figure 7: Throughput on one H100. Generative models measured: the two Qwen models. Unit: tokens/s." zoomable=true %}
 
 The Qwen LLMs sustain roughly 5,400–5,900 tokens/s. Table 18 ranges from 14,665 for F2LLM-14B to 4,314,796 for mE5-small, summarized as a 2.5–736× embedding advantage. The largest factor involves the fastest small embedding, not uniformly equal-quality systems. Batched throughput is also different from single-request latency: concurrency, sequence length, and generated output all matter.
 
@@ -210,7 +210,7 @@ The Qwen LLMs sustain roughly 5,400–5,900 tokens/s. Table 18 ranges from 14,66
 
 ### BRIGHT and BEIR: reranking
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig3-4-reranking-thinking.png" class="img-fluid rounded z-depth-1" caption="Figures 3–4. Top: reranking on BRIGHT and BEIR. Bottom: token costs and reduced-reasoning results. The two adjacent original figures are reproduced together." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/fig3-4-reranking-thinking.png" class="img-fluid rounded z-depth-1" caption="Figures 3–4: Top: reranking results on BRIGHT and BEIR. Bottom: token costs and model-specific effects of reduced reasoning." zoomable=true %}
 
 Table 16 covers seven BRIGHT and five BEIR tasks. On BRIGHT, Qwen3-Embedding-8B improves from 22.3 to 35.1 nDCG@10 with Qwen3.6-27B reranking; the MoE Qwen3.6-35B-A3B reaches 33.6. On BEIR, the first stage alone scores 63.1, ahead of Qwen3-Reranker-4B at 60.3 and Qwen3.6-27B at 58.9.
 
@@ -222,7 +222,7 @@ Reasoning contributes 28–81% of inference cost among the reasoning models. Tab
 
 For Gemini 3 Flash, `reasoning_effort=low` improves all six retrieval scores: FQuAD 88.0→92.0, HC3-Finance 60.0→66.0, Consumer Contracts 79.0→83.0, PublicHealthQA 49.0→66.0, AILAStatutes 5.7→12.0, and TwitterHjerne 32.4→33.4. Table 14 reports the last difference as +1.1 from underlying precision; subtracting rounded displays need not match exactly.
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/tab14-reduced-thinking.png" class="img-fluid rounded z-depth-1" caption="Table 14. Flash with low versus default reasoning. Think reduction refers to reasoning tokens, unlike Figure 4’s reduction in all generated tokens. Cropped from the original paper." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0036-the-embedder-s-dilemma-llms-are-better-but-at-what-cost/tab14-reduced-thinking.png" class="img-fluid rounded z-depth-1" caption="Table 14: Gemini 3 Flash with low versus default reasoning. Think reduction: reasoning tokens only. Figure 4 reduction: all generated tokens." zoomable=true %}
 
 Across families, four of six models preserve or improve retrieval with 54–96% fewer generated tokens. Both Qwen models lose quality: the released companion table gives 62.4→57.8 and 60.4→54.4. Gemini’s low setting and disabling reasoning at the serving layer are also different interventions.
 
@@ -280,7 +280,7 @@ For a new LLM, configure the endpoint, model, and credentials using `.env.exampl
 - [Score extraction](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/aggregate_scores.py), [category aggregation](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/plotting/registry.py), and [statistical table generation](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/generate_tables.py).
 - [Embedding throughput code](https://github.com/embeddings-benchmark/embedders-dilemma/blob/1a94652e2c069ce840f85fcc87eb5e15bb42aecb/scripts/embedding_costs.py), used to check measurement conditions and cost units.
 
-Figures and tables are cropped from El Assadi et al.’s paper, released under CC BY 4.0. Their labels and numerical contents have not been modified.
+- Figure and table credits: El Assadi et al., [original paper](https://arxiv.org/abs/2608.12875v1). License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ## Further Reading
 

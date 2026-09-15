@@ -81,7 +81,7 @@ The tree is expanded before path selection. Alternatives can therefore be evalua
 
 There is a normalization distinction worth keeping explicit: terminal energy uses a length-normalized likelihood, while the sibling prior below uses the exponentiated sum of token log-probabilities. The paper's definitions do not apply the same length normalization to both quantities. Variable-length candidate steps can consequently affect the prior.
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig4-decision-flow.png" class="img-fluid rounded z-depth-1" caption="Figure 4. Tree construction, terminal evaluation, backward utility propagation, and posterior path selection. Cropped from the original with adjusted margins. The numbers illustrate the procedure." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig4-decision-flow.png" class="img-fluid rounded z-depth-1" caption="Figure 4: Tree construction → terminal evaluation → backward utility propagation → posterior path selection. Numerical values: illustrative examples." zoomable=true %}
 
 ### 2. Terminal energy and utility
 
@@ -203,7 +203,7 @@ Reproduction also needs the R-scoring prompt and scale, reasoning-step boundarie
 
 ### Table 1: model-specific gains and exceptions
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/tab1-main-results.png" class="img-fluid rounded z-depth-1" caption="Table 1. Results across three models and four benchmarks. The first three columns use fractional accuracy; the last reports AlpacaEval's length-normalized win rate. DF-Sample does not lead every comparison." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/tab1-main-results.png" class="img-fluid rounded z-depth-1" caption="Table 1: Results across three models and four benchmarks. First three columns: fractional accuracy. AlpacaEval 2.0: length-normalized win rate." zoomable=true %}
 
 DF-Sample improves over each Base row in all twelve model-task combinations. It beats every listed baseline in nine. The following table converts accuracy to percentages and compares DF-Sample with the strongest other baseline in each cell; AlpacaEval retains the original numerical scale.
 
@@ -236,7 +236,7 @@ AlpacaEval scores rise above Base for all three models: 3.06 versus 1.61, 9.19 v
 
 ### Response length and latency
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig8-response-length.png" class="img-fluid rounded z-depth-1" caption="Figure 8. Average MATH500 response length for Qwen2.5-Math-7B: Base 600, GRPO 671, Power Sampling 679, DF-Sample 620 tokens. This is not a count of all candidates generated and discarded during search." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig8-response-length.png" class="img-fluid rounded z-depth-1" caption="Figure 8: Mean final response length on MATH500 for Qwen2.5-Math-7B. Base: 600; GRPO: 671; Power Sampling: 679; DF-Sample: 620 tokens. Discarded search candidates excluded." zoomable=true %}
 
 The figure labels DF-Sample at 620 tokens; the prose says approximately 619. This review follows the plotted label. A shorter returned response than Power Sampling or GRPO does not imply fewer total generated tokens. Discarded branches and GPT-4o evaluation also consume resources.
 
@@ -246,7 +246,7 @@ Reported MATH500 latency is approximately 384 seconds per question for DF-Sample
 
 ### Likelihood versus token confidence
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig6-7-distributions.png" class="img-fluid rounded z-depth-1" caption="Figures 6 and 7. Average response log-likelihood and token confidence on MATH500. Confidence is negative entropy under the paper's equation. A broader distribution does not itself demonstrate semantically diverse correct answers." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig6-7-distributions.png" class="img-fluid rounded z-depth-1" caption="Figures 6–7: Average response log-likelihood and token confidence on MATH500. Right-hand confidence measure: negative mean entropy." zoomable=true %}
 
 Figure 6 concerns the likelihood of generated tokens. Figure 7 concerns uncertainty across the whole next-token distribution. Its confidence definition can be written as:
 
@@ -262,7 +262,7 @@ Values closer to zero indicate lower entropy. DF-Sample extends further into low
 
 ### GPQA-Diamond: branching factor K
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig9-branching.png" class="img-fluid rounded z-depth-1" caption="Figure 9. Qwen2.5-Math-7B reaches 39.4%, 45.6%, and 54.0% on GPQA-Diamond at K=2, 3, and 4. More branches also require more generation and terminal evaluation." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig9-branching.png" class="img-fluid rounded z-depth-1" caption="Figure 9: GPQA-Diamond accuracy for Qwen2.5-Math-7B by branching factor. K=2: 39.4%; K=3: 45.6%; K=4: 54.0%." zoomable=true %}
 
 The three accuracies exceed Power Sampling's 38.9% by 0.5, 6.7, and 15.1 percentage points, calculated directly from Figure 9. Wider search helps in this experiment, but the computational investment changes simultaneously.
 
@@ -270,7 +270,7 @@ For a fully expanded B=3 block, K=2, 3, and 4 imply 14, 39, and 84 non-root node
 
 ### Pass@k and energy coefficient alpha
 
-{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig10-tab2-passk-alpha.png" class="img-fluid rounded z-depth-1" caption="Figure 10 and Table 2. MATH500 Pass@k above, GPQA-Diamond alpha ablation below, cropped together from adjacent results. Table 2 reports 45.9% at alpha=4, whereas the main Table 1 reports 45.6%." zoomable=true %}
+{% include figure.liquid loading="eager" path="assets/img/papers/0037-sampling-via-decision-flow-training-free-extraction-of-impro/fig10-tab2-passk-alpha.png" class="img-fluid rounded z-depth-1" caption="Figure 10 and Table 2: Top: MATH500 Pass@k. Bottom: GPQA-Diamond alpha ablation. Accuracy at alpha=4 in Table 2: 45.9%, versus 45.6% in the main Table 1." zoomable=true %}
 
 DF-Sample's Pass@k advantage is clearest at k=1 and k=2. Power Sampling approaches it as k grows and slightly exceeds it at some larger values. Base sampling also reaches high coverage with enough attempts. These curves concern finding at least one correct candidate; choosing that candidate without the answer key remains a separate problem.
 
@@ -307,7 +307,7 @@ The authors themselves propose distilling discovered paths back into model weigh
 ## References
 
 - Paper: [Sampling via Decision-Flow](https://arxiv.org/abs/2609.12317). This review follows the text, figures, and tables in v1.
-- Original PDF: [arXiv PDF](https://arxiv.org/pdf/2609.12317). Excerpts of Figures 4 and 6–10 and Tables 1–2 are by Zhendong Mi and Shaoyi Huang, reproduced under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) with adjusted crop margins. Figures 6–7 and Figure 10/Table 2 are each excerpted together.
+- Original PDF and figure/table credits: [arXiv PDF](https://arxiv.org/pdf/2609.12317), Zhendong Mi and Shaoyi Huang. Figures 4 and 6–10; Tables 1–2. License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ## Further Reading
 
