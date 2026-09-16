@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 오픈소스
+title: 오픈소스 기여
 permalink: /open-source/
 nav: true
 nav_order: 2

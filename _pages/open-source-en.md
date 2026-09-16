@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Open Source
+title: Open Source Contributions
 permalink: /en/open-source/
 nav: false
 nav_order: 2
