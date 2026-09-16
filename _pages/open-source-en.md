@@ -19,6 +19,12 @@ Contributions to open-source projects.
 
 Python | Sep 2026
 
+### [PR #9995](https://github.com/agno-agi/agno/pull/9995)
+
+bugfix · Merged into main
+
+Fixed silent CSV row loss during asynchronous pagination by applying header skipping only to the first page; added regression tests for header modes, page boundaries and original row numbering.
+
 ### [Issue #9999](https://github.com/agno-agi/agno/issues/9999)
 
 bug report · Resolved via PR #10037

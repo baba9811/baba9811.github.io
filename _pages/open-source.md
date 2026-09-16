@@ -19,6 +19,12 @@ en_url: /en/open-source/
 
 Python | 2026.09
 
+### [PR #9995](https://github.com/agno-agi/agno/pull/9995)
+
+버그 수정 · main 브랜치 병합
+
+비동기 CSV 페이지 처리 중 데이터 행이 누락되는 문제를 첫 페이지에서만 헤더를 건너뛰도록 수정하고, 헤더 처리 모드·페이지 경계·원본 행 번호에 대한 회귀 테스트 추가.
+
 ### [Issue #9999](https://github.com/agno-agi/agno/issues/9999)
 
 버그 제보 · 후속 PR #10037로 해결
