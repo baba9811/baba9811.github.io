@@ -13,7 +13,7 @@ en_url: /en/open-source/
 
 [English](/en/open-source/)
 
-오픈소스 프로젝트에 기여한 버그 제보, 수정, 회귀 테스트 기록입니다.
+오픈소스 프로젝트에 기여한 기록입니다.
 
 ## Agno
 

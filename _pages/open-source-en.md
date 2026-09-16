@@ -13,7 +13,7 @@ ko_url: /open-source/
 
 [한국어](/open-source/)
 
-Bug reports, fixes, and regression coverage contributed to upstream projects.
+Contributions to open-source projects.
 
 ## Agno
 
