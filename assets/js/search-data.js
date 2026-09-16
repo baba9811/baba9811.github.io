@@ -23,7 +23,14 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-paper-review-sampling-via-decision-flow-training-free-extraction-of-improved-latent-reasoning-paths-in-large-language-models",
+            },{id: "nav-오픈소스",
+          title: "오픈소스",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/open-source/";
+          },
+        },{id: "post-paper-review-sampling-via-decision-flow-training-free-extraction-of-improved-latent-reasoning-paths-in-large-language-models",
         
           title: "[Paper Review] Sampling via Decision-Flow: Training-Free Extraction of Improved Latent Reasoning Paths in...",
         
