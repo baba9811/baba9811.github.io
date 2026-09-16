@@ -59,6 +59,16 @@ bugfix · Merged into main
 
 Fixed a BufferDiff rendering bug that left stale background and underline styles on wide Unicode glyphs by clearing trailing cells before repainting; added regression tests for emoji and Korean text.
 
+## ReMe
+
+Python | Sep 2026
+
+### [PR #557](https://github.com/agentscope-ai/ReMe/pull/557)
+
+bugfix · Open
+
+Proposed a fix for large malformed JSON failing to index, preserving fallback text and line ranges; added regression tests for chunk boundaries, line endings and index replacement.
+
 ## rhwp
 
 TypeScript | Sep 2026
