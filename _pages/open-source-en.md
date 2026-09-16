@@ -3,6 +3,7 @@ layout: page
 title: Open Source Contributions
 permalink: /en/open-source/
 nav: false
+nav_title: Open Source Contributions
 nav_order: 2
 lang: en
 ko_url: /open-source/

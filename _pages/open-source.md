@@ -3,6 +3,7 @@ layout: page
 title: 오픈소스 기여
 permalink: /open-source/
 nav: true
+nav_title: Open Source Contributions
 nav_order: 2
 lang: ko
 en_url: /en/open-source/

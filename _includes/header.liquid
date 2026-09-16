@@ -125,7 +125,7 @@
                     {%- assign url = p.url | remove: 'index.html' -%}
                   {%- endif %}
                   <a class="nav-link" href="{{ url | relative_url }}">
-                    {{- p.title }}
+                    {{- p.nav_title | default: p.title }}
                     {% if is_current %}
                       <span class="sr-only">(current)</span>
                     {% endif %}
