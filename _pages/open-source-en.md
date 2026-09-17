@@ -142,6 +142,34 @@ Fixed file artifact creation timestamps changing on every metadata read by prese
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> i-am-bee/beeai-framework](https://github.com/i-am-bee/beeai-framework)
+
+Python · Sep 2026
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1660](https://github.com/i-am-bee/beeai-framework/pull/1660)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed incorrect GrepTool search results for leading-hyphen patterns by separating ripgrep options from search arguments; added regression tests through the public API with real ripgrep.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> ratatui/ratatui](https://github.com/ratatui/ratatui)
 
 Rust · Aug 2026

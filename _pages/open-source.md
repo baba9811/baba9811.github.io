@@ -142,6 +142,34 @@ Python · 2026.09
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> i-am-bee/beeai-framework](https://github.com/i-am-bee/beeai-framework)
+
+Python · 2026.09
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1660](https://github.com/i-am-bee/beeai-framework/pull/1660)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+하이픈으로 시작하는 검색어가 옵션으로 해석되어 GrepTool 검색 결과가 누락되거나 잘리는 문제를 ripgrep 옵션과 검색 인자를 분리해 수정하고, 공개 API와 실제 ripgrep을 사용하는 회귀 테스트 추가.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> ratatui/ratatui](https://github.com/ratatui/ratatui)
 
 Rust · 2026.08
