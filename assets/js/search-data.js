@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-sampling-via-decision-flow-training-free-extraction-of-improved-latent-reasoning-paths-in-large-language-models",
+        },{id: "post-paper-review-dapo-improving-multi-step-reasoning-abilities-of-large-language-models-with-direct-advantage-based-policy-optimization",
+        
+          title: "[Paper Review] DAPO: Improving Multi-Step Reasoning Abilities of Large Language Models with Direct...",
+        
+        description: "Offline step-level RL through advantage regression: DAPO&#39;s critic training, conditional improvement guarantee, math and code results, and computational costs.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0038-dapo-improving-multi-step-reasoning-abilities-of-large-langu/";
+          
+        },
+      },{id: "post-논문-리뷰-dapo-improving-multi-step-reasoning-abilities-of-large-language-models-with-direct-advantage-based-policy-optimization",
+        
+          title: "[논문 리뷰] DAPO: Improving Multi-Step Reasoning Abilities of Large Language Models with Direct...",
+        
+        description: "단계별 advantage와 정책 log-ratio를 맞추는 offline RL: DAPO의 critic 학습, 단조 개선 정리의 조건, 수학·코드 실험과 계산 비용 분석.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0038-dapo-improving-multi-step-reasoning-abilities-of-large-langu/";
+          
+        },
+      },{id: "post-paper-review-sampling-via-decision-flow-training-free-extraction-of-improved-latent-reasoning-paths-in-large-language-models",
         
           title: "[Paper Review] Sampling via Decision-Flow: Training-Free Extraction of Improved Latent Reasoning Paths in...",
         
