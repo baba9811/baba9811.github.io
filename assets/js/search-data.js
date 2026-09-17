@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-dapo-improving-multi-step-reasoning-abilities-of-large-language-models-with-direct-advantage-based-policy-optimization",
+        },{id: "post-paper-review-e-commerce-bench-evaluating-llm-agents-on-long-horizon-autonomous-business-operation",
+        
+          title: "[Paper Review] E-Commerce Bench: Evaluating LLM Agents on Long-Horizon Autonomous Business Operation",
+        
+        description: "A year of simulated commerce exposes distinct strengths in profit, liquidity, fraud avoidance, and experience reuse across 18 LLM agents.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0039-e-commerce-bench-evaluating-llm-agents-on-long-horizon-auton/";
+          
+        },
+      },{id: "post-논문-리뷰-e-commerce-bench-evaluating-llm-agents-on-long-horizon-autonomous-business-operation",
+        
+          title: "[논문 리뷰] E-Commerce Bench: Evaluating LLM Agents on Long-Horizon Autonomous Business Operation",
+        
+        description: "365일의 상점 운영으로 살펴본 LLM agent의 수익, 현금 흐름, 사기 대응과 경험 활용: E-Commerce Bench의 환경 설계와 18개 모델 평가.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0039-e-commerce-bench-evaluating-llm-agents-on-long-horizon-auton/";
+          
+        },
+      },{id: "post-paper-review-dapo-improving-multi-step-reasoning-abilities-of-large-language-models-with-direct-advantage-based-policy-optimization",
         
           title: "[Paper Review] DAPO: Improving Multi-Step Reasoning Abilities of Large Language Models with Direct...",
         
