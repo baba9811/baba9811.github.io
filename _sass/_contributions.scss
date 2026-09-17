@@ -1,0 +1,85 @@
+// Contribution pages share the site's typography and light/dark theme colors.
+.oss-contributions {
+  max-width: 48rem;
+
+  .oss-intro,
+  .oss-project-header,
+  .oss-entry-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+  }
+
+  .oss-intro,
+  .oss-project-header {
+    justify-content: space-between;
+  }
+
+  .oss-intro {
+    margin-bottom: 1.5rem;
+    font-size: 0.9375rem;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .oss-project {
+    border-top: 1px solid var(--global-divider-color);
+    padding: 1.75rem 0 2rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+
+    a {
+      color: var(--global-text-color);
+    }
+
+    i {
+      margin-right: 0.25rem;
+      font-size: 1.125rem;
+    }
+  }
+
+  .oss-project-meta,
+  .oss-entry-meta {
+    margin: 0;
+    font-size: 0.875rem;
+    opacity: 0.72;
+  }
+
+  .oss-entry {
+    margin-top: 1.5rem;
+
+    > p {
+      margin: 0.5rem 0 0;
+      line-height: 1.8;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .oss-followup {
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 575px) {
+    .oss-project-header {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+}
