@@ -15,7 +15,7 @@ ko_url: /open-source/
 
 Contributions to open-source projects.
 
-## Agno
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> agno-agi/agno](https://github.com/agno-agi/agno)
 
 Python | Sep 2026
 
@@ -33,7 +33,17 @@ Identified silent text loss in grouped PowerPoint shapes, traced the cause to mi
 
 [Upstream fix: PR #10037](https://github.com/agno-agi/agno/pull/10037)
 
-## Google ADK
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> edwardkim/rhwp](https://github.com/edwardkim/rhwp)
+
+TypeScript | Sep 2026
+
+### [PR #6786](https://github.com/edwardkim/rhwp/pull/6786)
+
+bugfix · Merged into devel
+
+Fixed keyboard activation failures in text and highlight color controls by separating selection-preserving mousedown handling from standard click activation; added regression tests for keyboard and mouse input, selection preservation, and undo.
+
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> google/adk-python](https://github.com/google/adk-python)
 
 Python | Sep 2026
 
@@ -49,7 +59,7 @@ bugfix · Merged into main
 
 Fixed file artifact creation timestamps changing on every metadata read by preserving persisted timestamps in the shared conversion helper; added regression tests for repeated reads, service reopening, multiple versions, and session/user scopes.
 
-## Ratatui
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> ratatui/ratatui](https://github.com/ratatui/ratatui)
 
 Rust | Aug 2026
 
@@ -58,13 +68,3 @@ Rust | Aug 2026
 bugfix · Merged into main
 
 Fixed a BufferDiff rendering bug that left stale background and underline styles on wide Unicode glyphs by clearing trailing cells before repainting; added regression tests for emoji and Korean text.
-
-## rhwp
-
-TypeScript | Sep 2026
-
-### [PR #6786](https://github.com/edwardkim/rhwp/pull/6786)
-
-bugfix · Merged into devel
-
-Fixed keyboard activation failures in text and highlight color controls by separating selection-preserving mousedown handling from standard click activation; added regression tests for keyboard and mouse input, selection preservation, and undo.
