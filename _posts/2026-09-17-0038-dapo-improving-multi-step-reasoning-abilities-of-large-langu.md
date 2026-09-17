@@ -67,7 +67,7 @@ Outcome reward는 풀이가 끝난 뒤 정답 여부를 평가한다. GRPO처럼
 
 ## 방법 / 아키텍처 상세
 
-### 1. State와 action: 줄바꿈으로 나눈 추론 과정
+### 1. State와 action: 줄바꿈 기반 단계 분할
 
 문제와 지금까지의 풀이를 합친 prefix가 상태이며, 다음 추론 단계가 행동이다. 논문은 줄바꿈 `\n`을 단계 경계로 사용한다. 아래에서 x는 문제, a는 한 단계의 텍스트, T는 전체 단계 수다. 하나의 행동에는 여러 토큰이 포함될 수 있다.
 
@@ -87,7 +87,7 @@ $$
 
 Figure 1의 숫자 예시에는 주의가 필요하다. 그림은 9로 끝나는 가장 작은 7의 양의 배수의 정답을 119로 적었지만, 실제 최솟값은 49다. 도식에서는 critic 데이터와 actor 학습이 연결되는 구조를 볼 수 있다.
 
-### 2. Generator와 completer: 상태를 모으는 모델과 가치를 정의하는 모델
+### 2. Generator와 completer: 상태 수집과 value target 정의
 
 먼저 generator가 학습 문제마다 여러 풀이를 생성한다. 실제 실험에서는 32개를 만든 다음, 정답과 오답이 가능한 한 균형을 이루도록 6개를 선택한다. 선택한 풀이를 단계로 나누면 다양한 중간 prefix가 생긴다. 여기에서 generator의 역할은 critic이 학습할 상태 분포를 만드는 것이다. 어떤 prefix를 관찰했는지가 이후 학습 범위를 결정한다.
 
@@ -95,7 +95,7 @@ Figure 1의 숫자 예시에는 주의가 필요하다. 그림은 9로 끝나는
 
 generator와 completer는 개념적으로 다른 역할이지만 실험에서는 같은 base model에서 시작한다. 반복 DAPO에서는 앞 반복에서 개선한 actor를 새로운 reference로 삼아 다시 데이터를 구성한다. 그러므로 offline이라는 표현은 전체 연구 과정에 모델 생성이 없다는 뜻이 아니다. <strong>한 번의 actor 최적화 단계가 이미 수집하고 평가한 데이터 위에서 진행된다</strong>는 뜻이다. 데이터 생성과 critic 준비는 그 앞에 존재한다.
 
-### 3. Critic: 정답 가능성을 예측하는 함수
+### 3. Critic: 최종 정답 확률 추정
 
 고정된 reference policy의 value와 그 Monte Carlo 추정은 다음처럼 쓸 수 있다. 여기서 R은 prefix 이후를 완성한 결과의 정답 여부이고, 각 completion은 같은 reference policy에서 생성한다.
 
@@ -111,7 +111,8 @@ critic은 입력 prefix를 읽고 이 성공 확률을 예측하도록 학습한
 
 이 구분은 reward hacking 논의에도 연결된다. critic 값이 0.8인 상태를 여러 번 만들었다고 해서 0.8씩 보상을 더 받는 구조가 아니다. 원래 목표는 마지막 정답이며, critic은 그 목표를 향한 각 선택의 전망을 추정한다. 논문의 Remark 3.3은 value를 별도의 process reward처럼 누적하면 원래 최적화 문제를 바꾸고 단계 수에 대한 잘못된 유인을 만들 수 있다고 지적한다. DAPO는 같은 상태의 후보들을 상대적으로 비교하는 데 value를 사용한다.
 
-### 4. Advantage dataset: 후보의 value에서 평균을 뺀다
+### 4. Advantage dataset: 후보 value의 평균 차감
+{: #4-advantage-dataset-후보의-value에서-평균을-뺀다 }
 
 각 prefix의 completion에서 첫 번째 다음 단계를 추출하면 여러 행동 후보가 생긴다. critic으로 각 후보를 이어 붙인 상태의 value를 구하고, 후보들의 평균을 빼서 advantage를 만든다. 다음 식은 원문 식 (13)에 해당하며, 중간 단계의 즉시 보상이 0인 경우의 추정이다.
 
@@ -247,7 +248,8 @@ OpenO1에서 DAPO는 60.33%로 GRPO 55.63%, PPO 54.12%를 앞선다. Llama-3.1�
 
 ## 결과 분석 / Ablation
 
-### Iterative DAPO: reference를 바꾸어 다시 학습하기
+### Iterative DAPO: Reference 갱신과 반복 학습
+{: #iterative-dapo-reference를-바꾸어-다시-학습하기 }
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0038-dapo-improving-multi-step-reasoning-abilities-of-large-langu/tab10-iterations.png" class="img-fluid rounded z-depth-1" caption="Table 10: DAPO 반복별 수학 정답률(%). Skywork-Math의 전 평가 개선과 Qwen2-Math의 MATH 개선·일부 외부 평가 하락." zoomable=true %}
 

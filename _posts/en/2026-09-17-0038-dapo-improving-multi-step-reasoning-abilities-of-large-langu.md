@@ -67,7 +67,7 @@ A value function predicts expected future reward under a particular continuation
 
 ## Method / Architecture
 
-### 1. States and actions defined by reasoning steps
+### 1. States and actions: newline-based step boundaries
 
 A state contains the problem and the entire generated prefix. An action is the next reasoning step, delimited by a newline in the implementation. It can contain several tokens:
 
@@ -85,7 +85,7 @@ Only the final action receives the correctness reward; intermediate immediate re
 
 The numerical example in Figure 1 contains an arithmetic error: the smallest positive multiple of seven ending in nine is 49, whereas the diagram labels 119 as the answer. Its useful content is the flow between critic preparation and actor training.
 
-### 2. Generator and completer
+### 2. Generator and completer: state collection and value targets
 
 The generator determines which intermediate states enter the dataset. For each problem, the experiments generate 32 solutions and select six, balancing correct and incorrect solutions where possible. Splitting these trajectories produces the training prefixes.
 
@@ -93,7 +93,7 @@ The completer then continues each prefix 16 times. The fraction of successful co
 
 The experiments use the base model for both roles. In iterative DAPO, the improved actor becomes the next reference policy and the process is repeated. “Offline” describes optimization within an actor-training phase; it does not remove the preceding generation and labeling work.
 
-### 3. Learning the critic
+### 3. Critic: success probability estimation
 
 For a fixed reference policy, the target is:
 
@@ -109,7 +109,7 @@ Here each R is the terminal correctness of a completion from the same prefix. Th
 
 Remark 3.3 emphasizes that these predictions should not simply be summed as process rewards. Repeatedly reaching states with high predicted success does not earn repeated task reward. The original goal remains terminal correctness. Treating value as an independently accumulated reward would change that goal and can introduce incentives tied to the number of steps.
 
-### 4. Building the advantage dataset
+### 4. Advantage dataset: mean-centered candidate values
 
 The first step of each completion provides a candidate action. For intermediate decisions with zero immediate reward, Equation (13) estimates advantage by subtracting the mean candidate value:
 
@@ -243,7 +243,7 @@ All use the same MATH training questions, but the recipes are not otherwise iden
 
 ## Analysis / Ablation
 
-### Iterative DAPO
+### Iterative DAPO: reference updates and repeated training
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0038-dapo-improving-multi-step-reasoning-abilities-of-large-langu/tab10-iterations.png" class="img-fluid rounded z-depth-1" caption="Table 10: Math accuracy (%) across DAPO iterations; broad Skywork-Math gains and mixed transfer results for Qwen2-Math." zoomable=true %}
 
@@ -305,7 +305,7 @@ Separating actor and critic removes one source of non-stationarity, not critic b
 
 Calibration measurements, repeated seeds, and component ablations would strengthen the explanation. Greedy decoding eliminates sampling variation during inference, not variation from training-data generation or optimization. Small differences should therefore not be interpreted as statistically established superiority. A quantitative bridge from critic approximation error to practical policy improvement remains valuable future work.
 
-### What the released code supports
+### Reproducibility of the released code
 
 The public supplement contains `main.py`, a short README, and the paper PDF, so describing the work as having no released code would be inaccurate. However, `main.py` imports `utils` modules and `data_utils` that are absent from that ZIP. The loss and log-probability calculations are inspectable; the complete critic-and-actor pipeline is not directly executable from the archive alone.
 
