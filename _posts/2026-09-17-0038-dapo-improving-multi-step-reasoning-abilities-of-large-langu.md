@@ -111,8 +111,9 @@ critic은 입력 prefix를 읽고 이 성공 확률을 예측하도록 학습한
 
 이 구분은 reward hacking 논의에도 연결된다. critic 값이 0.8인 상태를 여러 번 만들었다고 해서 0.8씩 보상을 더 받는 구조가 아니다. 원래 목표는 마지막 정답이며, critic은 그 목표를 향한 각 선택의 전망을 추정한다. 논문의 Remark 3.3은 value를 별도의 process reward처럼 누적하면 원래 최적화 문제를 바꾸고 단계 수에 대한 잘못된 유인을 만들 수 있다고 지적한다. DAPO는 같은 상태의 후보들을 상대적으로 비교하는 데 value를 사용한다.
 
+<a id="4-advantage-dataset-후보의-value에서-평균을-뺀다"></a>
+
 ### 4. Advantage dataset: 후보 value의 평균 차감
-{: #4-advantage-dataset-후보의-value에서-평균을-뺀다 }
 
 각 prefix의 completion에서 첫 번째 다음 단계를 추출하면 여러 행동 후보가 생긴다. critic으로 각 후보를 이어 붙인 상태의 value를 구하고, 후보들의 평균을 빼서 advantage를 만든다. 다음 식은 원문 식 (13)에 해당하며, 중간 단계의 즉시 보상이 0인 경우의 추정이다.
 
@@ -248,8 +249,9 @@ OpenO1에서 DAPO는 60.33%로 GRPO 55.63%, PPO 54.12%를 앞선다. Llama-3.1�
 
 ## 결과 분석 / Ablation
 
+<a id="iterative-dapo-reference를-바꾸어-다시-학습하기"></a>
+
 ### Iterative DAPO: Reference 갱신과 반복 학습
-{: #iterative-dapo-reference를-바꾸어-다시-학습하기 }
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0038-dapo-improving-multi-step-reasoning-abilities-of-large-langu/tab10-iterations.png" class="img-fluid rounded z-depth-1" caption="Table 10: DAPO 반복별 수학 정답률(%). Skywork-Math의 전 평가 개선과 Qwen2-Math의 MATH 개선·일부 외부 평가 하락." zoomable=true %}
 
