@@ -17,7 +17,9 @@
 >
 
 <!-- Bootstrap & MDB -->
-<link rel="stylesheet" href="{{ '/assets/css/bootstrap.min.css' | relative_url | bust_file_cache }}">
+{% comment %}PurgeCSS changes local CSS after rendering, so version it by build time rather than source contents.{% endcomment %}
+{% assign css_version = site.time | date: '%s' %}
+<link rel="stylesheet" href="{{ '/assets/css/bootstrap.min.css' | relative_url }}?v={{ css_version }}">
 <link
   rel="stylesheet"
   href="{{ site.third_party_libraries.mdb.url.css }}"
@@ -37,8 +39,8 @@
 {% endif %}
 
 <!-- Fonts & Icons -->
-<link defer rel="stylesheet" href="{{ '/assets/css/academicons.min.css' | relative_url | bust_file_cache }}">
-<link defer rel="stylesheet" href="{{ '/assets/css/scholar-icons.css' | relative_url | bust_file_cache }}">
+<link defer rel="stylesheet" href="{{ '/assets/css/academicons.min.css' | relative_url }}?v={{ css_version }}">
+<link defer rel="stylesheet" href="{{ '/assets/css/scholar-icons.css' | relative_url }}?v={{ css_version }}">
 <link
   defer
   rel="stylesheet"
@@ -50,14 +52,14 @@
 <link
   defer
   rel="stylesheet"
-  href="{{ '/assets/css/jekyll-pygments-themes-github.css' | relative_url | bust_file_cache }}"
+  href="{{ '/assets/css/jekyll-pygments-themes-github.css' | relative_url }}?v={{ css_version }}"
   media=""
   id="highlight_theme_light"
 >
 
 {% if page.toc and page.toc.sidebar %}
   <!-- Sidebar Table of Contents -->
-  <link defer href="{{ '/assets/css/bootstrap-toc.min.css' | relative_url | bust_file_cache }}" rel="stylesheet">
+  <link defer href="{{ '/assets/css/bootstrap-toc.min.css' | relative_url }}?v={{ css_version }}" rel="stylesheet">
 {% endif %}
 
 <!-- Styles -->
@@ -81,7 +83,7 @@
 {% elsif site.icon != blank %}
   <link rel="shortcut icon" href="{{ site.icon | prepend: '/assets/img/' | relative_url | bust_file_cache}}">
 {% endif %}
-<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url | bust_css_cache }}">
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ css_version }}">
 <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
 {%- comment -%}
   hreflang — 한/영 번역 쌍의 상호 참조. 자기 자신도 반드시 포함해야 하고, 두 페이지가
@@ -108,7 +110,7 @@
   <link
     defer
     rel="stylesheet"
-    href="{{ '/assets/css/jekyll-pygments-themes-native.css' | relative_url | bust_file_cache }}"
+    href="{{ '/assets/css/jekyll-pygments-themes-native.css' | relative_url }}?v={{ css_version }}"
     media="none"
     id="highlight_theme_dark"
   >
@@ -218,7 +220,7 @@
 {% endif %}
 
 {% if page.tikzjax %}
-  <link defer rel="stylesheet" type="text/css" href="{{ '/assets/css/tikzjax.min.css' | relative_url | bust_file_cache }}">
+  <link defer rel="stylesheet" type="text/css" href="{{ '/assets/css/tikzjax.min.css' | relative_url }}?v={{ css_version }}">
 {% endif %}
 
 {% if site.enable_cookie_consent %}
