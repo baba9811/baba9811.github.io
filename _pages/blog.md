@@ -8,8 +8,10 @@ dropdown: true
 children:
   - title: 한국어
     permalink: /blog/
+    lang: ko
   - title: English
     permalink: /en/blog/
+    lang: en
 lang: ko
 pagination:
   enabled: true
