@@ -164,6 +164,21 @@ Fixed incorrect GrepTool search results for leading-hyphen patterns by separatin
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1661](https://github.com/i-am-bee/beeai-framework/pull/1661)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Prevented GrepTool from consuming or waiting on host input by isolating ripgrep's stdin with DEVNULL; added a public-API regression that verifies the host's input remains readable.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">

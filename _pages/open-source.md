@@ -164,6 +164,21 @@ Python · 2026.09
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1661](https://github.com/i-am-bee/beeai-framework/pull/1661)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+ripgrep의 표준 입력을 DEVNULL로 분리해 GrepTool이 호스트 입력을 소모하거나 대기하는 문제를 수정하고, 공개 API 실행 뒤 호스트 입력이 보존되는지 검증하는 회귀 테스트 추가.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">
