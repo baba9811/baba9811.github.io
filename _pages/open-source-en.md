@@ -179,6 +179,21 @@ Prevented GrepTool from consuming or waiting on host input by isolating ripgrep'
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1662](https://github.com/i-am-bee/beeai-framework/pull/1662)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed default file, shell and console I/O failures in new execution contexts by providing local fallbacks when reading ContextVars; added public-API regressions for context isolation, nested overrides and cleanup back to defaults.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">

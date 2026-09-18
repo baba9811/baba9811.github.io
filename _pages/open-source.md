@@ -179,6 +179,21 @@ ripgrep의 표준 입력을 DEVNULL로 분리해 GrepTool이 호스트 입력을
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1662](https://github.com/i-am-bee/beeai-framework/pull/1662)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+ContextVar를 조회할 때 로컬 기본값을 제공해 새 실행 문맥에서 파일·셸·콘솔 I/O가 실패하는 문제를 수정하고, 문맥 분리·중첩 설정·설정 해제 후 기본 동작 복구를 검증하는 공개 API 회귀 테스트 추가.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">
