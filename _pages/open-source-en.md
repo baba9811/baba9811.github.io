@@ -99,6 +99,34 @@ Fixed keyboard activation failures in text and highlight color controls by separ
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> google/adk-docs](https://github.com/google/adk-docs)
+
+Markdown · Sep 2026
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #2244](https://github.com/google/adk-docs/pull/2244)
+
+documentation · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Clarified that Python session-history filters limit the loaded event view while preserving stored history when new events are appended.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> google/adk-python](https://github.com/google/adk-python)
 
 Python · Sep 2026

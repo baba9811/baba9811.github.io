@@ -99,6 +99,34 @@ TypeScript · 2026.09
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> google/adk-docs](https://github.com/google/adk-docs)
+
+Markdown · 2026.09
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #2244](https://github.com/google/adk-docs/pull/2244)
+
+문서 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+Python 세션 이력 필터가 불러올 이벤트만 제한하며 새 이벤트를 추가해도 기존 저장 이력이 유지됨을 문서화.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> google/adk-python](https://github.com/google/adk-python)
 
 Python · 2026.09
