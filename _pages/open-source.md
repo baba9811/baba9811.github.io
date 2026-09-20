@@ -228,6 +228,34 @@ ContextVar를 조회할 때 로컬 기본값을 제공해 새 실행 문맥에�
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> pandas-dev/pandas](https://github.com/pandas-dev/pandas)
+
+Python · 2026.09
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #68991](https://github.com/pandas-dev/pandas/pull/68991)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+Typst 표 출력에서 숨긴 인덱스·열이 빈칸으로 남는 문제를 희소 MultiIndex 레이블을 보존하는 셀 필터링으로 수정하고, 숨김·표 연결·출력 생략·빈 표에 대한 회귀 테스트 추가.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> ratatui/ratatui](https://github.com/ratatui/ratatui)
 
 Rust · 2026.08

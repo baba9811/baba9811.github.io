@@ -228,6 +228,34 @@ Fixed default file, shell and console I/O failures in new execution contexts by 
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> pandas-dev/pandas](https://github.com/pandas-dev/pandas)
+
+Python · Sep 2026
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #68991](https://github.com/pandas-dev/pandas/pull/68991)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed empty cells left by hidden indexes and columns in Typst table output by filtering hidden cells while preserving sparse MultiIndex labels; added regressions for hiding, concatenation, truncation and empty tables.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> ratatui/ratatui](https://github.com/ratatui/ratatui)
 
 Rust · Aug 2026
