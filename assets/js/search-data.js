@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-e-commerce-bench-evaluating-llm-agents-on-long-horizon-autonomous-business-operation",
+        },{id: "post-paper-review-procedural-graphs-self-evolving-execution-structures-for-llm-agents",
+        
+          title: "[Paper Review] Procedural Graphs: Self-Evolving Execution Structures for LLM Agents",
+        
+        description: "How Procedural Graphs guide agent actions and evolve through validation, with results across seven benchmarks, token costs, and limits of procedural generalization.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0040-procedural-graphs-self-evolving-execution-structures-for-llm/";
+          
+        },
+      },{id: "post-논문-리뷰-procedural-graphs-self-evolving-execution-structures-for-llm-agents",
+        
+          title: "[논문 리뷰] Procedural Graphs: Self-Evolving Execution Structures for LLM Agents",
+        
+        description: "Procedural Graph의 단계별 안내와 검증 기반 그래프 진화: 7개 벤치마크의 성능, 추가 토큰 비용, 잘못된 절차의 수정과 일반화 한계 분석.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0040-procedural-graphs-self-evolving-execution-structures-for-llm/";
+          
+        },
+      },{id: "post-paper-review-e-commerce-bench-evaluating-llm-agents-on-long-horizon-autonomous-business-operation",
         
           title: "[Paper Review] E-Commerce Bench: Evaluating LLM Agents on Long-Horizon Autonomous Business Operation",
         
