@@ -1,24 +1,6 @@
 <!-- Metadata, OpenGraph and Schema.org -->
 {% include metadata.liquid %}
 
-{% if page.profile.image %}
-  {% assign profile_image = page.profile.image | prepend: 'assets/img/' %}
-  {% assign profile_stem = profile_image | remove: '.jpg' | remove: '.jpeg' | remove: '.png' | remove: '.gif' | remove: '.tiff' %}
-  {% assign profile_extension = page.profile.image | split: '.' | last %}
-  {% assign responsive_extensions = 'jpg,jpeg,png,gif,tiff' | split: ',' %}
-  <link
-    rel="preload"
-    as="image"
-    href="{{ profile_image | relative_url | bust_file_cache }}"
-    fetchpriority="high"
-    {% if site.imagemagick.enabled and responsive_extensions contains profile_extension %}
-      type="image/webp"
-      imagesrcset="{% for width in site.imagemagick.widths %}{{ profile_stem | relative_url }}-{{ width }}.webp {{ width }}w,{% endfor %}"
-      imagesizes="(min-width: {{ site.max_width }}) {{ site.max_width | minus: 30 | times: 0.3 }}px, (min-width: 576px) 30vw, 95vw"
-    {% endif %}
-  >
-{% endif %}
-
 <!-- Google AdSense -->
 {%- comment -%}
   자동 광고 — 게재 위치는 AdSense 가 정함. client 값은 게시자 ID 라 공개되어도 무방함.
