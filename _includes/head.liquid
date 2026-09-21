@@ -16,11 +16,10 @@
   content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"
 >
 
-<!-- Bootstrap & MDB -->
+<!-- Shared styles, combined at build time and trimmed by PurgeCSS. -->
 {% comment %}PurgeCSS changes local CSS after rendering, so version it by build time rather than source contents.{% endcomment %}
 {% assign css_version = site.time | date: '%s' %}
-<link rel="stylesheet" href="{{ '/assets/css/bootstrap.min.css' | relative_url }}?v={{ css_version }}">
-<link rel="stylesheet" href="{{ '/assets/css/mdb.min.css' | relative_url }}?v={{ css_version }}">
+<link rel="stylesheet" href="{{ '/assets/css/base.css' | relative_url }}?v={{ css_version }}">
 
 {% if page.pretty_table %}
   <!-- Bootstrap Table -->
@@ -36,14 +35,13 @@
 <!-- Fonts & Icons -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link defer rel="stylesheet" href="{{ '/assets/css/academicons.min.css' | relative_url }}?v={{ css_version }}">
-<link defer rel="stylesheet" href="{{ '/assets/css/scholar-icons.css' | relative_url }}?v={{ css_version }}">
 <link
-  defer
-  rel="stylesheet"
-  type="text/css"
+  rel="preload"
+  as="style"
   href="{{ site.third_party_libraries.google_fonts.url.fonts }}"
+  onload="this.onload=null;this.rel='stylesheet'"
 >
+<noscript><link rel="stylesheet" href="{{ site.third_party_libraries.google_fonts.url.fonts }}"></noscript>
 
 <!-- Code Syntax Highlighting -->
 <link
