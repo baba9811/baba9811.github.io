@@ -79,7 +79,7 @@
       {% if include.fetchpriority %}
         fetchpriority="{{ include.fetchpriority }}"
       {% endif %}
-      onerror="this.onerror=null; $('.responsive-img-srcset').remove();"
+      onerror="this.onerror=null; document.querySelectorAll('.responsive-img-srcset').forEach((source) => source.remove());"
     >
   </picture>
 
