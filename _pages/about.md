@@ -7,6 +7,8 @@ subtitle:
 profile:
   align: right
   image: prof_pic.jpg
+  image_width: 460
+  image_height: 460
   image_circular: true
   more_info:
 

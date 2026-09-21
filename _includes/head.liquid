@@ -20,12 +20,7 @@
 {% comment %}PurgeCSS changes local CSS after rendering, so version it by build time rather than source contents.{% endcomment %}
 {% assign css_version = site.time | date: '%s' %}
 <link rel="stylesheet" href="{{ '/assets/css/bootstrap.min.css' | relative_url }}?v={{ css_version }}">
-<link
-  rel="stylesheet"
-  href="{{ site.third_party_libraries.mdb.url.css }}"
-  integrity="{{ site.third_party_libraries.mdb.integrity.css }}"
-  crossorigin="anonymous"
->
+<link rel="stylesheet" href="{{ '/assets/css/mdb.min.css' | relative_url }}?v={{ css_version }}">
 
 {% if page.pretty_table %}
   <!-- Bootstrap Table -->
@@ -39,6 +34,8 @@
 {% endif %}
 
 <!-- Fonts & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link defer rel="stylesheet" href="{{ '/assets/css/academicons.min.css' | relative_url }}?v={{ css_version }}">
 <link defer rel="stylesheet" href="{{ '/assets/css/scholar-icons.css' | relative_url }}?v={{ css_version }}">
 <link
@@ -90,7 +87,7 @@
   서로를 가리키지 않으면 Google 은 태그 셋 전체를 무시함. en_url · ko_url 이 없는
   페이지는 쌍이 없으므로 아무것도 출력 안 함
 {%- endcomment -%}
-{%- assign ko_alt = nil -%}
+{%- assign ko_alt = null -%}
 {%- if page.lang == 'ko' and page.en_url -%}
   {%- assign ko_alt = page.url | replace: 'index.html', '' | absolute_url -%}
   {%- assign en_alt = page.en_url | absolute_url -%}
