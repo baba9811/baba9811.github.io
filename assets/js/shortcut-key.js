@@ -1,1 +1,1 @@
-document.addEventListener("readystatechange",()=>{if("interactive"===document.readyState){let e=navigator.platform.toUpperCase().indexOf("MAC")>=0,a=document.querySelector("#search-toggle .nav-link");a&&e&&(a.innerHTML='&#x2318; k <i class="fa-solid fa-magnifying-glass"></i>')}});
+if(navigator.platform.toUpperCase().includes("MAC")){const a=document.querySelector("#search-toggle .nav-link");a&&(a.innerHTML='&#x2318; k <i class="fa-solid fa-magnifying-glass"></i>')}
