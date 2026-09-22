@@ -164,6 +164,21 @@ Fixed file artifact creation timestamps changing on every metadata read by prese
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #7124](https://github.com/google/adk-python/pull/7124)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Restored oldest-first Redis session lists by sorting on update time with deterministic user and session ID tie-breakers; added regression tests for user-scoped and app-wide lists.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">

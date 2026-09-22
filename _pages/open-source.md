@@ -164,6 +164,21 @@ Python · 2026.09
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #7124](https://github.com/google/adk-python/pull/7124)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+Redis 세션 목록이 최신 활동순으로 반환되던 문제를 갱신 시각의 오름차순 정렬과 사용자·세션 ID 동률 처리로 수정하고, 사용자별·앱 전체 조회 회귀 테스트 추가.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">
