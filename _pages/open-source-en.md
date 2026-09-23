@@ -168,6 +168,21 @@ Fixed file artifact creation timestamps changing on every metadata read by prese
 
 <div class="oss-entry-header" markdown="1">
 
+### [PR #7122](https://github.com/google/adk-python/pull/7122)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Prevented artifact paths from colliding with internal version storage by rejecting reserved filenames before writing; added regression tests for unsafe paths, ordinary nested names and legacy reads and deletes.
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
 ### [PR #7124](https://github.com/google/adk-python/pull/7124)
 
 bugfix · Merged into main

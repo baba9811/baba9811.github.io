@@ -168,6 +168,21 @@ Python · 2026.09
 
 <div class="oss-entry-header" markdown="1">
 
+### [PR #7122](https://github.com/google/adk-python/pull/7122)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+파일 아티팩트 경로와 내부 버전 저장소의 충돌로 발생하던 누락·삭제 문제를 저장 전 경로 검증으로 차단하고, 잘못된 경로 거부·정상 중첩 경로·기존 데이터 읽기와 삭제 회귀 테스트 추가.
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
 ### [PR #7124](https://github.com/google/adk-python/pull/7124)
 
 버그 수정 · main 브랜치 병합
