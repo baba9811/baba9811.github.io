@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-procedural-graphs-self-evolving-execution-structures-for-llm-agents",
+        },{id: "post-paper-review-compile-by-training-turning-natural-language-specifications-into-local-neural-functions",
+        
+          title: "[Paper Review] Compile by Training: Turning Natural-Language Specifications into Local Neural Functions",
+        
+        description: "Compiling natural-language specifications into Qwen3-0.6B LoRA functions: the meaning of 83.6% on FuzzyBench-Hard, supervision sweeps, asynchronous builds, and limits of local execution.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0041-compile-by-training-turning-natural-language-specifications/";
+          
+        },
+      },{id: "post-논문-리뷰-compile-by-training-turning-natural-language-specifications-into-local-neural-functions",
+        
+          title: "[논문 리뷰] Compile by Training: Turning Natural-Language Specifications into Local Neural Functions",
+        
+        description: "자연어 명세를 Qwen3-0.6B의 LoRA 함수로 컴파일하는 방법: FuzzyBench-Hard 83.6%의 평가 조건, 합성 데이터 실험, 비동기 학습과 로컬 실행의 한계.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0041-compile-by-training-turning-natural-language-specifications/";
+          
+        },
+      },{id: "post-paper-review-procedural-graphs-self-evolving-execution-structures-for-llm-agents",
         
           title: "[Paper Review] Procedural Graphs: Self-Evolving Execution Structures for LLM Agents",
         
