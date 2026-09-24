@@ -252,6 +252,21 @@ Fixed default file, shell and console I/O failures in new execution contexts by 
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1683](https://github.com/i-am-bee/beeai-framework/pull/1683)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed mutations leaking between SlidingCache clones by isolating cache state while preserving cached value references; added regressions for mutation isolation, independent eviction and TTL expiration boundaries.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">

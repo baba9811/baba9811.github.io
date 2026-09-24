@@ -252,6 +252,21 @@ ContextVar를 조회할 때 로컬 기본값을 제공해 새 실행 문맥에�
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1683](https://github.com/i-am-bee/beeai-framework/pull/1683)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+캐시 값의 참조를 유지하면서 내부 상태를 독립적으로 복사해 SlidingCache 복제본과 원본의 변경이 서로 영향을 주는 문제를 수정하고, 변경 격리·독립적인 항목 제거·TTL 만료 경계 회귀 테스트 추가.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">
