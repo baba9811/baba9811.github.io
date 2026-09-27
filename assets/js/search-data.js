@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-compile-by-training-turning-natural-language-specifications-into-local-neural-functions",
+        },{id: "post-paper-review-lige-gr-a-smooth-leap-from-ranking-to-generative-recommendation-in-the-llm-era",
+        
+          title: "[Paper Review] LIGE-GR: A Smooth Leap from Ranking to Generative Recommendation in the...",
+        
+        description: "LIGE-GR combines context-aware prediction, continuation-weighted list value, and Palette search while preserving the incumbent ranking stack.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0042-lige-gr-a-smooth-leap-from-ranking-to-generative-recommendat/";
+          
+        },
+      },{id: "post-논문-리뷰-lige-gr-a-smooth-leap-from-ranking-to-generative-recommendation-in-the-llm-era",
+        
+          title: "[논문 리뷰] LIGE-GR: A Smooth Leap from Ranking to Generative Recommendation in the...",
+        
+        description: "기존 ranking을 보존하는 LIGE-GR의 context-aware 예측, continuation 기반 목록 가치, Palette 탐색과 Meta의 온라인 실험.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0042-lige-gr-a-smooth-leap-from-ranking-to-generative-recommendat/";
+          
+        },
+      },{id: "post-paper-review-compile-by-training-turning-natural-language-specifications-into-local-neural-functions",
         
           title: "[Paper Review] Compile by Training: Turning Natural-Language Specifications into Local Neural Functions",
         
