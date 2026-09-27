@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-lige-gr-a-smooth-leap-from-ranking-to-generative-recommendation-in-the-llm-era",
+        },{id: "post-paper-review-gepa-reflective-prompt-evolution-can-outperform-reinforcement-learning",
+        
+          title: "[Paper Review] GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning",
+        
+        description: "GEPA combines execution-trace reflection with instance-level Pareto search: its mechanisms, GRPO comparisons, rollout accounting, and generalization limits.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0043-gepa-reflective-prompt-evolution-can-outperform-reinforcemen/";
+          
+        },
+      },{id: "post-논문-리뷰-gepa-reflective-prompt-evolution-can-outperform-reinforcement-learning",
+        
+          title: "[논문 리뷰] GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning",
+        
+        description: "실행 trace를 읽는 reflection과 instance별 Pareto 탐색으로 프롬프트를 개선하는 GEPA의 구조, GRPO 비교, rollout 비용과 일반화 한계.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0043-gepa-reflective-prompt-evolution-can-outperform-reinforcemen/";
+          
+        },
+      },{id: "post-paper-review-lige-gr-a-smooth-leap-from-ranking-to-generative-recommendation-in-the-llm-era",
         
           title: "[Paper Review] LIGE-GR: A Smooth Leap from Ranking to Generative Recommendation in the...",
         
