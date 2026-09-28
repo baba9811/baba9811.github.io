@@ -267,6 +267,21 @@ Fixed mutations leaking between SlidingCache clones by isolating cache state whi
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1706](https://github.com/i-am-bee/beeai-framework/pull/1706)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed lost middleware callbacks and shared cache state when cloning file and shell tools by preserving callbacks and cloning each tool's cache; added regressions for callback execution, cache isolation and repeated cloning.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">

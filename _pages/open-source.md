@@ -267,6 +267,21 @@ ContextVar를 조회할 때 로컬 기본값을 제공해 새 실행 문맥에�
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #1706](https://github.com/i-am-bee/beeai-framework/pull/1706)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+파일·셸 도구 복제 시 콜백을 보존하고 캐시를 독립적으로 복사해 미들웨어 누락과 원본·복제본 간 캐시 상태 공유 문제를 수정하고, 콜백 실행·캐시 격리·반복 복제 회귀 테스트 추가.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">
