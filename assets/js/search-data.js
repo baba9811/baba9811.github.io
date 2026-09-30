@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-gepa-reflective-prompt-evolution-can-outperform-reinforcement-learning",
+        },{id: "post-paper-review-agentic-routing-the-harness-native-data-flywheel",
+        
+          title: "[Paper Review] Agentic Routing: The Harness-Native Data Flywheel",
+        
+        description: "OpenSquilla&#39;s allocation of models by execution state: cost, quality, latency, and routing traces as training data",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0044-agentic-routing-the-harness-native-data-flywheel/";
+          
+        },
+      },{id: "post-논문-리뷰-agentic-routing-the-harness-native-data-flywheel",
+        
+          title: "[논문 리뷰] Agentic Routing: The Harness-Native Data Flywheel",
+        
+        description: "실행 상태에 따라 모델을 배정하는 OpenSquilla: 비용·품질·지연 시간의 실험과 라우팅 기록의 학습 데이터 활용",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0044-agentic-routing-the-harness-native-data-flywheel/";
+          
+        },
+      },{id: "post-paper-review-gepa-reflective-prompt-evolution-can-outperform-reinforcement-learning",
         
           title: "[Paper Review] GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning",
         
