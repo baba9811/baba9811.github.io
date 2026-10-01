@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-agentic-routing-the-harness-native-data-flywheel",
+        },{id: "post-paper-review-hybridcua-learning-to-orchestrate-gui-and-cli-for-computer-use-agents",
+        
+          title: "[Paper Review] HybridCUA: Learning to Orchestrate GUI and CLI for Computer-Use Agents",
+        
+        description: "Learning GUI and CLI orchestration through mixed trajectories, task-level interface rewards, and local command-execution penalties",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0045-hybridcua-learning-to-orchestrate-gui-and-cli-for-computer-u/";
+          
+        },
+      },{id: "post-논문-리뷰-hybridcua-learning-to-orchestrate-gui-and-cli-for-computer-use-agents",
+        
+          title: "[논문 리뷰] HybridCUA: Learning to Orchestrate GUI and CLI for Computer-Use Agents",
+        
+        description: "GUI와 CLI의 선택을 학습하는 HybridCUA: 혼합 trajectory, task별 인터페이스 보상, 명령 실행 오류의 단계별 교정",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0045-hybridcua-learning-to-orchestrate-gui-and-cli-for-computer-u/";
+          
+        },
+      },{id: "post-paper-review-agentic-routing-the-harness-native-data-flywheel",
         
           title: "[Paper Review] Agentic Routing: The Harness-Native Data Flywheel",
         
