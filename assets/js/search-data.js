@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-hybridcua-learning-to-orchestrate-gui-and-cli-for-computer-use-agents",
+        },{id: "post-paper-review-learning-from-research-toward-lifelong-agent-harness-evolution",
+        
+          title: "[Paper Review] Learning from Research: Toward Lifelong Agent Harness Evolution",
+        
+        description: "ScholarEvolve uses research-guided module search and recombination to improve agent harnesses around fixed model weights.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0046-learning-from-research-toward-lifelong-agent-harness-evoluti/";
+          
+        },
+      },{id: "post-논문-리뷰-learning-from-research-toward-lifelong-agent-harness-evolution",
+        
+          title: "[논문 리뷰] Learning from Research: Toward Lifelong Agent Harness Evolution",
+        
+        description: "문헌 기반 topic 탐색과 모듈 재조합으로 모델 가중치 없이 하네스를 개선하는 ScholarEvolve의 방법, 실험, 한계.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0046-learning-from-research-toward-lifelong-agent-harness-evoluti/";
+          
+        },
+      },{id: "post-paper-review-hybridcua-learning-to-orchestrate-gui-and-cli-for-computer-use-agents",
         
           title: "[Paper Review] HybridCUA: Learning to Orchestrate GUI and CLI for Computer-Use Agents",
         
