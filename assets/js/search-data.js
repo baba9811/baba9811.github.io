@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-learning-from-research-toward-lifelong-agent-harness-evolution",
+        },{id: "post-paper-review-rrsi-regularized-recursive-self-improvement-of-agent-harnesses",
+        
+          title: "[Paper Review] RRSI: Regularized Recursive Self-Improvement of Agent Harnesses",
+        
+        description: "How RRSI regularizes proposals and selection to improve agent-harness transfer, with a closer look at acceptance rules, benchmark metrics, and inference cost.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0047-rrsi-regularized-recursive-self-improvement-of-agent-harness/";
+          
+        },
+      },{id: "post-논문-리뷰-rrsi-regularized-recursive-self-improvement-of-agent-harnesses",
+        
+          title: "[논문 리뷰] RRSI: Regularized Recursive Self-Improvement of Agent Harnesses",
+        
+        description: "반복적인 하네스 개선의 benchmark 과적합을 proposal·selection 규제로 줄이는 RRSI의 방법, 전이 성능, 비용과 한계.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0047-rrsi-regularized-recursive-self-improvement-of-agent-harness/";
+          
+        },
+      },{id: "post-paper-review-learning-from-research-toward-lifelong-agent-harness-evolution",
         
           title: "[Paper Review] Learning from Research: Toward Lifelong Agent Harness Evolution",
         
