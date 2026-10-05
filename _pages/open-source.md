@@ -194,6 +194,21 @@ Redis 세션 목록이 최신 활동순으로 반환되던 문제를 갱신 시�
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #7140](https://github.com/google/adk-python/pull/7140)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+필터링한 Redis 세션 조회 후 이벤트 추가 시 과거 이력이 삭제되던 문제를 트랜잭션 내 저장 이력 재조회로 수정하고, 조회 필터·부분 이벤트·동시 변경·TTL 갱신 회귀 테스트 추가.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">

@@ -194,6 +194,21 @@ Restored oldest-first Redis session lists by sorting on update time with determi
 
 </div>
 
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #7140](https://github.com/google/adk-python/pull/7140)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed Redis session history loss after filtered reads by reloading stored events in a retryable transaction before appending; added regressions for filters, partial events, concurrent changes and TTL refresh.
+
+</div>
+
 </section>
 
 <section class="oss-project" markdown="1">
