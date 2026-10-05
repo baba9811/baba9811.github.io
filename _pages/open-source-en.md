@@ -316,6 +316,34 @@ Fixed empty cells left by hidden indexes and columns in Typst table output by fi
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> PrefectHQ/fastmcp](https://github.com/PrefectHQ/fastmcp)
+
+Python · Sep 2026
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #5153](https://github.com/PrefectHQ/fastmcp/pull/5153)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed stale tool schemas in cached BM25 searches by resolving ranked tool names against the current catalog; added regressions for tool replacement, new versions, catalog reordering and CodeMode discovery.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> ratatui/ratatui](https://github.com/ratatui/ratatui)
 
 Rust · Aug 2026

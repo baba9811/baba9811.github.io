@@ -316,6 +316,34 @@ Typst 표 출력에서 숨긴 인덱스·열이 빈칸으로 남는 문제를 �
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> PrefectHQ/fastmcp](https://github.com/PrefectHQ/fastmcp)
+
+Python · 2026.09
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #5153](https://github.com/PrefectHQ/fastmcp/pull/5153)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+캐시된 BM25 검색에서 도구 이름을 현재 카탈로그에 다시 연결해 오래된 도구 스키마 반환 문제를 수정하고, 도구 교체·새 버전·카탈로그 순서 변경·CodeMode 검색 회귀 테스트 추가.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> ratatui/ratatui](https://github.com/ratatui/ratatui)
 
 Rust · 2026.08
