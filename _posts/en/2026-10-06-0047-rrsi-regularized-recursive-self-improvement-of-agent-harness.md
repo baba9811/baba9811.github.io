@@ -169,11 +169,15 @@ The trade-off still depends on calibration and chosen coefficients. In particula
 
 The feedback set acts as search data rather than a weight-training corpus. Coding evolves on all 89 Terminal-Bench 2.1 tasks; engineering on 61 license-free EngDesign tasks. Neither has a separate ID-held-out split. Harvey LAB's 160 tasks across 25 legal practice areas are split once into 120 evolve tasks and 40 held-out tasks.
 
+<div class="table-responsive" markdown="1">
+
 | Domain | Evolve set | Evaluation outside selection | Initial harness |
 |--------|------------|------------------------------|-----------------|
 | Coding | Terminal-Bench 2.1, 89 tasks | SWE-bench Verified | Terminus-2 |
 | Agentic workspace | Harvey LAB, 120 tasks | Harvey LAB 40 tasks; JobBench, GDPval, APEX-Agents | ReAct with MCP gateway, dynamic toolbelt, ReSum context |
 | Engineering design | EngDesign, 61 tasks | Frontier-Eng | ReAct with MCP toolbelt and context management |
+
+</div>
 
 A separate harness evolves in each domain and is transferred unchanged within that domain. One final universal harness is not tested across all three. Held-out and OOD benchmarks do not tune hyperparameters. Candidate and initial harness evaluations share the same window, tools, judge, and trial count.
 

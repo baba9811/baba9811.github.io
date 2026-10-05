@@ -169,11 +169,15 @@ $$
 
 학습 데이터에 해당하는 것은 가중치 학습 corpus가 아니라 후보를 제안하고 고르는 evolve set이다. Coding은 Terminal-Bench 2.1의 89개 task 전체, engineering은 proprietary simulator 없이 실행 가능한 EngDesign 61개 task 전체에서 진화한다. 두 환경은 별도의 ID held-out을 두지 않는다. Workspace는 Harvey LAB 160개 task를 한 번만 120개 evolve와 40개 ID held-out으로 나누어 분할을 고정한다. Harvey LAB은 25개 법률 실무 분야의 문서 작업을 포함한다.
 
+<div class="table-responsive" markdown="1">
+
 | Domain | Evolve set | 선택에 쓰지 않는 평가 | 시작 하네스 |
 |--------|------------|-----------------------|-------------|
 | Coding | Terminal-Bench 2.1, 89 tasks | SWE-bench Verified | Terminus-2 |
 | Agentic workspace | Harvey LAB, 120 tasks | Harvey LAB 40 tasks, JobBench, GDPval, APEX-Agents | MCP gateway·dynamic toolbelt·ReSum context를 쓰는 ReAct |
 | Engineering design | EngDesign, 61 tasks | Frontier-Eng | MCP toolbelt·context management를 쓰는 ReAct |
+
+</div>
 
 각 domain에서 별도의 하네스를 진화시키고, 그 결과를 해당 domain의 다른 benchmark로 그대로 가져간다. 하나의 최종 하네스를 coding·법률·engineering 모두에 공통으로 적용한 실험은 아니다. Held-out과 OOD 결과는 후보 선택이나 hyperparameter 조정에 쓰지 않는다. 기준 하네스와 후보는 같은 평가 시기, 도구 환경, judge와 trial 수를 사용해 비교한다.
 
@@ -208,7 +212,7 @@ Figure 3의 막대는 모두 0–100 표기지만 같은 지표가 아니다. �
 
 GDPval은 Qwen3.6-35B-A3B, Claude Sonnet 4.6, Gemini 3.1 Pro의 판단을 사용하고 결과물 순서를 바꾸어 position bias를 줄인다. 52.3이라는 값은 이 비교 설정에서 인간 전문가 결과물보다 선호된 비율이지, 업무의 52.3%를 완전히 해결했다는 뜻이 아니다. Harvey LAB과 JobBench도 rubric 기반 부분 점수다. APEX-Agents는 전체 480 task를 분모로 유지하고 missing rollout을 실패로 센다. 인프라 문제로 어려운 task가 빠져 점수가 좋아 보이는 경로를 줄이는 처리다.
 
-### Coding·workspace·engineering의 전이 결과
+### Coding, workspace, engineering의 전이 결과
 
 {% include figure.liquid loading="eager" path="assets/img/papers/0047-rrsi-regularized-recursive-self-improvement-of-agent-harness/fig3-tab1-main.png" class="img-fluid rounded z-depth-1" caption="Figure 3·Table 1: 8개 benchmark의 9개 split 점수와 workspace 방법 비교. 회색 초기 하네스, 연한 파랑 evolve, 진한 파랑 미경험 split; benchmark별 서로 다른 지표의 0–100 표기." zoomable=true %}
 
