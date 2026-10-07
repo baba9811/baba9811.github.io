@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-rrsi-regularized-recursive-self-improvement-of-agent-harnesses",
+        },{id: "post-paper-review-bazaarbench-delegation-safety-in-decentralized-c2c-marketplaces-run-by-llm-agents",
+        
+          title: "[Paper Review] BazaarBench: Delegation Safety in Decentralized C2C Marketplaces Run by LLM Agents...",
+        
+        description: "Persistent C2C markets exposing inventory, commitment, and privacy failures under ordinary, deadline, and adversarial instructions",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0048-bazaarbench-delegation-safety-in-decentralized-c2c-marketpla/";
+          
+        },
+      },{id: "post-논문-리뷰-bazaarbench-delegation-safety-in-decentralized-c2c-marketplaces-run-by-llm-agents",
+        
+          title: "[논문 리뷰] BazaarBench: Delegation Safety in Decentralized C2C Marketplaces Run by LLM Agents...",
+        
+        description: "LLM 중고거래 시장의 재고·약속·개인정보 실패와 일반 지시, 마감 압박, 악의적 지시의 비교",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0048-bazaarbench-delegation-safety-in-decentralized-c2c-marketpla/";
+          
+        },
+      },{id: "post-paper-review-rrsi-regularized-recursive-self-improvement-of-agent-harnesses",
         
           title: "[Paper Review] RRSI: Regularized Recursive Self-Improvement of Agent Harnesses",
         
