@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-bazaarbench-delegation-safety-in-decentralized-c2c-marketplaces-run-by-llm-agents",
+        },{id: "post-paper-review-jev-as-a-judge-accept-when-confident-escalate-when-unsure",
+        
+          title: "[Paper Review] JEV-as-a-Judge: Accept When Confident, Escalate When Unsure",
+        
+        description: "A closer look at confidence-gated evaluation: JEV&#39;s cost advantage, independent reasoning fallbacks, local threshold selection, and failure cases",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0049-jev-as-a-judge-accept-when-confident-escalate-when-unsure/";
+          
+        },
+      },{id: "post-논문-리뷰-jev-as-a-judge-accept-when-confident-escalate-when-unsure",
+        
+          title: "[논문 리뷰] JEV-as-a-Judge: Accept When Confident, Escalate When Unsure",
+        
+        description: "JEV의 확신도로 저비용 판정을 채택하고 어려운 사례만 추론 모델에 넘기는 평가 cascade의 성능, 비용, 실패 조건",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0049-jev-as-a-judge-accept-when-confident-escalate-when-unsure/";
+          
+        },
+      },{id: "post-paper-review-bazaarbench-delegation-safety-in-decentralized-c2c-marketplaces-run-by-llm-agents",
         
           title: "[Paper Review] BazaarBench: Delegation Safety in Decentralized C2C Marketplaces Run by LLM Agents...",
         
