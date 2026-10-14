@@ -25,6 +25,34 @@ Contributions to open-source projects.
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> agentscope-ai/ReMe](https://github.com/agentscope-ai/ReMe)
+
+Python · Sep-Oct 2026
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #557](https://github.com/agentscope-ai/ReMe/pull/557)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed large malformed JSON chunking failures with an LF-preserving text fallback; added regressions for size boundaries, line endings and index replacement without changing source files.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> agno-agi/agno](https://github.com/agno-agi/agno)
 
 Python · Sep 2026

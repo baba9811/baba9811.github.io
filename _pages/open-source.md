@@ -25,6 +25,34 @@ en_url: /en/open-source/
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> agentscope-ai/ReMe](https://github.com/agentscope-ai/ReMe)
+
+Python · 2026.09-10
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #557](https://github.com/agentscope-ai/ReMe/pull/557)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+LF 줄 경계를 보존하는 텍스트 대체 처리로 큰 비정상 JSON의 청킹 오류를 수정하고, 크기 경계·줄바꿈·원본 파일을 변경하지 않는 인덱스 교체 회귀 테스트 추가.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> agno-agi/agno](https://github.com/agno-agi/agno)
 
 Python · 2026.09
