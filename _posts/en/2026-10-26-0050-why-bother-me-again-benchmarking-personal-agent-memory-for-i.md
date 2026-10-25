@@ -65,7 +65,7 @@ In an on-policy history, the evaluated agent’s behavior determines what it exp
 
 The relevant evidence may also differ from the most topically similar event. A memory about an earlier class can match a new class deadline while omitting the user’s objection to unsolicited reminders. Recovering the event is useful for factual recall, yet insufficient for deciding whether to initiate contact.
 
-## Method / Architecture Details
+## Method / Architecture
 
 ### 1. Contextual and temporal preference states
 
@@ -124,7 +124,7 @@ Each user has 33 probes: 28 final probes covering every cell and five probes imm
 
 The probe simulator has no accumulated memory and is instructed to act as if meeting the assistant anew, without feedback about its interaction manner. This separates learning from assessment. Repeating probes tests variability at existing checkpoints; it does not create three independent four-month accumulation histories.
 
-## Evaluation Objectives / Metric Definitions
+## Evaluation Objectives / Metrics
 
 ### Single-cell accuracy and joint endpoint correctness
 
@@ -226,7 +226,7 @@ File memory more than doubles PET, from 11.2% to 25.4%, improving on every backb
 
 A narrower carry-over diagnostic counts pairs assigned the same setting in both contexts when that setting is one context’s target and differs from the No Memory default. File memory has 58 such cases among 216 pair instances, or 26.9%, versus 13, or 6.0%, without memory. This is not a count of every identical-context choice or every CS failure.
 
-## Results Analysis / Ablation
+## Analysis / Ablation
 
 ### Event retrieval versus applicable preference evidence
 
