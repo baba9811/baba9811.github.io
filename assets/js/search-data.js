@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-jev-as-a-judge-accept-when-confident-escalate-when-unsure",
+        },{id: "post-paper-review-why-bother-me-again-benchmarking-personal-agent-memory-for-interaction-preferences",
+        
+          title: "[Paper Review] Why Bother Me Again? Benchmarking Personal Agent Memory for Interaction Preferences...",
+        
+        description: "MemPABench separates remembering interaction preferences from retrieving them, respecting their context, and delivering the intended behavior.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0050-why-bother-me-again-benchmarking-personal-agent-memory-for-i/";
+          
+        },
+      },{id: "post-논문-리뷰-why-bother-me-again-benchmarking-personal-agent-memory-for-interaction-preferences",
+        
+          title: "[논문 리뷰] Why Bother Me Again? Benchmarking Personal Agent Memory for Interaction Preferences...",
+        
+        description: "사용자의 상호작용 선호를 기억하는 개인 에이전트 평가: 저장, 검색, 맥락 구분, 실제 행동 사이의 간극",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0050-why-bother-me-again-benchmarking-personal-agent-memory-for-i/";
+          
+        },
+      },{id: "post-paper-review-jev-as-a-judge-accept-when-confident-escalate-when-unsure",
         
           title: "[Paper Review] JEV-as-a-Judge: Accept When Confident, Escalate When Unsure",
         
