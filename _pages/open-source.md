@@ -331,6 +331,34 @@ ContextVar를 조회할 때 로컬 기본값을 제공해 새 실행 문맥에�
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> NVIDIA-NeMo/labs-OO-Agents](https://github.com/NVIDIA-NeMo/labs-OO-Agents)
+
+Python · 2026.08-09
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #242](https://github.com/NVIDIA-NeMo/labs-OO-Agents/pull/242)
+
+버그 수정 · main 브랜치 병합
+{: .oss-entry-meta}
+
+</div>
+
+명령 잠금의 소유 루프를 셸 수명주기와 분리해 이벤트 루프 전환 시 BashSession 명령이 동시 실행되는 문제를 수정하고, 리셋 중 동시 호출과 순차적 이벤트 루프 재사용 회귀 테스트 추가.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> pandas-dev/pandas](https://github.com/pandas-dev/pandas)
 
 Python · 2026.09

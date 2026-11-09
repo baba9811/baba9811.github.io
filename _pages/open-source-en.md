@@ -331,6 +331,34 @@ Fixed lost middleware callbacks and shared cache state when cloning file and she
 
 <div class="oss-project-header" markdown="1">
 
+## [<i class="fa-brands fa-github" aria-hidden="true"></i> NVIDIA-NeMo/labs-OO-Agents](https://github.com/NVIDIA-NeMo/labs-OO-Agents)
+
+Python · Aug-Sep 2026
+{: .oss-project-meta}
+
+</div>
+
+<div class="oss-entry" markdown="1">
+
+<div class="oss-entry-header" markdown="1">
+
+### [PR #242](https://github.com/NVIDIA-NeMo/labs-OO-Agents/pull/242)
+
+bugfix · Merged into main
+{: .oss-entry-meta}
+
+</div>
+
+Fixed BashSession command races during event-loop resets by keeping lock ownership separate from shell lifecycle; added deterministic regressions for reset-time concurrency and sequential event-loop reuse.
+
+</div>
+
+</section>
+
+<section class="oss-project" markdown="1">
+
+<div class="oss-project-header" markdown="1">
+
 ## [<i class="fa-brands fa-github" aria-hidden="true"></i> pandas-dev/pandas](https://github.com/pandas-dev/pandas)
 
 Python · Sep 2026
