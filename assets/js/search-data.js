@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/open-source/";
           },
-        },{id: "post-paper-review-why-bother-me-again-benchmarking-personal-agent-memory-for-interaction-preferences",
+        },{id: "post-paper-review-memt-1-0-towards-memory-native-evolution",
+        
+          title: "[Paper Review] MemT-1.0: Towards Memory-Native Evolution",
+        
+        description: "How MemT-1.0 writes fixed-size recurrent memory into the model, what it retains, and what it saves at inference time.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/en/papers/0051-memt-1-0-towards-memory-native-evolution/";
+          
+        },
+      },{id: "post-논문-리뷰-memt-1-0-towards-memory-native-evolution",
+        
+          title: "[논문 리뷰] MemT-1.0: Towards Memory-Native Evolution",
+        
+        description: "고정 크기 메모리를 모델의 순전파에 연결하는 MemT-1.0의 갱신 규칙, 학습, 장기 기억 성능과 코딩 에이전트 실험",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/papers/0051-memt-1-0-towards-memory-native-evolution/";
+          
+        },
+      },{id: "post-paper-review-why-bother-me-again-benchmarking-personal-agent-memory-for-interaction-preferences",
         
           title: "[Paper Review] Why Bother Me Again? Benchmarking Personal Agent Memory for Interaction Preferences...",
         
